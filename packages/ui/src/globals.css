@@ -1,0 +1,69 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* Default Theme */
+  :root {
+    --background: 149 52% 100%;
+    --foreground: 149 70% 1%;
+    --muted: 149 10% 86%;
+    --muted-foreground: 149 0% 36%;
+    --popover: 149 52% 100%;
+    --popover-foreground: 149 70% 1%;
+    --card: 0 0% 99%;
+    --card-foreground: 149 70% 0%;
+    --border: 149 5% 92%;
+    --input: 149 5% 92%;
+    --primary: 149 64% 51%;
+    --primary-foreground: 149 64% 11%;
+    --secondary: 149 3% 81%;
+    --secondary-foreground: 149 3% 21%;
+    --accent: 149 8% 73%;
+    --accent-foreground: 149 8% 13%;
+    --destructive: 1 82% 30%;
+    --destructive-foreground: 1 82% 90%;
+    --ring: 149 64% 51%;
+    --radius: 0.5rem;
+  }
+
+  :root[data-theme='dark'] {
+    --background: 149 54% 3%;
+    --foreground: 149 24% 99%;
+    --muted: 149 10% 14%;
+    --muted-foreground: 149 0% 64%;
+    --popover: 149 54% 3%;
+    --popover-foreground: 149 24% 99%;
+    --card: 149 54% 4%;
+    --card-foreground: 0 0% 100%;
+    --border: 149 5% 11%;
+    --input: 149 5% 11%;
+    --primary: 149 64% 51%;
+    --primary-foreground: 149 64% 11%;
+    --secondary: 149 17% 11%;
+    --secondary-foreground: 149 17% 71%;
+    --accent: 149 23% 21%;
+    --accent-foreground: 149 23% 81%;
+    --destructive: 1 82% 54%;
+    --destructive-foreground: 0 0% 100%;
+    --ring: 149 64% 51%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Input Autofill Override */
+/*
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+}*/

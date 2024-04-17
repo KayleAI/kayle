@@ -1,0 +1,91 @@
+{
+  "$schema": "https://mintlify.com/schema.json",
+  "name": "Kayle",
+  "logo": {
+    "dark": "/logo/dark.svg",
+    "light": "/logo/light.svg"
+  },
+  "favicon": "/favicon.svg",
+  "colors": {
+    "primary": "#00876c",
+    "light": "#00ffab",
+    "dark": "#005741",
+    "anchors": {
+      "from": "#00876c",
+      "to": "#00ffab"
+    }
+  },
+  "topbarLinks": [
+    {
+      "name": "Support",
+      "url": "mailto:help@kayle.ai"
+    }
+  ],
+  "topbarCtaButton": {
+    "name": "Console",
+    "url": "https://console.kayle.ai"
+  },
+  "tabs": [
+    {
+      "name": "API Reference",
+      "url": "api-reference"
+    }
+  ],
+  "anchors": [
+    {
+      "name": "Documentation",
+      "icon": "book-open-cover",
+      "url": "https://docs.kayle.ai"
+    },
+    {
+      "name": "Community",
+      "icon": "slack",
+      "url": "https://go.kayle.ai/community"
+    },
+    {
+      "name": "Blog",
+      "icon": "newspaper",
+      "url": "https://kayle.ai/blog"
+    }
+  ],
+  "navigation": [
+    {
+      "group": "Get Started",
+      "pages": [
+        "introduction",
+        "quickstart",
+        "development"
+      ]
+    },
+    {
+      "group": "Essentials",
+      "pages": [
+        "essentials/markdown",
+        "essentials/code",
+        "essentials/images",
+        "essentials/settings",
+        "essentials/navigation",
+        "essentials/reusable-snippets"
+      ]
+    },
+    {
+      "group": "API Documentation",
+      "pages": [
+        "api-reference/introduction"
+      ]
+    },
+    {
+      "group": "Endpoint Examples",
+      "pages": [
+        "api-reference/endpoint/get",
+        "api-reference/endpoint/create",
+        "api-reference/endpoint/delete"
+      ]
+    }
+  ],
+  "footerSocials": {
+    "x": "https://x.com/KayleAI",
+    "github": "https://github.com/KayleAI",
+    "linkedin": "https://www.linkedin.com/company/KayleAI"
+  }
+}
