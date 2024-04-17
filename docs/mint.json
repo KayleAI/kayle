@@ -40,7 +40,7 @@
     {
       "name": "Community",
       "icon": "slack",
-      "url": "https://go.kayle.ai/community"
+      "url": "https://kayle.ai/slack"
     },
     {
       "name": "Blog",
@@ -86,6 +86,7 @@
   "footerSocials": {
     "x": "https://x.com/KayleAI",
     "github": "https://github.com/KayleAI",
-    "linkedin": "https://www.linkedin.com/company/KayleAI"
+    "linkedin": "https://www.linkedin.com/company/KayleAI",
+    "website": "https://kayle.ai"
   }
 }
