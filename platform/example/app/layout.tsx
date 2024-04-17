@@ -1,6 +1,7 @@
 import "@repo/ui/globals.css";
 
 import type { Metadata } from "next";
+import { GeistSans } from 'geist/font/sans';
 
 export const metadata: Metadata = {
   title: {
@@ -17,10 +18,8 @@ export default function RootLayout({
 }): JSX.Element {
   return (
     <html lang="en">
-      <body className="bg-background">
-        <div className="max-w-7xl mx-auto min-h-screen px-4 sm:px-8">
-          {children}
-        </div>
+      <body className={GeistSans.className}>
+        {children}
       </body>
     </html>
   );

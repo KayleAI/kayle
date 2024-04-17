@@ -21,5 +21,8 @@
     "platform/*",
     "packages/*",
     "rust/*"
-  ]
+  ],
+  "dependencies": {
+    "geist": "^1.3.0"
+  }
 }
