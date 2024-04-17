@@ -1,16 +1,7 @@
-import {
-  Alert,
-  AlertDescription,
-  AlertTitle,
-} from "@repo/ui/alert"
-
-export default async function Dashboard() {
+export default async function LandingPage() {
   return (
-    <Alert>
-      <AlertTitle>Success!</AlertTitle>
-      <AlertDescription>
-        This is a success alert.
-      </AlertDescription>
-    </Alert>
+    <main>
+
+    </main>
   )
 }
