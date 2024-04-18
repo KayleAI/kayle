@@ -3,4 +3,9 @@ main = "build/worker/shim.mjs"
 compatibility_date = "2023-03-22"
 
 [build]
-command = "cargo install --path ../worker-build && worker-build --release"
+command = "cargo install -q worker-build && worker-build --release"
+
+[[hyperdrive]]
+binding = "HYPERDRIVE"
+id = "7d08727e4da04b4e8137bab55360bcb2"
+localConnectionString = "postgres://..."
