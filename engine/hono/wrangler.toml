@@ -2,6 +2,8 @@ name = "kayle-js"
 compatibility_date = "2023-12-01"
 main = "src/index.ts"
 
+account_id = "b482dc77edae0b65495f7e2fba6ceb16"
+
 # [vars]
 # MY_VAR = "my-variable"
 
