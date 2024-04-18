@@ -1,9 +1,9 @@
-name: Deploy Kayle Engine
+name: Deploy Kayle Engine (Rust)
 
 on:
   push:
     branches:
-      - main
+      - rust-disabled
 
 jobs:
   deploy:
@@ -15,4 +15,4 @@ jobs:
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          workingDirectory: "engine"
+          workingDirectory: "engine/rust"
