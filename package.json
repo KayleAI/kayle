@@ -4,8 +4,7 @@
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",
-    "dev:api": "turbo dev:api",
-    "dev:all": "turbo dev:all",
+    "dev:rust": "turbo dev:api",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
@@ -22,7 +21,7 @@
   "workspaces": [
     "platform/*",
     "packages/*",
-    "rust/*"
+    "engine/*"
   ],
   "dependencies": {
     "geist": "^1.3.0"

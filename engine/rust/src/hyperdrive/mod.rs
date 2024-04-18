@@ -1,5 +1,10 @@
+use std::str::FromStr;
+
 use js_sys::Object;
+use tokio_postgres::tls as PgTls;
+use tokio_postgres::{Client as PgClient, Config as PgConfig};
 use wasm_bindgen::prelude::*;
+use worker::Error::RustError;
 use worker::*;
 
 #[wasm_bindgen]
@@ -52,13 +57,31 @@ impl From<Hyperdrive> for JsValue {
 }
 
 // Main Database Stuff
-pub async fn hyperdrive(env: Env) -> worker::Result<()> {
+pub async fn hyperdrive(env: Env) -> Result<PgClient> {
     let hyperdrive = env.get_binding::<Hyperdrive>("HYPERDRIVE")?;
     let conn_string = hyperdrive.connection_string();
 
     let url = Url::parse(&conn_string)?;
 
-    console_debug!("Connecting to Hyperdrive at {}", url);
+    let hostname = url
+        .host_str()
+        .ok_or_else(|| RustError("unable to parse host from url".to_string()))?;
 
-    Ok(())
+    let socket = Socket::builder().connect(hostname, 5432)?;
+
+    let config = PgConfig::from_str(&conn_string)
+        .map_err(|e| RustError(format!("tokio-postgres: {e:?}")))?;
+
+    let (client, connection) = config
+        .connect_raw(socket, PgTls::NoTls)
+        .await
+        .map_err(|e| RustError(format!("tokio-postgres: {e:?}")))?;
+
+    wasm_bindgen_futures::spawn_local(async move {
+        if let Err(error) = connection.await {
+            console_log!("connection error: {:?}", error);
+        }
+    });
+
+    Ok(client)
 }

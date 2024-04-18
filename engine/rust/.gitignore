@@ -143,3 +143,6 @@ dist
 
 # wrangler
 .wrangler/
+
+# prisma generated file
+src/prisma.rs
