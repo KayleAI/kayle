@@ -6,6 +6,7 @@ import { createClient } from "@/lib/supabase/server";
 const unkey = new Unkey({ rootKey: process.env.UNKEY_AUTH_TOKEN! });
 
 export async function GET(
+  _: NextRequest,
   {
     params: {
       keyId,

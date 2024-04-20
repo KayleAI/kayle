@@ -10,8 +10,11 @@
     "lint": "eslint . --max-warnings 0"
   },
   "dependencies": {
+    "@mapbox/rehype-prism": "^0.9.0",
+    "@next/mdx": "^14.2.2",
     "@repo/icons": "workspace:*",
-    "@repo/ui": "workspace:*"
+    "@repo/ui": "workspace:*",
+    "remark-gfm": "^4.0.0"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^14.0.4",

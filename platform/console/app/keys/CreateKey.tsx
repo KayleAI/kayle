@@ -127,7 +127,6 @@ export default function CreateKeyDialog() {
                 const result = await response.json();
 
                 if (result.status === "success") {
-                  console.log(result.keys.key);
                   setKeySecretCreated(result.keys.key);
                   router.refresh();
                 } else {

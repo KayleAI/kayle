@@ -25,6 +25,7 @@
   ],
   "dependencies": {
     "@headlessui/react": "^2.0.0-alpha.4",
+    "@mdx-js/loader": "^3.0.1",
     "@types/pg": "^8.11.5",
     "@unkey/api": "^0.19.4",
     "clsx": "^2.1.0",

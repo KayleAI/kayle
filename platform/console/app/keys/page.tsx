@@ -43,7 +43,7 @@ export default async function DisplayUserKeys() {
             {keys.map((key: any) => {
               return (
                 <TableRow key={key.id} href={`/keys/${key.id}`}>
-                  <TableCell className="text-zinc-500">{key.id}</TableCell>
+                  <TableCell className="text-neutral-500">{key.id}</TableCell>
                   <TableCell className="font-medium">{key.name}</TableCell>
                   <TableCell className="font-medium">
                     <Code>

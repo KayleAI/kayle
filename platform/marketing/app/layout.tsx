@@ -2,6 +2,7 @@ import "@repo/ui/globals.css";
 
 import type { Metadata } from "next";
 import { GeistSans } from 'geist/font/sans';
+import { Header } from "@/components/Header";
 
 export const metadata: Metadata = {
   title: {
@@ -19,6 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={GeistSans.className}>
+        <Header />
         {children}
       </body>
     </html>

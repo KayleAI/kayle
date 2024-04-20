@@ -9,7 +9,6 @@ export default async function PortalPage() {
   const { data: { session }, error } = await supabase.auth.getSession();
 
   if (!error && session) {
-    console.log(session, error)
     redirect("/");
   }
 

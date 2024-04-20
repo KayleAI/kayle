@@ -1,4 +1,5 @@
 import { GET } from "@/app/api/keys/[keyId]/route";
+
 import { notFound } from "next/navigation";
 
 export default async function SpecificKey({
@@ -13,7 +14,7 @@ export default async function SpecificKey({
   if (!keyId) {
     return notFound();
   }
-  const response = await GET({ params: { keyId } });
+  const response = await GET(null as any, { params: { keyId } });
 
   const result = await response.json();
   const keyData = result.key

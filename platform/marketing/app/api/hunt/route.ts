@@ -21,8 +21,6 @@ export async function POST(req: NextRequest) {
   // parse the response
   const { severity, violations } = await response.json();
 
-  console.log(severity, violations);
-
   // return the response
   return NextResponse.json({ severity, violations });
 }
