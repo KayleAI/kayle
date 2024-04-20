@@ -4,6 +4,8 @@ use serde_json;
 
 use worker::*;
 
+use super::KayleBasicResponse;
+
 #[derive(Debug, Deserialize, Serialize)]
 pub struct KeyVerificationRequest {
     key: String,
@@ -39,45 +41,12 @@ pub async fn validate(key: String) -> bool {
     }
 }
 
-#[derive(Debug, Deserialize, Serialize)]
-struct GenericResponse {
-    status: u16,
-    message: String,
-}
-
-#[derive(Deserialize)]
-struct ApiKey {
-    api_key: String,
-}
-
-#[derive(Debug, Deserialize, Serialize)]
-struct KeyVerificationResponse {
-    status: u16,
-    message: String,
-    valid: bool,
-}
-
-pub async fn verify_api(mut req: Request, _ctx: RouteContext<()>) -> worker::Result<Response> {
-    // Attempt to deserialize JSON body and handle the case where api_key is missing
-    let api_key_result = req.json::<ApiKey>().await;
-
-    match api_key_result {
-        Ok(ApiKey { api_key }) => {
-            let is_valid = validate(api_key).await;
-
-            // If the key exists and is validated, return success response
-            Response::from_json(&KeyVerificationResponse {
-                status: 200,
-                message: "Key verification successful!".to_string(),
-                valid: is_valid,
-            })
-        }
-        Err(_) => {
-            // If the api_key is missing or there is another deserialization error, return error response
-            Response::from_json(&GenericResponse {
-                status: 400,  // Bad Request
-                message: format!("We’ve failed to verify your key. It’s likely you did not provide one - check out the docs at https://docs.kayle.ai to learn more."),
-            })
-        }
-    }
+pub async fn verify_api(_req: Request, _ctx: RouteContext<()>) -> worker::Result<Response> {
+    Response::from_json(&KayleBasicResponse {
+        status: 200,
+        message: "This request is protected - and since you’re seeing this message, you’ve verified your API Key!".to_string(),
+        request_id: None,
+        hint: Some("You’ve done it!".to_string()),
+        docs: Some("Continue learning about Kayle at https://docs.kayle.ai".to_string()),
+    })
 }

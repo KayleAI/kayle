@@ -1,0 +1,1 @@
+reversal api which takes request_id and deletes the request from the database

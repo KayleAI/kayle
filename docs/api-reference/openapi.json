@@ -10,7 +10,7 @@
   },
   "servers": [
     {
-      "url": "http://sandbox.mintlify.com"
+      "url": "https://engine.kayle.ai/v1"
     }
   ],
   "security": [

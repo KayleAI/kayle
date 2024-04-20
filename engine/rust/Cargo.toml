@@ -20,8 +20,6 @@ worker = "0.1.0"
 reqwest = { version = "0.11.8", features = ["json"] }
 tokio = { version = "1.5.0", features = [] }
 tokio-postgres = { version="0.7", features=['js'], default-features=false }
-prisma-client-rust = { git = "https://github.com/Brendonovich/prisma-client-rust", tag = "0.6.11", default-features = false, features = ["postgresql"] }
-prisma-client-rust-cli = { git = "https://github.com/Brendonovich/prisma-client-rust", tag = "0.6.11", default-features = false, features = ["postgresql"] }
 
 [dev-dependencies]
 tokio = { version = "1", features = ["full"] }
