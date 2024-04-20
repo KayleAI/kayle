@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
-  transpilePackages: ["@repo/providers", "@repo/security", "@repo/service", "@repo/icons", "@repo/types", "@repo/ui", "@repo/editor", "@repo/layout"],
+  transpilePackages: ["@repo/icons", "@repo/ui"],
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/i,
