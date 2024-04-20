@@ -4,8 +4,11 @@ main = "src/index.ts"
 
 account_id = "b482dc77edae0b65495f7e2fba6ceb16"
 
-# [vars]
-# MY_VAR = "my-variable"
+node_compat = true
+
+[vars]
+CF_ACCOUNT_ID = "b482dc77edae0b65495f7e2fba6ceb16" # Cloudflare account ID
+CF_AI_GATEWAY = "kayle" # Cloudflare AI Gateway
 
 # [[kv_namespaces]]
 # binding = "MY_KV_NAMESPACE"
