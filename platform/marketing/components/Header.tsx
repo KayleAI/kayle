@@ -1,7 +1,6 @@
 'use client'
 
-import { Fragment, useEffect, useRef, useState } from 'react'
-import Image from 'next/image'
+import { Fragment, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Popover, Transition } from '@headlessui/react'
@@ -12,11 +11,11 @@ import Kayle from '@repo/icons/kayle.svg'
 import { Container } from '@/components/Container'
 
 const navigation = [
-  { name: 'About', href: '/about' },
-  { name: 'GitHub', href: 'https://github.com/KayleAI', newTab: true },
-  { name: 'Pricing', href: '/pricing' },
+  //{ name: 'About', href: '/about' },
   { name: 'Blog', href: '/blog' },
-
+  { name: 'GitHub', href: 'https://github.com/KayleAI', newTab: true },
+  //{ name: 'Pricing', href: '/pricing' },
+  { name: 'Investors', href: '/investors' },
 ]
 
 function CloseIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
@@ -216,7 +215,7 @@ function Avatar({
       className={clsx(className, 'pointer-events-auto')}
       {...props}
     >
-      <Kayle 
+      <Kayle
         className={clsx(
           'rounded-full object-cover', //bg-neutral-100 dark:bg-neutral-800
           large ? 'h-16 w-16' : 'h-9 w-9',
