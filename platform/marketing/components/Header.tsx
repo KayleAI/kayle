@@ -7,6 +7,8 @@ import { usePathname } from 'next/navigation'
 import { Popover, Transition } from '@headlessui/react'
 import clsx from 'clsx'
 
+import Kayle from '@repo/icons/kayle.svg'
+
 import { Container } from '@/components/Container'
 
 const navigation = [
@@ -214,16 +216,12 @@ function Avatar({
       className={clsx(className, 'pointer-events-auto')}
       {...props}
     >
-      {/*<Image
-        src={companyLogo}
-        alt=""
-        sizes={large ? '4rem' : '2.25rem'}
+      <Kayle 
         className={clsx(
-          'rounded-full bg-neutral-100 object-cover dark:bg-neutral-800',
+          'rounded-full object-cover', //bg-neutral-100 dark:bg-neutral-800
           large ? 'h-16 w-16' : 'h-9 w-9',
         )}
-        priority
-      />*/}
+      />
     </Link>
   )
 }
@@ -347,36 +345,6 @@ export function Header() {
           ref={avatarRef}
           className="order-last mt-[calc(theme(spacing.16)-theme(spacing.3))]"
         />
-        <Container
-          className="top-0 order-last -mb-3 pt-3"
-          style={{
-            position:
-              'var(--header-position)' as React.CSSProperties['position'],
-          }}
-        >
-          <div
-            className="top-[var(--avatar-top,theme(spacing.3))] w-full"
-            style={{
-              position:
-                'var(--header-inner-position)' as React.CSSProperties['position'],
-            }}
-          >
-            <div className="relative">
-              <AvatarContainer
-                className="absolute left-0 top-3 origin-left transition-opacity"
-                style={{
-                  opacity: 'var(--avatar-border-opacity, 0)',
-                  transform: 'var(--avatar-border-transform)',
-                }}
-              />
-              <Avatar
-                large
-                className="block h-16 w-16 origin-left"
-                style={{ transform: 'var(--avatar-image-transform)' }}
-              />
-            </div>
-          </div>
-        </Container>
         <div
           ref={headerRef}
           className="top-0 z-10 h-16 pt-6"
