@@ -33,7 +33,6 @@ export async function moderateText(c: Context) {
   >(c);
   const client = await hyperdrive(c);
 
-  
   const { data = "", parties = "" } = await c.req.json();
   // NOTE: parties can either be a string or an array of strings
 
@@ -131,12 +130,17 @@ export async function moderateText(c: Context) {
 
   const result = await response.json() as any;
 
+  console.log(result);
+
   const responseString = result.choices[0].message.content.trim();
   const firstLine = responseString.split("\n")[0];
   const textBeforeFinalBracket = firstLine.split("]")[0] + "]";
   const [severity, violations] = textBeforeFinalBracket.split(" - ");
 
   const severityFloat = parseFloat(severity);
+  if (isNaN(severityFloat)) {
+    console.error(`Invalid severity: ${severity}. Text: ${data}`);
+  }
   const violationsArray = JSON.parse(violations.replace(/'/g, '"'));
 
   await client.query(
