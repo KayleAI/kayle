@@ -80,7 +80,7 @@ export function Dialog({
   )
 }
 
-export function DialogTitle({ className, ...props }: React.ComponentPropsWithoutRef<'div'>) {
+export function DialogTitle({ className, ...props }: Readonly<React.ComponentPropsWithoutRef<'div'>>) {
   return (
     <HeadlessDialogTitle
       {...props}
@@ -89,15 +89,15 @@ export function DialogTitle({ className, ...props }: React.ComponentPropsWithout
   )
 }
 
-export function DialogDescription({ className, ...props }: React.ComponentPropsWithoutRef<'div'>) {
+export function DialogDescription({ className, ...props }: Readonly<React.ComponentPropsWithoutRef<'div'>>) {
   return <HeadlessDescription as={Text} {...props} className={clsx(className, 'mt-2 text-pretty')} />
 }
 
-export function DialogBody({ className, ...props }: React.ComponentPropsWithoutRef<'div'>) {
+export function DialogBody({ className, ...props }: Readonly<React.ComponentPropsWithoutRef<'div'>>) {
   return <div {...props} className={clsx(className, 'mt-6')} />
 }
 
-export function DialogActions({ className, ...props }: React.ComponentPropsWithoutRef<'div'>) {
+export function DialogActions({ className, ...props }: Readonly<React.ComponentPropsWithoutRef<'div'>>) {
   return (
     <div
       {...props}

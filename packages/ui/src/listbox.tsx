@@ -195,11 +195,11 @@ export function ListboxOption<T>({
   )
 }
 
-export function ListboxLabel({ className, ...props }: React.ComponentPropsWithoutRef<'span'>) {
+export function ListboxLabel({ className, ...props }: Readonly<React.ComponentPropsWithoutRef<'span'>>) {
   return <span className={clsx(className, 'ml-2.5 truncate first:ml-0 sm:ml-2 sm:first:ml-0')} {...props} />
 }
 
-export function ListboxDescription({ className, children, ...props }: React.ComponentPropsWithoutRef<'span'>) {
+export function ListboxDescription({ className, children, ...props }: Readonly<React.ComponentPropsWithoutRef<'span'>>) {
   return (
     <span
       className={clsx(

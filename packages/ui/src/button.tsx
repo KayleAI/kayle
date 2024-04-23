@@ -186,11 +186,20 @@ export const Button = React.forwardRef(function Button(
   { color, outline, plain, className, children, ...props }: ButtonProps,
   ref: React.ForwardedRef<HTMLElement>
 ) {
+  let colorStyle;
+  if (outline) {
+    colorStyle = styles.outline;
+  } else if (plain) {
+    colorStyle = styles.plain;
+  } else {
+    colorStyle = clsx(styles.solid, styles.colors[color ?? 'dark/zinc']);
+  }
+
   let classes = clsx(
     className,
     styles.base,
-    outline ? styles.outline : plain ? styles.plain : clsx(styles.solid, styles.colors[color ?? 'dark/zinc'])
-  )
+    colorStyle
+  );
 
   return 'href' in props ? (
     <Link {...props} className={classes} ref={ref as React.ForwardedRef<HTMLAnchorElement>}>
@@ -204,7 +213,7 @@ export const Button = React.forwardRef(function Button(
 })
 
 /* Expand the hit area to at least 44×44px on touch devices */
-export function TouchTarget({ children }: { children: React.ReactNode }) {
+export function TouchTarget({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <>
       {children}

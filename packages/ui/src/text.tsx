@@ -1,7 +1,7 @@
 import { clsx } from 'clsx'
 import { Link } from './link'
 
-export function Text({ className, ...props }: React.ComponentPropsWithoutRef<'p'>) {
+export function Text({ className, ...props }: Readonly<React.ComponentPropsWithoutRef<'p'>>) {
   return (
     <p
       {...props}
@@ -11,7 +11,7 @@ export function Text({ className, ...props }: React.ComponentPropsWithoutRef<'p'
   )
 }
 
-export function TextLink({ className, ...props }: React.ComponentPropsWithoutRef<typeof Link>) {
+export function TextLink({ className, ...props }: Readonly<React.ComponentPropsWithoutRef<typeof Link>>) {
   return (
     <Link
       {...props}
@@ -23,11 +23,11 @@ export function TextLink({ className, ...props }: React.ComponentPropsWithoutRef
   )
 }
 
-export function Strong({ className, ...props }: React.ComponentPropsWithoutRef<'strong'>) {
+export function Strong({ className, ...props }: Readonly<React.ComponentPropsWithoutRef<'strong'>>) {
   return <strong {...props} className={clsx(className, 'font-medium text-zinc-950 dark:text-white')} />
 }
 
-export function Code({ className, ...props }: React.ComponentPropsWithoutRef<'code'>) {
+export function Code({ className, ...props }: Readonly<React.ComponentPropsWithoutRef<'code'>>) {
   return (
     <code
       {...props}

@@ -7,7 +7,7 @@ import {
 import { clsx } from 'clsx'
 import type React from 'react'
 
-export function CheckboxGroup({ className, ...props }: React.ComponentPropsWithoutRef<'div'>) {
+export function CheckboxGroup({ className, ...props }: Readonly<React.ComponentPropsWithoutRef<'div'>>) {
   return (
     <div
       data-slot="control"

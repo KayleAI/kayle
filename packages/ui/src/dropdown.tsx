@@ -114,7 +114,7 @@ export function DropdownItem(props: { href?: string } & HeadlessMenuItemProps<'b
   )
 }
 
-export function DropdownHeader({ className, ...props }: React.ComponentPropsWithoutRef<'div'>) {
+export function DropdownHeader({ className, ...props }: Readonly<React.ComponentPropsWithoutRef<'div'>>) {
   return <div {...props} className={clsx(className, 'col-span-5 px-3.5 pb-1 pt-2.5 sm:px-3')} />
 }
 
@@ -185,14 +185,14 @@ export function DropdownShortcut({
       {...props}
       className={clsx(className, 'col-start-5 row-start-1 flex justify-self-end')}
     >
-      {(Array.isArray(keys) ? keys : keys.split('')).map((char, index) => (
+      {(Array.isArray(keys) ? keys : keys.split('')).map((char) => (
         <kbd
-          key={index}
+          key={char}
           className={clsx([
             'min-w-[2ch] text-center font-sans capitalize text-zinc-400 group-data-[focus]:text-white forced-colors:group-data-[focus]:text-[HighlightText]',
 
             // Make sure key names that are longer than one character (like "Tab") have extra space
-            index > 0 && char.length > 1 && 'pl-1',
+            char.length > 1 && 'pl-1',
           ])}
         >
           {char}

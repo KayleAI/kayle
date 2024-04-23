@@ -6,7 +6,7 @@ export function Pagination({
   'aria-label': ariaLabel = 'Page navigation',
   className,
   ...props
-}: React.ComponentPropsWithoutRef<'nav'>) {
+}: Readonly<React.ComponentPropsWithoutRef<'nav'>>) {
   return <nav aria-label={ariaLabel} {...props} className={clsx(className, 'flex gap-x-2')} />
 }
 
@@ -14,8 +14,8 @@ export function PaginationPrevious({
   href = null,
   children = 'Previous',
 }: {
-  href?: string | null
-  children?: React.ReactNode
+  readonly href?: string | null
+  readonly children?: React.ReactNode
 }) {
   return (
     <span className="grow basis-0">
@@ -38,8 +38,8 @@ export function PaginationNext({
   href = null,
   children = 'Next',
 }: {
-  href?: string | null
-  children?: React.ReactNode
+  readonly href?: string | null
+  readonly children?: React.ReactNode
 }) {
   return (
     <span className="flex grow basis-0 justify-end">
@@ -58,7 +58,7 @@ export function PaginationNext({
   )
 }
 
-export function PaginationList({ children }: { children: React.ReactNode }) {
+export function PaginationList({ children }: { readonly children: React.ReactNode }) {
   return <span className="hidden items-baseline gap-x-2 sm:flex">{children}</span>
 }
 
@@ -67,9 +67,9 @@ export function PaginationPage({
   children,
   current = false,
 }: {
-  href: string
-  children: string
-  current?: boolean
+  readonly href: string
+  readonly children: string
+  readonly current?: boolean
 }) {
   return (
     <Button
