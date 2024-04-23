@@ -7,7 +7,7 @@ export default async function SpecificKey({
     keyId = null
   }
 }: {
-  params: {
+  readonly params: {
     keyId: string | null
   }
 }) {

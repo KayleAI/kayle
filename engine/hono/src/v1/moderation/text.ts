@@ -128,9 +128,9 @@ export async function moderateText(c: Context) {
     },
   );
 
-  const result = await response.json() as any;
+  const result: any = await response.json();
 
-  console.log(result);
+  console.log(result); // we use baselime to debug
 
   const responseString = result.choices[0].message.content.trim();
   const firstLine = responseString.split("\n")[0];

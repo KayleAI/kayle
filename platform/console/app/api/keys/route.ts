@@ -49,7 +49,7 @@ export async function GET() {
     {
       status: "success",
       message: "API keys fetched",
-      keys: keys.result && keys?.result.keys ? keys.result.keys : [],
+      keys: keys?.result?.keys || [],
     },
     {
       status: 200,

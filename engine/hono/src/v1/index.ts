@@ -13,7 +13,7 @@ v1.use(
   unkey({
     apiId: "api_Q3Er9nRPV3Hf9g52ytcMQkSgi4P",
     getKey: (c) => {
-      const key = c.req.header("authorization")?.replace("Bearer ", "") || c.req.header("x-api-key");
+      const key = c.req.header("authorization")?.replace("Bearer ", "") ?? c.req.header("x-api-key");
       if (!key) {
         return c.json({
           error: "Unauthorized",

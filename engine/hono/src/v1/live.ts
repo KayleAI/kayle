@@ -2,6 +2,9 @@ import { Hono, Context } from "hono";
 import { hyperdrive } from "./database";
 import { upgradeWebSocket } from "hono/cloudflare-workers";
 
+// TODO: Import moderation routes
+//import { moderateText } from "./moderation/text";
+
 const live = new Hono().basePath("/");
 
 live.get(
@@ -25,15 +28,18 @@ interface EventData {
   parties?: string[]; // optional list of parties involved in the event
 }
 
-function liveModerationHandler(event: any, ws: any, client: any) {
+//TODO: Implement live text moderation
+//const textModerationResult = moderateText(data.data);
+//ws.send(JSON.stringify(textModerationResult));
+
+function liveModerationHandler(event: any, ws: any, _client: any) {
   if (
     typeof event === "string" && event.startsWith("{") && event.endsWith("}")
   ) {
     const data: EventData = JSON.parse(event);
     switch (data.type) {
       case "text":
-        const textModerationResult = moderateText(data.data, client);
-        ws.send(JSON.stringify(textModerationResult));
+        ws.send("Unsupported");
         break;
       case "image":
         ws.send("Unsupported");

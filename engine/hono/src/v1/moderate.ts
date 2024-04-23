@@ -9,6 +9,12 @@ moderate.post("/", async (c) => {
   switch (type) {
     case "text":
       return await moderateText(c);
+    case "audio":
+      return c.json({
+        message: "Audio moderation is not yet supported.",
+        hint: "Please refer to the documentation for more information.",
+        docs: "https://docs.kayle.ai",
+      });
     default:
       return c.json({
         message: "This type of moderation is not yet supported.",

@@ -20,13 +20,13 @@ export default function CreateKeyDialog() {
   let [testMode, setTestMode] = useQueryState('environment', { defaultValue: "test" });
   let [keyName, setKeyName] = useQueryState('name', { defaultValue: "my-new-api-key" });
 
-  const [keyCreatedSecret, setKeySecretCreated] = useState<string>("false"); // This will be a string when the key is created and the key secret will be stored here
+  const [keyCreatedSecret, setKeyCreatedSecret] = useState<string>("false"); // This will be a string when the key is created and the key secret will be stored here
 
   const router = useRouter();
 
   const handleClose = () => {
     setIsOpen(null);
-    setKeySecretCreated("false");
+    setKeyCreatedSecret("false");
   }
 
   return (
@@ -99,7 +99,7 @@ export default function CreateKeyDialog() {
                 </Description>
                 <Input
                   name="secret_key"
-                  defaultValue={keyCreatedSecret as string}
+                  defaultValue={keyCreatedSecret}
                   disabled
                   id="secret_key"
                 />
@@ -119,7 +119,7 @@ export default function CreateKeyDialog() {
                 const response = await fetch('/api/keys', {
                   method: 'POST',
                   body: JSON.stringify({
-                    test_mode: testMode === "test" ? true : false,
+                    test_mode: testMode === "test",
                     key_name: keyName
                   })
                 })
@@ -127,7 +127,7 @@ export default function CreateKeyDialog() {
                 const result = await response.json();
 
                 if (result.status === "success") {
-                  setKeySecretCreated(result.keys.key);
+                  setKeyCreatedSecret(result.keys.key);
                   router.refresh();
                 } else {
                   alert(result.message);

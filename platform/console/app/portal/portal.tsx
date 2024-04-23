@@ -1,18 +1,15 @@
 "use client";
 
 import { Button } from '@repo/ui/button';
-import { login, signup } from './actions'
+import { login } from './actions'
 
-import { Description, Field, FieldGroup, Fieldset, Label, Legend } from '@repo/ui/fieldset'
+import { Field, FieldGroup, Fieldset, Label, Legend } from '@repo/ui/fieldset'
 import { Input } from '@repo/ui/input'
 import { Strong, Text, TextLink } from '@repo/ui/text'
 import { Switch } from '@repo/ui/switch'
 import { Field as HeadlessField } from '@headlessui/react'
-import { createClient } from '@/lib/supabase/client';
 
 export default function PortalClientPage() {
-  const supabase = createClient();
-
   return (
     <div className='flex justify-center items-center min-h-screen'>
       <form
