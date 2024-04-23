@@ -180,7 +180,7 @@ export default function KayleLandingPage() {
               </div>
 
               <div className="hidden lg:flex bg-neutral-800/40 ring-1 ring-white/5 max-w-4xl">
-                <label htmlFor="terminal_input">
+                <span>
                   <div className="-mb-px flex text-sm font-medium leading-6 text-neutral-400">
                     <div
                       className="border-b border-r border-b-white/20 border-r-white/10 bg-white/5 py-2 px-4 text-white"
@@ -188,7 +188,7 @@ export default function KayleLandingPage() {
                       &nbsp;&nbsp;&nbsp;Enter your message:
                     </div>
                   </div>
-                </label>
+                </span>
 
                 <div className="-mb-px flex text-sm font-medium leading-6 text-neutral-400 grow">
                   <input

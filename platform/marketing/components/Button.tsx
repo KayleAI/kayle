@@ -11,7 +11,7 @@ const variantStyles = {
 type ButtonProps = {
   variant?: keyof typeof variantStyles
 } & (
-  | (React.ComponentPropsWithoutRef<'button'> & { href?: undefined })
+  | (React.ComponentPropsWithoutRef<'button'> & { href: undefined })
   | React.ComponentPropsWithoutRef<typeof Link>
 )
 

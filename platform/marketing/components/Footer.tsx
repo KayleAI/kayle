@@ -6,8 +6,8 @@ function NavLink({
   href,
   children,
 }: {
-  href: string
-  children: React.ReactNode
+  readonly href: string
+  readonly children: React.ReactNode
 }) {
   return (
     <Link

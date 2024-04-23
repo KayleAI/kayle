@@ -2,7 +2,7 @@ import { Card } from '@/components/Card'
 import { type BlogWithSlug, getAllBlogs } from '@/lib/blogs'
 import { formatDate } from '@/lib/formatDate'
 
-function Blog({ blog }: { blog: BlogWithSlug }) {
+function Blog({ blog }: Readonly<{ blog: BlogWithSlug }>) {
   return (
     <article className="md:grid md:grid-cols-4 md:items-baseline">
       <Card className="md:col-span-3">

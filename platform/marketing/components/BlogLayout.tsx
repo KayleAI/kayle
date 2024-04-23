@@ -8,8 +8,8 @@ export function BlogLayout({
   blog,
   children,
 }: {
-  blog: BlogWithSlug
-  children: React.ReactNode
+  readonly blog: BlogWithSlug
+  readonly children: React.ReactNode
 }) {
   return (
     <Container className="mt-16 lg:mt-32">

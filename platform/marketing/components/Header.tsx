@@ -18,7 +18,7 @@ const navigation = [
   { name: 'Investors', href: '/investors' },
 ]
 
-function CloseIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
+function CloseIcon(props: Readonly<React.ComponentPropsWithoutRef<'svg'>>) {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true" {...props}>
       <path
@@ -33,7 +33,7 @@ function CloseIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   )
 }
 
-function ChevronDownIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
+function ChevronDownIcon(props: Readonly<React.ComponentPropsWithoutRef<'svg'>>) {
   return (
     <svg viewBox="0 0 8 6" aria-hidden="true" {...props}>
       <path
@@ -52,9 +52,9 @@ function MobileNavItem({
   newTab = false,
   children,
 }: {
-  href: string
-  newTab?: boolean,
-  children: React.ReactNode
+  readonly href: string
+  readonly newTab?: boolean,
+  readonly children: React.ReactNode
 }) {
   return (
     <li>
@@ -66,7 +66,7 @@ function MobileNavItem({
 }
 
 function MobileNavigation(
-  props: React.ComponentPropsWithoutRef<typeof Popover>,
+  props: Readonly<React.ComponentPropsWithoutRef<typeof Popover>>,
 ) {
   return (
     <Popover {...props}>
@@ -128,9 +128,9 @@ function NavItem({
   newTab = false,
   children,
 }: {
-  href: string
-  newTab?: boolean
-  children: React.ReactNode
+  readonly href: string
+  readonly newTab?: boolean
+  readonly children: React.ReactNode
 }) {
   let isActive = usePathname() === href
 
@@ -155,7 +155,7 @@ function NavItem({
   )
 }
 
-function DesktopNavigation(props: React.ComponentPropsWithoutRef<'nav'>) {
+function DesktopNavigation(props: Readonly<React.ComponentPropsWithoutRef<'nav'>>) {
   return (
     <nav {...props}>
       <ul className="flex rounded-full bg-white/90 px-3 text-sm font-medium text-neutral-800 shadow-lg shadow-neutral-800/5 ring-1 ring-neutral-900/5 backdrop-blur dark:bg-neutral-800/90 dark:text-neutral-200 dark:ring-white/10">
@@ -189,7 +189,7 @@ function clamp(number: number, a: number, b: number) {
 function AvatarContainer({
   className,
   ...props
-}: React.ComponentPropsWithoutRef<'div'>) {
+}: Readonly<React.ComponentPropsWithoutRef<'div'>>) {
   return (
     <div
       className={clsx(
@@ -333,51 +333,49 @@ export function Header() {
   }, [isHomePage])
 
   return (
-    <>
-      <header
-        className="fixed pointer-events-none flex flex-none flex-col w-full"
+    <header
+      className="fixed pointer-events-none flex flex-none flex-col w-full"
+      style={{
+        zIndex: 9999,
+      }}
+    >
+      <div
+        ref={avatarRef}
+        className="order-last mt-[calc(theme(spacing.16)-theme(spacing.3))]"
+      />
+      <div
+        ref={headerRef}
+        className="top-0 z-10 h-16 pt-6"
         style={{
-          zIndex: 9999,
+          position:
+            'var(--header-position)' as React.CSSProperties['position'],
         }}
       >
-        <div
-          ref={avatarRef}
-          className="order-last mt-[calc(theme(spacing.16)-theme(spacing.3))]"
-        />
-        <div
-          ref={headerRef}
-          className="top-0 z-10 h-16 pt-6"
+        <Container
+          className="top-[var(--header-top,theme(spacing.6))] w-full"
           style={{
             position:
-              'var(--header-position)' as React.CSSProperties['position'],
+              'var(--header-inner-position)' as React.CSSProperties['position'],
           }}
         >
-          <Container
-            className="top-[var(--header-top,theme(spacing.6))] w-full"
-            style={{
-              position:
-                'var(--header-inner-position)' as React.CSSProperties['position'],
-            }}
-          >
-            <div className="relative flex gap-4">
-              <div className="flex flex-1">
-                <AvatarContainer>
-                  <Avatar />
-                </AvatarContainer>
-              </div>
-              <div className="flex flex-1 justify-end md:justify-center">
-                <MobileNavigation className="pointer-events-auto md:hidden" />
-                <DesktopNavigation className="pointer-events-auto hidden md:block" />
-              </div>
-              <div className="flex justify-end md:flex-1">
-                <div className="pointer-events-auto">
-                  <LoginButton />
-                </div>
+          <div className="relative flex gap-4">
+            <div className="flex flex-1">
+              <AvatarContainer>
+                <Avatar />
+              </AvatarContainer>
+            </div>
+            <div className="flex flex-1 justify-end md:justify-center">
+              <MobileNavigation className="pointer-events-auto md:hidden" />
+              <DesktopNavigation className="pointer-events-auto hidden md:block" />
+            </div>
+            <div className="flex justify-end md:flex-1">
+              <div className="pointer-events-auto">
+                <LoginButton />
               </div>
             </div>
-          </Container>
-        </div>
-      </header >
-    </>
+          </div>
+        </Container>
+      </div>
+    </header>
   )
 }
