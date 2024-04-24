@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from '@repo/ui/button';
-import { login } from './actions'
+import { login, signup } from './actions'
 
 import { Field, FieldGroup, Fieldset, Label, Legend } from '@repo/ui/fieldset'
 import { Input } from '@repo/ui/input'
@@ -45,9 +45,14 @@ export default function PortalClientPage() {
               </div>
             </Field>
             <Field>
-              <Button type="submit" className="w-full" formAction={login}>
-                Continue
-              </Button>
+              <div className='flex flex-row gap-x-4'>
+                <Button type="submit" className="w-full" formAction={signup}>
+                  Create Account
+                </Button>
+                <Button type="submit" className="w-full" formAction={login}>
+                  Sign In
+                </Button>
+              </div>
             </Field>
           </FieldGroup>
         </Fieldset>

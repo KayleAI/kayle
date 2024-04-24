@@ -1,6 +1,7 @@
 import { GET } from "@/app/api/keys/[keyId]/route";
 
 import { notFound } from "next/navigation";
+import KeyDetails from "./KeyDetails";
 
 export default async function SpecificKey({
   params: {
@@ -21,9 +22,7 @@ export default async function SpecificKey({
 
   return (
     <main>
-      <pre>
-        {JSON.stringify(keyData, null, 2)}
-      </pre>
+      <KeyDetails keyId={keyId} keyData={keyData} />
     </main>
   )
 }
