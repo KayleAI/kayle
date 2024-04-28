@@ -14,6 +14,26 @@ export default function KayleLandingPage() {
   )
 }
 
+const terminal = `// this is the message you want to moderate
+const message = "Hello, world!";
+
+// now create the request
+const res = await fetch('https://api.kayle.ai/v1/moderate', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer <YOUR_API_KEY>'
+  },
+  body: JSON.stringify({
+    type: 'text',
+    data: {message},
+    from: ['<SENDING_USER>'],
+    to: ['<RECEIVING_USER(s)>']
+  })
+});
+
+// now continue with the response!`;
+
 function HeroComponent() {
   return (
     <div className="relative isolate overflow-hidden bg-gradient-to-b from-green-100/20">
@@ -92,25 +112,6 @@ function HeroComponent() {
     </div>
   )
 };
-
-const terminal = `// this is the message you want to moderate
-const message = "Hello, world!";
-
-// now create the request
-const res = await fetch('https://api.kayle.ai/v1/moderate', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-    'Authorization': 'Bearer <YOUR_API_KEY>'
-  },
-  body: JSON.stringify({
-    type: 'text',
-    data: {message},
-    parties: ['<YOUR_USER_ID(s)>']
-  })
-});
-
-// now continue with the response!`;
 
 function HunterComponent() {
   const [terminalInput, setTerminalInput] = useState('');
