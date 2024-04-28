@@ -58,16 +58,20 @@ function HeroComponent() {
               <p className="mt-6 text-lg leading-8 text-neutral-600">
                 Moderate content in real-time with Kayle’s open-source API. Keep your platform safe and your users happy in minutes.
               </p>
-              <div className="mt-10 flex items-center gap-x-6">
-                <Link
-                  href={"https://console.kayle.ai"}
-                  className="rounded-md bg-green-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
+              <div className="mt-10 flex items-center gap-x-2">
+                <Button
+                  //href={"https://console.kayle.ai"} // Get started
+                  href={"https://7u4vhlbrrj8.typeform.com/to/m3lsVzda"}
+                  color="green"
                 >
-                  Get started
-                </Link>
-                <Link href="https://docs.kayle.ai" className="text-sm font-semibold leading-6 text-neutral-950">
+                  Join the waitlist
+                </Button>
+                <Button
+                  href="https://docs.kayle.ai"
+                  plain
+                >
                   Documentation <span aria-hidden="true">→</span>
-                </Link>
+                </Button>
               </div>
             </div>
           </div>
@@ -167,7 +171,7 @@ function HunterComponent() {
         </p>
       </div>
       <div
-        className="relative isolate overflow-hidden bg-neutral-900 shadow-2xl rounded-3xl lg:flex lg:gap-x-20 lg:pt-0 mt-8 mx-auto max-w-4xl"
+        className="relative isolate overflow-hidden bg-neutral-900 shadow-2xl rounded-3xl lg:flex lg:gap-x-20 lg:pt-0 mt-8 mx-auto max-w-5xl"
       >
         <div className="mx-auto max-w-2xl md:mx-0 md:max-w-none">
           <div className="w-screen overflow-visible rounded-tl-xl bg-neutral-900">
@@ -195,7 +199,7 @@ function HunterComponent() {
               </pre>
             </div>
 
-            <div className="hidden lg:flex bg-neutral-800/40 ring-1 ring-white/5 max-w-4xl">
+            <div className="hidden lg:flex bg-neutral-800/40 ring-1 ring-white/5 max-w-5xl">
               <span>
                 <div className="-mb-px flex text-sm font-medium leading-6 text-neutral-400">
                   <div
