@@ -13,6 +13,7 @@
     "@mapbox/rehype-prism": "^0.9.0",
     "@next/mdx": "^14.2.2",
     "@repo/icons": "workspace:*",
+    "@repo/comm": "workspace:*",
     "@repo/ui": "workspace:*",
     "remark-gfm": "^4.0.0"
   },

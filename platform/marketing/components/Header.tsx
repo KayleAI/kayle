@@ -1,7 +1,7 @@
 'use client'
 
 import { Fragment, useRef } from 'react'
-import Link from 'next/link'
+import { Link } from '@repo/ui/link'
 import { usePathname } from 'next/navigation'
 import { Popover, Transition } from '@headlessui/react'
 import clsx from 'clsx'
@@ -12,10 +12,11 @@ import { Container } from '@/components/Container'
 
 const navigation = [
   //{ name: 'About', href: '/about' },
-  { name: 'Blog', href: '/blog' },
+  //{ name: 'Blog', href: '/blog' },
   { name: 'GitHub', href: 'https://github.com/KayleAI', newTab: true },
+  { name: 'Docs', href: 'https://docs.kayle.ai', newTab: true },
   //{ name: 'Pricing', href: '/pricing' },
-  { name: 'Investors', href: '/investors' },
+  //{ name: 'Investors', href: '/investors' },
 ]
 
 function CloseIcon(props: Readonly<React.ComponentPropsWithoutRef<'svg'>>) {
@@ -172,10 +173,12 @@ function DesktopNavigation(props: Readonly<React.ComponentPropsWithoutRef<'nav'>
 function LoginButton() {
   return (
     <Link
-      href="https://console.kayle.ai"
+      //href="https://console.kayle.ai" // Login &rarr;
+      href="https://7u4vhlbrrj8.typeform.com/to/m3lsVzda"
+      target='_blank'
       className="group rounded-full bg-white/90 text-sm font-medium text-neutral-800 px-3 py-2 shadow-lg shadow-neutral-800/5 ring-1 ring-neutral-900/5 backdrop-blur transition dark:bg-neutral-800/90 dark:ring-white/10 dark:hover:ring-white/20 flex flex-row justify-center items-center gap-x-1"
     >
-      Login &rarr;
+      Join the waitlist      
     </Link>
   )
 }

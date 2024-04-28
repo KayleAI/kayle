@@ -16,6 +16,7 @@ const config = {
     typography: typographyStyles,
   },
   plugins: [
+    require("@tailwindcss/forms"),
     require("@tailwindcss/typography"),
   ],
 } satisfies Config;
