@@ -1,3 +1,5 @@
+export const runtime = 'edge';
+
 import { NextRequest, NextResponse } from "next/server";
 
 import { createClient } from "@/lib/supabase/server";
@@ -63,28 +65,15 @@ export async function DELETE(req: NextRequest) {
 
   const { data, error: supaError } = await supabase.auth.getUser();
 
-  if (supaError) {
+  if (supaError || !data) {
     return NextResponse.json(
       {
         status: "error",
-        message: "Failed to fetch API keys",
+        message: "Failed to fetch user data.",
         keys: null,
       },
       {
         status: 500,
-      },
-    );
-  }
-
-  if (!data) {
-    return NextResponse.json(
-      {
-        status: "error",
-        message: "User not found",
-        keys: null,
-      },
-      {
-        status: 404,
       },
     );
   }
@@ -94,25 +83,11 @@ export async function DELETE(req: NextRequest) {
     apiId: process.env.UNKEY_API_ID!,
   });
 
-  if (unkeyError) {
-    console.error(unkeyError.message);
+  if (unkeyError || !result?.valid) {
     return NextResponse.json(
       {
         status: "error",
-        message: "Failed to verify key",
-        keys: null,
-      },
-      {
-        status: 500,
-      },
-    );
-  }
-
-  if (!result.valid) {
-    return NextResponse.json(
-      {
-        status: "error",
-        message: "Invalid key",
+        message: "Failed to validate key.",
         keys: null,
       },
       {
@@ -121,9 +96,7 @@ export async function DELETE(req: NextRequest) {
     );
   }
 
-  const keyOwnerId = result.ownerId;
-
-  if (keyOwnerId !== data.user.id) {
+  if (result.ownerId !== data.user.id) {
     return NextResponse.json(
       {
         status: "error",
@@ -171,28 +144,15 @@ export async function POST(req: NextRequest) {
 
   const { data, error: supaError } = await supabase.auth.getUser();
 
-  if (supaError) {
+  if (supaError || !data) {
     return NextResponse.json(
       {
         status: "error",
-        message: "Failed to fetch API keys",
+        message: "Failed to fetch user data.",
         keys: null,
       },
       {
         status: 500,
-      },
-    );
-  }
-
-  if (!data) {
-    return NextResponse.json(
-      {
-        status: "error",
-        message: "User not found",
-        keys: null,
-      },
-      {
-        status: 404,
       },
     );
   }
