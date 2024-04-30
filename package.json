@@ -2,10 +2,11 @@
   "name": "kayle",
   "private": true,
   "scripts": {
-    "build": "turbo build",
     "dev": "turbo dev",
     "dev:rust": "turbo dev:api",
     "lint": "turbo lint",
+    "build": "turbo build",
+    "cf": "turbo cf",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
