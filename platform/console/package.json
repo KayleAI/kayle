@@ -6,6 +6,7 @@
     "dev": "next dev -p 2800",
     "dev:all": "next dev -p 2800",
     "build": "next build",
+    "cf": "bunx @cloudflare/next-on-pages@1",
     "start": "next start",
     "lint": "eslint . --max-warnings 0"
   },
