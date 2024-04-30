@@ -1,3 +1,5 @@
+export const runtime = 'edge';
+
 import { GET } from "@/app/api/keys/[keyId]/route";
 
 import { notFound } from "next/navigation";
