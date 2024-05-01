@@ -6,13 +6,14 @@ import { hyperdrive } from "../database";
 import OpenAI from "openai";
 
 interface ModerationResponse {
-  type: string;
+  error: boolean;
+  type: string | null;
   request_id: string | null;
-  severity: number;
+  severity: number | null;
   violations: string[];
   action: string | null;
   audit: string | null;
-  hash: string;
+  hash: string | null;
 }
 
 export async function textModeration(c: Context) {
@@ -20,43 +21,34 @@ export async function textModeration(c: Context) {
     OPENAI_API_KEY,
     CF_ACCOUNT_ID,
     CF_AI_GATEWAY,
-    //CF_AI_SECRET_TOKEN,
     GROQ_API_KEY,
   } = env<
     {
       OPENAI_API_KEY: string;
       CF_ACCOUNT_ID: string;
       CF_AI_GATEWAY: string;
-      //CF_AI_SECRET_TOKEN: string;
       GROQ_API_KEY: string;
     }
   >(c);
   const client = await hyperdrive(c);
 
-  const { data = "", parties = "" } = await c.req.json();
-  // NOTE: parties can either be a string or an array of strings
+  const { data = "", to = "", from = [] } = await c.req.json();
 
-  const openai = new OpenAI({
-    apiKey: OPENAI_API_KEY,
-    baseURL:
-      `https://gateway.ai.cloudflare.com/v1/${CF_ACCOUNT_ID}/${CF_AI_GATEWAY}/openai`,
-  });
-
-  // vectorize the text
-  const vectorize = await openai.embeddings.create({
-    model: "text-embedding-3-small",
-    input: [data],
-  });
-
-  const vector = vectorize.data[0].embedding;
-
-  const similarVectors = await client.query(
-    // inputs: vector, threshold, limit
-    `SELECT type, severity, violations, hash, similarity FROM find_vector_similarity(CAST(ARRAY[${vector}] as vector), 0.95, 1);`,
+  const { vector } = await getVector(
+    data,
+    CF_ACCOUNT_ID,
+    CF_AI_GATEWAY,
+    OPENAI_API_KEY,
   );
 
+  const similarVectors = await queryVectors({
+    client,
+    query: vector,
+    threshold: 0.7,
+    limit: 1,
+  });
+
   if (similarVectors.rows.length > 0) {
-    // return the result for the first match
     const firstMatch = similarVectors.rows[0];
 
     return c.json({
@@ -66,10 +58,87 @@ export async function textModeration(c: Context) {
       violations: firstMatch.violations,
       action: null,
       audit: null,
-      hash: firstMatch.hash,
+      hash: null,
     } as ModerationResponse);
   }
 
+  const { error, severity, violations } = await moderateText(
+    data,
+    GROQ_API_KEY,
+  );
+
+  if (error) return errorResponse(c, "Failed to moderate text");
+
+  await client.query(
+    `INSERT INTO moderations (type, data, severity, violations, embeddings)
+    VALUES ('text', $1, $2, $3, CAST(ARRAY[${vector}] AS vector))
+    ON CONFLICT (type, data) WHERE type = 'text'
+    DO UPDATE SET
+      severity = EXCLUDED.severity,
+      violations = EXCLUDED.violations,
+      embeddings = EXCLUDED.embeddings;`,
+    [
+      data,
+      severity ?? 0.0,
+      violations ?? [],
+    ],
+  );
+
+  return c.json({
+    request_id: "req_...",
+    type: "text",
+    severity: severity,
+    violations: violations,
+    action: null,
+    audit: null,
+    hash: null,
+  } as ModerationResponse);
+}
+
+async function queryVectors({
+  client,
+  query,
+  threshold,
+  limit,
+}: {
+  client: any;
+  query: number[];
+  threshold: number;
+  limit: number;
+}) {
+  const similarVectors = await client.query(
+    // inputs: vector, threshold, limit
+    `SELECT type, severity, violations, similarity FROM find_vector_similarity(CAST(ARRAY[${query}] as vector), ${threshold}, ${limit});`,
+  );
+
+  return similarVectors;
+}
+
+async function getVector(
+  text: string,
+  CF_ACCOUNT_ID: string,
+  CF_AI_GATEWAY: string,
+  OPENAI_API_KEY: string,
+) {
+  const openai = new OpenAI({
+    apiKey: OPENAI_API_KEY,
+    baseURL:
+      `https://gateway.ai.cloudflare.com/v1/${CF_ACCOUNT_ID}/${CF_AI_GATEWAY}/openai`,
+  });
+
+  // vectorize the text
+  const vectorize = await openai.embeddings.create({
+    model: "text-embedding-3-small",
+    input: [text],
+    dimensions: 1024,
+  });
+
+  const vector = vectorize.data[0].embedding;
+
+  return { vector };
+}
+
+async function moderateText(text: string, GROQ_API_KEY: string) {
   const response = await fetch(
     `https://api.groq.com/openai/v1/chat/completions`,
     {
@@ -120,13 +189,22 @@ export async function textModeration(c: Context) {
             Now moderate this:
 
             """
-            ${data}
+            ${text}
             """`,
           },
         ],
       }),
     },
   );
+
+  if (!response.ok) {
+    console.error("error");
+    return {
+      error: true,
+      severity: null,
+      violations: null,
+    };
+  }
 
   const result: any = await response.json();
 
@@ -137,35 +215,28 @@ export async function textModeration(c: Context) {
 
   const severityFloat = parseFloat(severity);
   if (isNaN(severityFloat)) {
-    console.error(`Invalid severity: ${severity}. Text: ${data}`);
+    console.error(`Invalid severity: ${severity}. Text: ${text}`);
   }
   const violationsArray = JSON.parse(violations.replace(/'/g, '"'));
 
-  await client.query(
-    `INSERT INTO moderations (type, data, severity, violations, hash, embeddings)
-    VALUES ('text', $1, $2, $3, $4, CAST(ARRAY[${vector}] AS vector))
-    ON CONFLICT (type, data) WHERE type = 'text'
-    DO UPDATE SET
-      severity = EXCLUDED.severity,
-      violations = EXCLUDED.violations,
-      hash = EXCLUDED.hash,
-      embeddings = EXCLUDED.embeddings;    
-  `,
-    [
-      data,
-      severityFloat || 0.0,
-      violationsArray || [],
-      "hash_...",
-    ],
-  );
-
-  return c.json({
-    request_id: "req_...",
-    type: "text",
+  return {
+    error: false,
     severity: severityFloat,
     violations: violationsArray,
+  };
+}
+
+function errorResponse(c: Context, message: string, status: number = 400) {
+  return c.json({
+    error: true,
+    request_id: null,
+    type: null,
+    severity: null,
+    violations: [],
     action: null,
     audit: null,
-    hash: "hash_...",
-  } as ModerationResponse);
+    hash: null,
+  } as ModerationResponse, {
+    status,
+  });
 }
