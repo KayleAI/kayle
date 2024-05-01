@@ -15,7 +15,7 @@ interface ModerationResponse {
   hash: string;
 }
 
-export async function moderateText(c: Context) {
+export async function textModeration(c: Context) {
   const {
     OPENAI_API_KEY,
     CF_ACCOUNT_ID,

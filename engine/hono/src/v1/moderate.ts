@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { moderateText } from "./moderation/text";
+import { textModeration } from "./moderation/text";
 
 const moderate = new Hono().basePath("/");
 
@@ -8,7 +8,7 @@ moderate.post("/", async (c) => {
 
   switch (type) {
     case "text":
-      return await moderateText(c);
+      return await textModeration(c);
     case "audio":
       return c.json({
         message: "Audio moderation is not yet supported.",
@@ -25,7 +25,7 @@ moderate.post("/", async (c) => {
 });
 
 moderate.post("/text", async (c) => {
-  return await moderateText(c);
+  return await textModeration(c);
 });
 
 export default moderate as never;

@@ -18,10 +18,10 @@ CF_AI_GATEWAY = "kayle" # Cloudflare AI Gateway
 # binding = "MY_BUCKET"
 # bucket_name = "my-bucket"
 
-# [[d1_databases]]
-# binding = "DB"
-# database_name = "my-database"
-# database_id = ""
+[[d1_databases]]
+binding = "KAYLE_DB"
+database_name = "kayle-d1"
+database_id = "c8aadacf-40b2-4e48-8511-f7347aefd538"
 
 # [ai]
 # binding = "AI"
@@ -30,3 +30,7 @@ CF_AI_GATEWAY = "kayle" # Cloudflare AI Gateway
 binding = "HYPERDRIVE"
 id = "7d08727e4da04b4e8137bab55360bcb2"
 localConnectionString = "postgres://postgres:password@localhost:5432/hyperdrive"
+
+[[vectorize]]
+binding = "KAYLE_VECTORIZE"
+index_name = "kayle"
