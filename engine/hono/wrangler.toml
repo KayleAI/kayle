@@ -6,6 +6,12 @@ account_id = "b482dc77edae0b65495f7e2fba6ceb16"
 
 node_compat = true
 
+logpush = true
+
+tail_consumers = [
+  { service = "kayle-js-tail", environment = "undefined" }
+]
+
 [vars]
 CF_ACCOUNT_ID = "b482dc77edae0b65495f7e2fba6ceb16" # Cloudflare account ID
 CF_AI_GATEWAY = "kayle" # Cloudflare AI Gateway

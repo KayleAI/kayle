@@ -188,7 +188,7 @@ async function moderateText(
 
         {
           "severity": 10.0,
-          "violations": ['hate-speech', 'threat']
+          "violations": ["hate-speech", "threat"]
         }
 
         Example 1:
@@ -199,7 +199,7 @@ async function moderateText(
 
         {
           "severity": 9.0,
-          "violations": ['toxic', 'threat']
+          "violations": ["toxic", "threat"]
         }
 
         Example 2:
