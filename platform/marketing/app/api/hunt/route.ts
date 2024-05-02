@@ -6,7 +6,7 @@ export async function POST(req: NextRequest) {
   const { text } = await req.json();
   const KAYLE_API_KEY = process.env.KAYLE_API_KEY!;
 
-  const response = await fetch("https://api.kayle.ai/v1/moderate/text", {
+  const response = await fetch("https://api.kayle.ai/v1/moderate", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
