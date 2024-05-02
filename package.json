@@ -6,14 +6,13 @@
     "dev:rust": "turbo dev:rust",
     "lint": "turbo lint",
     "build": "turbo build",
-    "cf": "turbo cf",
+    "cf": "bun i -g turbo@latest && turbo cf",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
     "@repo/eslint-config": "*",
     "@repo/typescript-config": "*",
-    "prettier": "^3.2.5",
-    "turbo": "latest"
+    "prettier": "^3.2.5"
   },
   "engines": {
     "node": ">=18"
