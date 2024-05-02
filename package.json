@@ -6,7 +6,7 @@
     "dev:rust": "turbo dev:rust",
     "lint": "turbo lint",
     "build": "turbo build",
-    "cf": "bun i -g turbo@latest && turbo cf",
+    "cf": "npm i --global turbo@latest && turbo cf",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
