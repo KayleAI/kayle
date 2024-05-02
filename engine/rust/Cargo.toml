@@ -20,6 +20,7 @@ worker = "0.1.0"
 reqwest = { version = "0.11.8", features = ["json"] }
 tokio = { version = "1.5.0", features = [] }
 tokio-postgres = { version="0.7", features=['js'], default-features=false }
+serde_with = "3.8.1"
 
 [dev-dependencies]
 tokio = { version = "1", features = ["full"] }

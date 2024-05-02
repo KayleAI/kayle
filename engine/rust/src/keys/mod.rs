@@ -4,8 +4,6 @@ use serde_json;
 
 use worker::*;
 
-use super::KayleBasicResponse;
-
 #[derive(Debug, Deserialize, Serialize)]
 pub struct KeyVerificationRequest {
     key: String,
@@ -13,7 +11,13 @@ pub struct KeyVerificationRequest {
     api_id: String,
 }
 
-pub async fn validate(key: String) -> bool {
+#[derive(Debug, Deserialize, Serialize)]
+pub struct KeyVerificationResponse {
+    pub valid: bool,
+    pub user_id: Option<String>,
+}
+
+pub async fn validate(key: String) -> KeyVerificationResponse {
     let client = reqwest::Client::new();
     let res = client
         .post(format!(
@@ -31,14 +35,31 @@ pub async fn validate(key: String) -> bool {
         Ok(res) => {
             let body = res.text().await.unwrap();
 
-            // parse body -> JSON object and return object.valid
             let json: serde_json::Value = serde_json::from_str(&body).unwrap();
-            return json["valid"].as_bool().unwrap();
+
+            //console_log!("{:?}", json);
+
+            return KeyVerificationResponse {
+                valid: json["valid"].as_bool().unwrap(),
+                user_id: json["meta"]["user_id"].as_str().map(|s| s.to_string()),
+            };
         }
         Err(_) => {
-            return false;
+            return KeyVerificationResponse {
+                valid: false,
+                user_id: None,
+            };
         }
     }
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+pub struct KayleBasicResponse {
+    status: u32,
+    message: String,
+    request_id: Option<String>,
+    hint: Option<String>,
+    docs: Option<String>,
 }
 
 pub async fn verify_api(_req: Request, _ctx: RouteContext<()>) -> worker::Result<Response> {

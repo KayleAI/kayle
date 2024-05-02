@@ -119,7 +119,7 @@ function HeroComponent() {
 
 function HunterComponent() {
   const [terminalInput, setTerminalInput] = useState('');
-  const [terminalOutput, setTerminalOutput] = useState('Awaiting message\n\n\n');
+  const [terminalOutput, setTerminalOutput] = useState('Awaiting message\n\n\n\n');
   const [isInputDisabled, setIsInputDisabled] = useState(false);
 
   const handleSubmit = async () => {
@@ -129,7 +129,9 @@ function HunterComponent() {
 
     setIsInputDisabled(true);
 
-    setTerminalOutput(`Running test on “${terminalInput}”...\n\n\n`);
+    setTerminalOutput(`Running test on “${terminalInput}”...\n\n\n\n`);
+
+    const startTime = performance.now();
 
     // Make POST request to your server endpoint
     const response = await fetch('/api/hunt', {
@@ -142,7 +144,9 @@ function HunterComponent() {
 
     const data = await response.json();
 
-    let output = `Text moderation output for “${terminalInput}”:\nSeverity: ${data.severity || 0}\nViolations: ${data.violations.length > 0 ? data.violations.join(', ') : 'None'}\n`;
+    const timeTaken = Math.round(performance.now() - startTime);
+
+    let output = `Text moderation output for “${terminalInput}”:\nSeverity: ${data.severity || 0}\nViolations: ${data.violations.length > 0 ? data.violations.join(', ') : 'None'}\nTime taken: ${timeTaken}ms\n`;
     setTerminalOutput(output);
 
     setTerminalInput('');

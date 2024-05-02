@@ -4,7 +4,7 @@ use worker::*;
 
 #[derive(Debug, Deserialize, Serialize)]
 struct GenericResponse {
-    status: u16,
+    status: u32,
     message: String,
 }
 
