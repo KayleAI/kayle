@@ -5,7 +5,7 @@ compatibility_date = "2023-03-22"
 # Note that you will need to update this to your Account ID
 account_id = "b482dc77edae0b65495f7e2fba6ceb16"
 
-tail_consumer = [{service = kayle-rust-tail}]
+tail_consumer = [{service = "kayle-rust-tail"}]
 
 [vars]
 CF_ACCOUNT_ID = "b482dc77edae0b65495f7e2fba6ceb16"
