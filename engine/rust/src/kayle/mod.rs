@@ -1,6 +1,7 @@
 // Get the modules from the other files in the `kayle` directory.
 pub mod moderate;
 pub mod text;
+pub mod ai;
 
 use serde::{Deserialize, Serialize};
 use std::str::FromStr;
@@ -231,3 +232,17 @@ pub struct KayleModerationAudit {}
  */
 pub const BASE_AI_URL: &str = "https://gateway.ai.cloudflare.com/v1/b482dc77edae0b65495f7e2fba6ceb16/kayle/openai"; // Through Cloudflare AI Gateway to OpenAI
 //pub const BASE_AI_URL: &str = "https://api.openai.com/v1"; // Directly to OpenAI
+
+/**
+ * The base URL for the Moderation Gateway.
+ * 
+ * We're using Groq due to its speed.
+ */
+pub const BASE_MODERATION_URL: &str = "https://api.groq.com/openai/v1";
+
+/**
+ * The Model ID for the Moderation Gateway.
+ * 
+ * We're using mixtral-8x7b for its speed.
+ */
+pub const MODERATION_MODEL_ID: &str = "mixtral-8x7b-32768";

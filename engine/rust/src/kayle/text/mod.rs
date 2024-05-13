@@ -4,10 +4,22 @@ use serde_json::json;
 
 use super::super::hyperdrive;
 use super::moderate::ModerationRequest;
-use super::{ContentType, KayleModerationResponse, ViolationsType, BASE_AI_URL};
+use super::{ContentType, KayleModerationResponse, ViolationsType, BASE_AI_URL, MODERATION_MODEL_ID, BASE_MODERATION_URL};
+
+// Groq or OpenAI?
+use super::ai::openai::OpenAIChatCompletionResponse;
+// TODO: Add support for Groq
+//use super::ai::groq::GroqAPIResponse;
+
 use crate::keys::KeyVerificationResponse;
 use std::str::FromStr;
 use worker::*;
+
+#[derive(Debug, Deserialize, Serialize)]
+pub struct TextModerationResponse {
+    pub severity: u32,
+    pub violations: Vec<ViolationsType>,
+}
 
 const KAYLE_INPUT: &str = "You are a moderator for Kayle.
         
@@ -131,7 +143,7 @@ pub async fn text_moderation(
         });
     }
 
-    let moderation_result: OpenAITextModerationResponse =
+    let moderation_result: TextModerationResponse =
         moderate_text_via_ai(&text, openai_api_key.to_string())
             .await
             .unwrap();
@@ -173,7 +185,6 @@ pub struct OpenAIEmbedding {
 }
 
 async fn create_vector(text: &String, openai_api_key: String) -> Vec<f32> {
-    console_log!("Creating Vector.");
     let json_body = json!({
         "input": [text],
         "model": "text-embedding-3-small",
@@ -187,7 +198,6 @@ async fn create_vector(text: &String, openai_api_key: String) -> Vec<f32> {
         .send()
         .await;
 
-    console_log!("Vector Returning");
 
     match response {
         Ok(res) => {
@@ -220,7 +230,6 @@ async fn search_for_vector_result(
     vector: &Vec<f32>,
     client: &tokio_postgres::Client,
 ) -> Result<DatabaseTextModerationResponse> {
-    console_log!("Starting Vector Search.");
     let mut response: DatabaseTextModerationResponse = DatabaseTextModerationResponse {
         found: false,
         type_: None,
@@ -268,81 +277,21 @@ async fn search_for_vector_result(
         // we have more than one row, which is unexpected
         console_error!("Unexpected number of rows returned.");
     }
-    console_log!("Return Vector Search Response.");
 
     return Ok(response);
-}
-
-#[derive(Debug, Deserialize, Serialize)]
-pub struct OpenAITextModerationResponse {
-    severity: u32,
-    violations: Vec<ViolationsType>,
-}
-
-#[derive(Debug, Deserialize, Serialize)]
-pub struct OpenAIChatCompletionUsage {
-    prompt_tokens: u32,
-    completion_tokens: u32,
-    total_tokens: u32,
-}
-
-#[derive(Debug, Deserialize, Serialize)]
-pub struct OpenAIChatCompletionChoice {
-    index: u32,
-    message: OpenAIChatCompletionChoiceMessage,
-    logprobs: Option<OpenAIChatCompletionChoiceLogprobs>,
-    finish_reason: String,
-}
-
-#[derive(Debug, Deserialize, Serialize)]
-pub struct OpenAIChatCompletionChoiceLogprobs {
-    content: Option<Vec<OpenAIChatCompletionChoiceLogprobsContent>>,
-}
-
-#[derive(Debug, Deserialize, Serialize)]
-pub struct OpenAIChatCompletionChoiceLogprobsContent {
-    token: String,
-    logprob: f32,
-    bytes: Option<Vec<String>>,
-    top_logprobs: Option<Vec<OpenAIChatCompletionChoiceLogprobsContentTopLogprobs>>,
-}
-
-#[derive(Debug, Deserialize, Serialize)]
-pub struct OpenAIChatCompletionChoiceLogprobsContentTopLogprobs {
-    token: String,
-    logprob: f32,
-    bytes: Option<Vec<String>>,
-}
-
-#[derive(Debug, Deserialize, Serialize)]
-pub struct OpenAIChatCompletionChoiceMessage {
-    role: String,
-    content: String,
-}
-
-#[derive(Debug, Deserialize, Serialize)]
-pub struct OpenAIChatCompletionResponse {
-    id: String,
-    choices: Vec<OpenAIChatCompletionChoice>,
-    created: u64,
-    model: String,
-    system_fingerprint: String,
-    object: String,
-    usage: OpenAIChatCompletionUsage,
 }
 
 async fn moderate_text_via_ai(
     text: &String,
     openai_api_key: String,
-) -> Result<OpenAITextModerationResponse> {
-    console_log!("Starting moderation via AI.");
-    let mut moderation = OpenAITextModerationResponse {
+) -> Result<TextModerationResponse> {
+    let mut moderation = TextModerationResponse {
         severity: 0,
         violations: vec![],
     };
 
     let json_body = json!({
-        "model": "gpt-3.5-turbo",
+        "model": MODERATION_MODEL_ID,
         "temperature": 0,
         "messages": [
             {
@@ -357,7 +306,7 @@ async fn moderate_text_via_ai(
     });
 
     let response = reqwest::Client::new()
-        .post(format!("{}/chat/completions", BASE_AI_URL))
+        .post(format!("{}/chat/completions", BASE_MODERATION_URL))
         .bearer_auth(openai_api_key)
         .json(&json_body)
         .send()
@@ -369,8 +318,6 @@ async fn moderate_text_via_ai(
 
             let moderation_response: OpenAIChatCompletionResponse =
                 serde_json::from_str(&raw_body).expect("Error parsing JSON response from OpenAI.");
-
-            // now parse moderation_response.choices[0].message.content as a JSON object
 
             let moderation_json: serde_json::Value =
                 serde_json::from_str(&moderation_response.choices[0].message.content)
@@ -396,7 +343,7 @@ async fn moderate_text_via_ai(
                 }
             };
 
-            moderation = OpenAITextModerationResponse {
+            moderation = TextModerationResponse {
                 severity,
                 violations,
             };
@@ -405,7 +352,6 @@ async fn moderate_text_via_ai(
             console_error!("Error: {:?}", e);
         }
     }
-    console_log!("Return moderation response from OpenAI");
 
     return Ok(moderation);
 }
@@ -413,11 +359,9 @@ async fn moderate_text_via_ai(
 async fn save_data_and_vector_to_database(
     vector: &Vec<f32>,
     text: &String, // user input
-    result: &OpenAITextModerationResponse,
+    result: &TextModerationResponse,
     client: &tokio_postgres::Client,
 ) {
-    console_log!("Starting Save to Database.");
-
     let severity: u32 = result.severity;
 
     let violations: String = result
@@ -436,6 +380,4 @@ async fn save_data_and_vector_to_database(
     );
 
     client.simple_query(&query).await.unwrap();
-
-    console_log!("Data Saved to Database.");
 }
