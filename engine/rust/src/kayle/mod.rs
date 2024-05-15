@@ -145,7 +145,7 @@ pub struct KayleModerationResponse {
     /**
      * The severity of the content.
      */
-    pub severity: Option<u32>,
+    pub severity: Option<f64>,
 
     /**
      * What policies were violated?
@@ -220,6 +220,12 @@ pub struct KayleModerationAction {}
 #[derive(Debug, Deserialize, Serialize)]
 pub struct KayleModerationAudit {}
 
+/**
+ * Groq Enabled?
+ * 
+ * Should we use Groq for moderation instead of OpenAI?
+ */
+pub const GROQ_ENABLED: bool = false;
 
 /**
  * The base URL for the AI Gateway.
@@ -234,15 +240,28 @@ pub const BASE_AI_URL: &str = "https://gateway.ai.cloudflare.com/v1/b482dc77edae
 //pub const BASE_AI_URL: &str = "https://api.openai.com/v1"; // Directly to OpenAI
 
 /**
- * The base URL for the Moderation Gateway.
- * 
- * We're using Groq due to its speed.
+ * If we've enabled Groq, we'll use this endpoint.
  */
-pub const BASE_MODERATION_URL: &str = "https://api.groq.com/openai/v1";
+pub fn base_moderation_url() -> &'static str {
+    if GROQ_ENABLED {
+        "https://api.groq.com/openai/v1"
+    } else {
+        BASE_AI_URL
+    }
+}
 
 /**
- * The Model ID for the Moderation Gateway.
+ * The Model ID for the moderation model.
  * 
  * We're using mixtral-8x7b for its speed.
+ * 
+ * Groq: mixtral-8x7b-32768
+ * OpenAI: gpt-3.5-turbo-0125
  */
-pub const MODERATION_MODEL_ID: &str = "mixtral-8x7b-32768";
+pub fn moderation_model_id() -> &'static str {
+    if GROQ_ENABLED {
+        "mixtral-8x7b-32768"
+    } else {
+        "gpt-3.5-turbo-0125"
+    }
+}
