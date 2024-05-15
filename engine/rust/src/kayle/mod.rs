@@ -225,7 +225,7 @@ pub struct KayleModerationAudit {}
  * 
  * Should we use Groq for moderation instead of OpenAI?
  */
-pub const GROQ_ENABLED: bool = false;
+pub const GROQ_ENABLED: bool = true;
 
 /**
  * The base URL for the AI Gateway.

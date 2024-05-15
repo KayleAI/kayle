@@ -325,9 +325,10 @@ async fn moderate_text_via_ai(
     let json_body = json!({
         "model": moderation_model_id(),
         "temperature": 0,
+        "max_tokens": 300,
         "messages": [
             {
-                "role": "system",
+                "role": "assistant",
                 "content": KAYLE_INPUT
             },
             {
