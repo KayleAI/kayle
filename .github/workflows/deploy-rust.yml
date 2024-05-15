@@ -3,8 +3,8 @@ name: Deploy Kayle Engine (Rust)
 on:
   push:
     branches:
-      - main
-      #- rust-disabled
+      #- main
+      - rust-disabled
 
 jobs:
   deploy:

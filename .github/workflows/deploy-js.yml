@@ -3,8 +3,8 @@ name: Deploy Kayle Engine (Hono.js)
 on:
   push:
     branches:
-      #- main
-      - hono-disabled
+      - main
+      #- hono-disabled
 
 jobs:
   deploy:
