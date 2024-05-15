@@ -7,7 +7,7 @@ export const hyperdrive = async (c: Context): Promise<Client> => {
   if (c.env?.HYPERDRIVE?.connectionString) {
     connectionString = c.env.HYPERDRIVE.connectionString;
   } else {
-    connectionString = c.env.HYPERDRIVE_FALLBACK + "?sslmode=disable";
+    connectionString = `${c.env.HYPERDRIVE_FALLBACK}?sslmode=disable`;
   }
 
   const client = new Client({
