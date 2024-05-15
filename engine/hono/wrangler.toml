@@ -9,7 +9,7 @@ node_compat = true
 logpush = true
 
 tail_consumers = [
-  { service = "kayle-js-tail", environment = "undefined" }
+  { service = "kayle-js-tail" }
 ]
 
 [vars]
@@ -17,27 +17,7 @@ CF_ACCOUNT_ID = "b482dc77edae0b65495f7e2fba6ceb16" # Cloudflare account ID
 CF_AI_GATEWAY = "kayle" # Cloudflare AI Gateway
 UNKEY_API_ID = "api_Q3Er9nRPV3Hf9g52ytcMQkSgi4P"
 
-# [[kv_namespaces]]
-# binding = "MY_KV_NAMESPACE"
-# id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-
-# [[r2_buckets]]
-# binding = "MY_BUCKET"
-# bucket_name = "my-bucket"
-
-[[d1_databases]]
-binding = "KAYLE_DB"
-database_name = "kayle-d1"
-database_id = "c8aadacf-40b2-4e48-8511-f7347aefd538"
-
-# [ai]
-# binding = "AI"
-
 [[hyperdrive]]
 binding = "HYPERDRIVE"
-id = "eeb3ba84c17047b4b2003f70502f3911"
+id = "810e791fa12d44abaad44300c68a77fb"
 localConnectionString = "postgres://postgres:password@localhost:5432/hyperdrive"
-
-[[vectorize]]
-binding = "KAYLE_VECTORIZE"
-index_name = "kayle"

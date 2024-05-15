@@ -10,6 +10,10 @@
       "cache": false,
       "persistent": true
     },
+    "dev:hono": {
+      "cache": false,
+      "persistent": true
+    },
     "lint": {
       "dependsOn": ["^lint"]
     },

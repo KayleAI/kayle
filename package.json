@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "dev": "turbo dev",
+    "dev:hono": "turbo dev:hono",
     "dev:rust": "turbo dev:rust",
     "lint": "turbo lint",
     "build": "turbo build",
