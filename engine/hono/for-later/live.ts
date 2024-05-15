@@ -1,5 +1,5 @@
 import { Hono, Context } from "hono";
-import { hyperdrive } from "./database";
+import { hyperdrive } from "../src/v1/database";
 import { upgradeWebSocket } from "hono/cloudflare-workers";
 
 // TODO: Import moderation routes
@@ -32,9 +32,13 @@ interface EventData {
 //const textModerationResult = moderateText(data.data);
 //ws.send(JSON.stringify(textModerationResult));
 
+function isJsonString(event: string) {
+  return typeof event === 'string' && event.startsWith('{') && event.endsWith('}');
+}
+
 function liveModerationHandler(event: any, ws: any, _client: any) {
   if (
-    typeof event === "string" && event.startsWith("{") && event.endsWith("}")
+    isJsonString(event)
   ) {
     const data: EventData = JSON.parse(event);
     switch (data.type) {

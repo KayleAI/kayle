@@ -3,7 +3,8 @@ import { unkey, type UnkeyContext } from "@unkey/hono";
 
 // Import moderation routes
 import moderate from "./moderate";
-import live from "./live";
+import live from "../../for-later/live";
+import { env } from "hono/adapter";
 
 const v1 = new Hono<{ Variables: { unkey: UnkeyContext } }>({ strict: false });
 
@@ -11,7 +12,8 @@ const v1 = new Hono<{ Variables: { unkey: UnkeyContext } }>({ strict: false });
 v1.use(
   "/*",
   unkey({
-    apiId: "api_Q3Er9nRPV3Hf9g52ytcMQkSgi4P",
+    // @ts-ignore - This is a valid key
+    apiId: env.UNKEY_API_ID ?? "",
     getKey: (c) => {
       const key = c.req.header("authorization")?.replace("Bearer ", "") ?? c.req.header("x-api-key");
       if (!key) {

@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { textModeration } from "./moderation/text";
+import { textModeration } from "./text";
 
 const moderate = new Hono().basePath("/");
 
