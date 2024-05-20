@@ -4,7 +4,6 @@
 	"private": true,
 	"scripts": {
 		"deploy": "wrangler deploy",
-		"dev": "wrangler dev --remote",
 		"dev:rust": "wrangler dev --remote"
 	},
 	"devDependencies": {
