@@ -1,4 +1,4 @@
-import { Button as HeadlessButton, type ButtonProps as HeadlessButtonProps } from '@headlessui/react'
+import * as Headless from '@headlessui/react'
 import clsx from 'clsx'
 import React from 'react'
 import { TouchTarget } from './button'
@@ -23,16 +23,15 @@ export function Avatar({
   return (
     <span
       data-slot="avatar"
+      {...props}
       className={clsx(
         className,
-
         // Basic layout
-        'inline-grid align-middle *:col-start-1 *:row-start-1',
-
+        'inline-grid shrink-0 align-middle [--avatar-radius:20%] [--ring-opacity:20%] *:col-start-1 *:row-start-1',
+        'outline outline-1 -outline-offset-1 outline-black/[--ring-opacity] dark:outline-white/[--ring-opacity]',
         // Add the correct border radius
-        square ? 'rounded-[20%] *:rounded-[20%]' : 'rounded-full *:rounded-full'
+        square ? 'rounded-[--avatar-radius] *:rounded-[--avatar-radius]' : 'rounded-full *:rounded-full'
       )}
-      {...props}
     >
       {initials && (
         <svg
@@ -47,8 +46,6 @@ export function Avatar({
         </svg>
       )}
       {src && <img src={src} alt={alt} />}
-      {/* Add an inset border that sits on top of the image */}
-      <span className="ring-1 ring-inset ring-black/5 dark:ring-white/5 forced-colors:outline" aria-hidden="true" />
     </span>
   )
 }
@@ -61,12 +58,13 @@ export const AvatarButton = React.forwardRef(function AvatarButton(
     alt,
     className,
     ...props
-  }: AvatarProps & (HeadlessButtonProps | React.ComponentPropsWithoutRef<typeof Link>),
+  }: AvatarProps &
+    (Omit<Headless.ButtonProps, 'className'> | Omit<React.ComponentPropsWithoutRef<typeof Link>, 'className'>),
   ref: React.ForwardedRef<HTMLElement>
 ) {
   let classes = clsx(
     className,
-    square ? 'rounded-lg' : 'rounded-full',
+    square ? 'rounded-[20%]' : 'rounded-full',
     'relative focus:outline-none data-[focus]:outline data-[focus]:outline-2 data-[focus]:outline-offset-2 data-[focus]:outline-blue-500'
   )
 
@@ -77,10 +75,10 @@ export const AvatarButton = React.forwardRef(function AvatarButton(
       </TouchTarget>
     </Link>
   ) : (
-    <HeadlessButton {...props} className={classes} ref={ref}>
+    <Headless.Button {...props} className={classes} ref={ref}>
       <TouchTarget>
         <Avatar src={src} square={square} initials={initials} alt={alt} />
       </TouchTarget>
-    </HeadlessButton>
+    </Headless.Button>
   )
 })

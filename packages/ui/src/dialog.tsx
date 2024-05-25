@@ -1,14 +1,6 @@
-import {
-  Description as HeadlessDescription,
-  Dialog as HeadlessDialog,
-  DialogPanel as HeadlessDialogPanel,
-  DialogTitle as HeadlessDialogTitle,
-  Transition as HeadlessTransition,
-  TransitionChild as HeadlessTransitionChild,
-  type DialogProps as HeadlessDialogProps,
-} from '@headlessui/react'
+import * as Headless from '@headlessui/react'
 import clsx from 'clsx'
-import type React from 'react'
+import React from 'react'
 import { Text } from './text'
 
 const sizes = {
@@ -30,11 +22,14 @@ export function Dialog({
   className,
   children,
   ...props
-}: { size?: keyof typeof sizes; children: React.ReactNode } & HeadlessDialogProps) {
+}: { size?: keyof typeof sizes; className?: string; children: React.ReactNode } & Omit<
+  Headless.DialogProps,
+  'className'
+>) {
   return (
-    <HeadlessTransition appear show={open} {...props}>
-      <HeadlessDialog onClose={onClose}>
-        <HeadlessTransitionChild
+    <Headless.Transition appear show={open} {...props}>
+      <Headless.Dialog onClose={onClose}>
+        <Headless.TransitionChild
           enter="ease-out duration-100"
           enterFrom="opacity-0"
           enterTo="opacity-100"
@@ -43,11 +38,11 @@ export function Dialog({
           leaveTo="opacity-0"
         >
           <div className="fixed inset-0 flex w-screen justify-center overflow-y-auto bg-zinc-950/25 px-2 py-2 focus:outline-0 sm:px-6 sm:py-8 lg:px-8 lg:py-16 dark:bg-zinc-950/50" />
-        </HeadlessTransitionChild>
+        </Headless.TransitionChild>
 
         <div className="fixed inset-0 w-screen overflow-y-auto pt-6 sm:pt-0">
           <div className="grid min-h-full grid-rows-[1fr_auto] justify-items-center sm:grid-rows-[1fr_auto_3fr] sm:p-4">
-            <HeadlessTransitionChild
+            <Headless.TransitionChild
               enter="ease-out duration-100"
               enterFrom="opacity-0 translate-y-12 sm:translate-y-0 sm:scale-95"
               enterTo="opacity-100 translate-y-0 sm:scale-100"
@@ -55,7 +50,7 @@ export function Dialog({
               leaveFrom="opacity-100 translate-y-0"
               leaveTo="opacity-0 translate-y-12 sm:translate-y-0"
             >
-              <HeadlessDialogPanel
+              <Headless.DialogPanel
                 className={clsx(
                   className,
                   sizes[size],
@@ -63,26 +58,32 @@ export function Dialog({
                 )}
               >
                 {children}
-              </HeadlessDialogPanel>
-            </HeadlessTransitionChild>
+              </Headless.DialogPanel>
+            </Headless.TransitionChild>
           </div>
         </div>
-      </HeadlessDialog>
-    </HeadlessTransition>
+      </Headless.Dialog>
+    </Headless.Transition>
   )
 }
 
-export function DialogTitle({ className, ...props }: Readonly<React.ComponentPropsWithoutRef<'div'>>) {
+export function DialogTitle({
+  className,
+  ...props
+}: { className?: string } & Omit<Headless.DialogTitleProps, 'className'>) {
   return (
-    <HeadlessDialogTitle
+    <Headless.DialogTitle
       {...props}
       className={clsx(className, 'text-balance text-lg/6 font-semibold text-zinc-950 sm:text-base/6 dark:text-white')}
     />
   )
 }
 
-export function DialogDescription({ className, ...props }: Readonly<React.ComponentPropsWithoutRef<'div'>>) {
-  return <HeadlessDescription as={Text} {...props} className={clsx(className, 'mt-2 text-pretty')} />
+export function DialogDescription({
+  className,
+  ...props
+}: { className?: string } & Omit<Headless.DescriptionProps<typeof Text>, 'className'>) {
+  return <Headless.Description as={Text} {...props} className={clsx(className, 'mt-2 text-pretty')} />
 }
 
 export function DialogBody({ className, ...props }: Readonly<React.ComponentPropsWithoutRef<'div'>>) {

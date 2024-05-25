@@ -1,19 +1,31 @@
 import type { Config } from "tailwindcss";
 
-import typographyStyles from "./typography";
-
 const config = {
-  darkMode: "class",
+  darkMode: "selector",
   content: [
-    "./pages/**/*.{ts,tsx}",
-    "./components/**/*.{ts,tsx}",
-    "./app/**/*.{ts,tsx}",
-    "./src/**/*.{ts,tsx}",
-    "../../packages/ui/src/**/*.{ts,tsx}",
+    "./pages/**/*.{ts,tsx,mdx}",
+    "./components/**/*.{ts,tsx,mdx}",
+    "./app/**/*.{ts,tsx,mdx}",
+    "./src/**/*.{ts,tsx,mdx}",
+    "../../packages/ui/src/**/*.{ts,tsx,mdx}",
+    "../packages/ui/src/**/*.{ts,tsx,mdx}",
   ],
   prefix: "",
-  theme: {
-    typography: typographyStyles,
+  theme: {    
+    extend: {
+      fontSize: {
+        '2xs': '.6875rem',
+      },
+      fontFamily: {
+        sans: 'var(--font-inter)',
+        display: 'var(--font-mona-sans)',
+      },
+      opacity: {
+        2.5: '0.025',
+        7.5: '0.075',
+        15: '0.15',
+      },
+    },
   },
   plugins: [
     require("@tailwindcss/forms"),

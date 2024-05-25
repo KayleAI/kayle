@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import type React from 'react'
+import React from 'react'
 import { Button } from './button'
 
 export function Pagination({
@@ -12,13 +12,11 @@ export function Pagination({
 
 export function PaginationPrevious({
   href = null,
+  className,
   children = 'Previous',
-}: {
-  readonly href?: string | null
-  readonly children?: React.ReactNode
-}) {
+}: React.PropsWithChildren<{ href?: string | null; className?: string }>) {
   return (
-    <span className="grow basis-0">
+    <span className={clsx(className, 'grow basis-0')}>
       <Button {...(href === null ? { disabled: true } : { href })} plain aria-label="Previous page">
         <svg className="stroke-current" data-slot="icon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
           <path
@@ -36,13 +34,11 @@ export function PaginationPrevious({
 
 export function PaginationNext({
   href = null,
+  className,
   children = 'Next',
-}: {
-  readonly href?: string | null
-  readonly children?: React.ReactNode
-}) {
+}: React.PropsWithChildren<{ href?: string | null; className?: string }>) {
   return (
-    <span className="flex grow basis-0 justify-end">
+    <span className={clsx(className, 'flex grow basis-0 justify-end')}>
       <Button {...(href === null ? { disabled: true } : { href })} plain aria-label="Next page">
         {children}
         <svg className="stroke-current" data-slot="icon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
@@ -58,19 +54,16 @@ export function PaginationNext({
   )
 }
 
-export function PaginationList({ children }: { readonly children: React.ReactNode }) {
-  return <span className="hidden items-baseline gap-x-2 sm:flex">{children}</span>
+export function PaginationList({ className, ...props }: Readonly<React.ComponentPropsWithoutRef<'span'>>) {
+  return <span {...props} className={clsx(className, 'hidden items-baseline gap-x-2 sm:flex')} />
 }
 
 export function PaginationPage({
   href,
-  children,
+  className,
   current = false,
-}: {
-  readonly href: string
-  readonly children: string
-  readonly current?: boolean
-}) {
+  children,
+}: React.PropsWithChildren<{ href: string; className?: string; current?: boolean }>) {
   return (
     <Button
       href={href}
@@ -78,6 +71,7 @@ export function PaginationPage({
       aria-label={`Page ${children}`}
       aria-current={current ? 'page' : undefined}
       className={clsx(
+        className,
         'min-w-[2.25rem] before:absolute before:-inset-px before:rounded-lg',
         current && 'before:bg-zinc-950/5 dark:before:bg-white/10'
       )}
@@ -87,13 +81,21 @@ export function PaginationPage({
   )
 }
 
-export function PaginationGap() {
+export function PaginationGap({
+  className,
+  children = <>&hellip;</>,
+  ...props
+}: Readonly<React.ComponentPropsWithoutRef<'span'>>) {
   return (
-    <div
+    <span
       aria-hidden="true"
-      className="w-[2.25rem] select-none text-center text-sm/6 font-semibold text-zinc-950 dark:text-white"
+      {...props}
+      className={clsx(
+        className,
+        'w-[2.25rem] select-none text-center text-sm/6 font-semibold text-zinc-950 dark:text-white'
+      )}
     >
-      &hellip;
-    </div>
+      {children}
+    </span>
   )
 }
