@@ -17,6 +17,7 @@ const navigation = {
     { name: 'Documentation', href: '/docs' },
     { name: 'API Reference', href: '/api-reference' },
     { name: 'API Status', href: 'https://status.kayle.ai' },
+    { name: 'Changelog', href: '/changelog' },
   ],
   company: [
     { name: 'About', href: '#' },
