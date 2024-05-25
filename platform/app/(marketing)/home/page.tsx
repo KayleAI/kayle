@@ -112,7 +112,7 @@ function HeroComponent() {
           </div>
         </div>
       </div>
-      <div className="absolute inset-x-0 bottom-0 -z-10 h-24 bg-gradient-to-t from-white lg:from-zinc-100 dark:from-zinc-900 dark:from:bg-zinc-950 sm:h-32" />
+      <div className="absolute inset-x-0 bottom-0 -z-10 h-24 bg-gradient-to-t from-white lg:from-zinc-100 dark:from-zinc-900 dark:lg:from-zinc-950 sm:h-32" />
     </div>
   )
 };
