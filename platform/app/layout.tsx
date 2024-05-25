@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Inter } from 'next/font/google'
 import localFont from 'next/font/local'
 import { Providers } from "./providers";
+import { Toaster } from 'sonner';
 import clsx from 'clsx';
 
 const inter = Inter({
@@ -46,6 +47,7 @@ export default function RootLayout({
       <body>
         <Providers>
           {children}
+          <Toaster richColors />
         </Providers>
       </body>
     </html>

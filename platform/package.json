@@ -33,6 +33,7 @@
     "remark-rehype-wrap": "^0.0.5",
     "remark-unwrap-images": "^4.0.0",
     "shiki": "^1.6.0",
+    "sonner": "^1.4.41",
     "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {
