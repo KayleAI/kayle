@@ -1,8 +1,8 @@
 'use client'
 
-import { Container } from '@/components/Container'
-import { type BlogWithSlug } from '@/lib/blogs'
-import { formatDate } from '@/lib/formatDate'
+import { Container } from '@/components/marketing/Container'
+import { type BlogWithSlug } from '@/utils/marketing/blogs'
+import { formatDate } from '@/utils/marketing/formatDate'
 
 export function BlogLayout({
   blog,

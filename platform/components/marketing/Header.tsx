@@ -3,18 +3,18 @@
 import { Fragment, useRef } from 'react'
 import { Link } from '@repo/ui/link'
 import { usePathname } from 'next/navigation'
-import { Popover, Transition } from '@headlessui/react'
+import { Popover, PopoverButton, PopoverOverlay, PopoverPanel, Transition, TransitionChild } from '@headlessui/react'
 import clsx from 'clsx'
 
 import Kayle from '@repo/icons/kayle.svg'
 
-import { Container } from '@/components/Container'
+import { Container } from '@/components/marketing/Container'
 
 const navigation = [
   //{ name: 'About', href: '/about' },
   //{ name: 'Blog', href: '/blog' },
   { name: 'GitHub', href: 'https://github.com/KayleAI', newTab: true },
-  { name: 'Docs', href: 'https://docs.kayle.ai', newTab: true },
+  { name: 'Docs', href: '/docs' },
   //{ name: 'Pricing', href: '/pricing' },
   //{ name: 'Investors', href: '/investors' },
 ]
@@ -59,9 +59,9 @@ function MobileNavItem({
 }) {
   return (
     <li>
-      <Popover.Button as={Link} href={href} className="block py-2" target={newTab ? '_blank' : undefined}>
+      <PopoverButton as={Link} href={href} className="block py-2" target={newTab ? '_blank' : undefined}>
         {children}
-      </Popover.Button>
+      </PopoverButton>
     </li>
   )
 }
@@ -71,12 +71,12 @@ function MobileNavigation(
 ) {
   return (
     <Popover {...props}>
-      <Popover.Button className="group flex items-center rounded-full bg-white/90 px-4 py-2 text-sm font-medium text-neutral-800 shadow-lg shadow-neutral-800/5 ring-1 ring-neutral-900/5 backdrop-blur dark:bg-neutral-800/90 dark:text-neutral-200 dark:ring-white/10 dark:hover:ring-white/20">
+      <PopoverButton className="group flex items-center rounded-full bg-white/90 px-4 py-2 text-sm font-medium text-neutral-800 shadow-lg shadow-neutral-800/5 ring-1 ring-neutral-900/5 backdrop-blur dark:bg-neutral-800/90 dark:text-neutral-200 dark:ring-white/10 dark:hover:ring-white/20">
         Menu
         <ChevronDownIcon className="ml-3 h-auto w-2 stroke-neutral-500 group-hover:stroke-neutral-700 dark:group-hover:stroke-neutral-400" />
-      </Popover.Button>
-      <Transition.Root>
-        <Transition.Child
+      </PopoverButton>
+      <Transition>
+        <TransitionChild
           as={Fragment}
           enter="duration-150 ease-out"
           enterFrom="opacity-0"
@@ -85,9 +85,9 @@ function MobileNavigation(
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <Popover.Overlay className="fixed inset-0 z-50 bg-neutral-800/40 backdrop-blur-sm dark:bg-black/80" />
-        </Transition.Child>
-        <Transition.Child
+          <PopoverOverlay className="fixed inset-0 z-50 bg-neutral-800/40 backdrop-blur-sm dark:bg-black/80" />
+        </TransitionChild>
+        <TransitionChild
           as={Fragment}
           enter="duration-150 ease-out"
           enterFrom="opacity-0 scale-95"
@@ -96,14 +96,14 @@ function MobileNavigation(
           leaveFrom="opacity-100 scale-100"
           leaveTo="opacity-0 scale-95"
         >
-          <Popover.Panel
+          <PopoverPanel
             focus
             className="fixed inset-x-4 top-8 z-50 origin-top rounded-3xl bg-white p-8 ring-1 ring-neutral-900/5 dark:bg-neutral-900 dark:ring-neutral-800"
           >
             <div className="flex flex-row-reverse items-center justify-between">
-              <Popover.Button aria-label="Close menu" className="-m-1 p-1">
+              <PopoverButton aria-label="Close menu" className="-m-1 p-1">
                 <CloseIcon className="h-6 w-6 text-neutral-500 dark:text-neutral-400" />
-              </Popover.Button>
+              </PopoverButton>
               <h2 className="text-sm font-medium text-neutral-600 dark:text-neutral-400">
                 Navigation
               </h2>
@@ -117,9 +117,9 @@ function MobileNavigation(
                 ))}
               </ul>
             </nav>
-          </Popover.Panel>
-        </Transition.Child>
-      </Transition.Root>
+          </PopoverPanel>
+        </TransitionChild>
+      </Transition>
     </Popover>
   )
 }
@@ -174,9 +174,9 @@ function LoginButton() {
   return (
     <Link
       //href="https://console.kayle.ai" // Login &rarr;
-      href="https://7u4vhlbrrj8.typeform.com/to/m3lsVzda"
+      href="https://researchat.typeform.com/kayle"
       target='_blank'
-      className="group rounded-full bg-white/90 text-sm font-medium text-neutral-800 px-3 py-2 shadow-lg shadow-neutral-800/5 ring-1 ring-neutral-900/5 backdrop-blur transition dark:bg-neutral-800/90 dark:ring-white/10 dark:hover:ring-white/20 flex flex-row justify-center items-center gap-x-1 hover:text-green-500 dark:hover:text-green-400"
+      className="group rounded-full bg-white/90 text-sm font-medium text-neutral-800 dark:text-neutral-200 px-3 py-2 shadow-lg shadow-neutral-800/5 ring-1 ring-neutral-900/5 backdrop-blur transition dark:bg-neutral-800/90 dark:ring-white/10 dark:hover:ring-white/20 flex flex-row justify-center items-center gap-x-1 hover:text-green-500 dark:hover:text-green-400"
     >
       Join the waitlist      
     </Link>

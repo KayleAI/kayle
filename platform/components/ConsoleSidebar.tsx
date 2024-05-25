@@ -34,14 +34,12 @@ import {
   HomeIcon,
   InboxIcon,
   MagnifyingGlassIcon,
-  MegaphoneIcon,
   QuestionMarkCircleIcon,
   SparklesIcon,
   Square2StackIcon,
-  TicketIcon,
 } from '@heroicons/react/20/solid'
 import { useTheme } from 'next-themes';
-import { signout } from '@/utils/auth/auth';
+import { signout } from '@/utils/auth/signout';
 import { toggleSearch } from './Search';
 import { usePathname } from 'next/navigation';
 

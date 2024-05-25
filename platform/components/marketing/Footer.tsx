@@ -14,8 +14,8 @@ const navigation = {
     { name: 'Document Moderation', href: '#' },
   ],
   developer: [
-    { name: 'Documentation', href: 'https://docs.kayle.ai' },
-    { name: 'API Reference', href: 'https://docs.kayle.ai/api-reference' },
+    { name: 'Documentation', href: '/docs' },
+    { name: 'API Reference', href: '/docs/api-reference' },
     { name: 'API Status', href: 'https://status.kayle.ai' },
   ],
   company: [
@@ -68,7 +68,7 @@ export function Footer() {
   };
 
   return (
-    <footer className="bg-white" aria-labelledby="footer-heading">
+    <footer aria-labelledby="footer-heading">
       <h2 id="footer-heading" className="sr-only">
         Footer
       </h2>
@@ -80,11 +80,11 @@ export function Footer() {
           <div className="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
             <div className="md:grid md:grid-cols-2 md:gap-8">
               <div>
-                <h3 className="text-sm font-semibold leading-6 text-zinc-900">Solutions</h3>
+                <h3 className="text-sm font-semibold leading-6 text-zinc-900 dark:text-zinc-100">Solutions</h3>
                 <ul className="mt-6 gap-y-4">
                   {navigation.solutions.map((item) => (
                     <li key={item.name}>
-                      <a href={item.href} className="text-sm leading-6 text-zinc-600 hover:text-zinc-900">
+                      <a href={item.href} className="text-sm leading-6 text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-300">
                         {item.name}
                       </a>
                     </li>
@@ -92,13 +92,13 @@ export function Footer() {
                 </ul>
               </div>
               <div className="mt-10 md:mt-0">
-                <h3 className="text-sm font-semibold leading-6 text-zinc-900">
+                <h3 className="text-sm font-semibold leading-6 text-zinc-900 dark:text-zinc-100">
                   For Developers
                 </h3>
                 <ul className="mt-6 gap-y-4">
                   {navigation.developer.map((item) => (
                     <li key={item.name}>
-                      <a href={item.href} className="text-sm leading-6 text-zinc-600 hover:text-zinc-900">
+                      <a href={item.href} className="text-sm leading-6 text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-300">
                         {item.name}
                       </a>
                     </li>
@@ -108,11 +108,11 @@ export function Footer() {
             </div>
             <div className="md:grid md:grid-cols-2 md:gap-8">
               <div>
-                <h3 className="text-sm font-semibold leading-6 text-zinc-900">Company</h3>
+                <h3 className="text-sm font-semibold leading-6 text-zinc-900 dark:text-zinc-100">Company</h3>
                 <ul className="mt-6 gap-y-4">
                   {navigation.company.map((item) => (
                     <li key={item.name}>
-                      <a href={item.href} className="text-sm leading-6 text-zinc-600 hover:text-zinc-900">
+                      <a href={item.href} className="text-sm leading-6 text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-300">
                         {item.name}
                       </a>
                     </li>
@@ -120,11 +120,11 @@ export function Footer() {
                 </ul>
               </div>
               <div className="mt-10 md:mt-0">
-                <h3 className="text-sm font-semibold leading-6 text-zinc-900">Legal</h3>
+                <h3 className="text-sm font-semibold leading-6 text-zinc-900 dark:text-zinc-100">Legal</h3>
                 <ul className="mt-6 gap-y-4">
                   {navigation.legal.map((item) => (
                     <li key={item.name}>
-                      <a href={item.href} className="text-sm leading-6 text-zinc-600 hover:text-zinc-900">
+                      <a href={item.href} className="text-sm leading-6 text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-300">
                         {item.name}
                       </a>
                     </li>
@@ -134,17 +134,17 @@ export function Footer() {
             </div>
           </div>
         </div>
-        <div className="mt-16 border-t border-zinc-900/10 pt-8 sm:mt-20 lg:mt-24 lg:flex lg:items-center lg:justify-between">
+        <div className="mt-16 border-t border-zinc-900/10 dark:border-zinc-50/10 pt-8 sm:mt-20 lg:mt-24 lg:flex lg:items-center lg:justify-between">
           <div>
-            <h3 className="text-sm font-semibold leading-6 text-zinc-900">
+            <h3 className="text-sm font-semibold leading-6 text-zinc-900 dark:text-zinc-100">
               Join our newsletter
             </h3>
-            <p className="mt-2 text-sm leading-6 text-zinc-600">
+            <p className="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
               Stay up to date with the latest news and updates.
             </p>
           </div>
           <form
-            className="mt-6 sm:flex sm:max-w-md lg:mt-0"
+            className="mt-6 flex sm:max-w-md lg:mt-0 flex-col sm:flex-row"
             onSubmit={handleSubmit}
           >
             <label htmlFor="email-address" className="sr-only">
@@ -159,10 +159,10 @@ export function Footer() {
               className="w-full"
               placeholder="Enter your email"
             />
-            <div className="mt-4 sm:ml-4 sm:mt-0 sm:flex-shrink-0">
+            <div className="mt-4 sm:ml-4 sm:mt-0 sm:flex-shrink-0 w-full sm:w-fit">
               <Button
                 type="submit"
-                className=""
+                className="w-full sm:w-auto"
                 color="green"
               >
                 Join
@@ -170,16 +170,16 @@ export function Footer() {
             </div>
           </form>
         </div>
-        <div className="mt-8 border-t border-zinc-900/10 pt-8 md:flex md:items-center md:justify-between">
+        <div className="mt-8 border-t border-zinc-900/10 dark:border-zinc-50/10 pt-8 md:flex md:items-center md:justify-between">
           <div className="flex gap-x-6 md:order-2">
             {navigation.social.map((item) => (
-              <a key={item.name} href={item.href} className="text-zinc-400 hover:text-zinc-500">
+              <a key={item.name} href={item.href} className="text-zinc-600 hover:text-zinc-500 dark:text-zinc-400 dark:hover:text-zinc-300">
                 <span className="sr-only">{item.name}</span>
                 <item.icon className="h-6 w-6" aria-hidden="true" />
               </a>
             ))}
           </div>
-          <p className="mt-8 text-xs leading-5 text-zinc-500 md:order-1 md:mt-0">
+          <p className="mt-8 text-xs leading-5 text-zinc-600 dark:text-zinc-400 md:order-1 md:mt-0">
             &copy; 2024 Kayle. All rights reserved.
           </p>
         </div>

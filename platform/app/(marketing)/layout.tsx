@@ -1,9 +1,8 @@
 import "@repo/ui/globals.css";
 
 import type { Metadata } from "next";
-import { GeistSans } from 'geist/font/sans';
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
+import { Header } from "@/components/marketing/Header";
+import { Footer } from "@/components/marketing/Footer";
 
 export const metadata: Metadata = {
   title: {
@@ -13,18 +12,16 @@ export const metadata: Metadata = {
   description: "",
 };
 
-export default function RootLayout({
+export default function Layout({
   children,
 }: {
   readonly children: React.ReactNode;
 }): JSX.Element {
   return (
-    <html lang="en">
-      <body className={GeistSans.className}>
-        <Header />
-        {children}
-        <Footer />
-      </body>
-    </html>
+    <>
+      <Header />
+      {children}
+      <Footer />
+    </>
   );
 }
