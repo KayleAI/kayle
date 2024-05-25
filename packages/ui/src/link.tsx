@@ -1,3 +1,5 @@
+"use client";
+
 import { DataInteractive as HeadlessDataInteractive } from '@headlessui/react'
 import React from 'react'
 import NextLink, { type LinkProps } from 'next/link'

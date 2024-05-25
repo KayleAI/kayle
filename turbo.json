@@ -1,6 +1,14 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "globalDependencies": ["**/.env.*local"],
+  "globalEnv": [
+    "NEXT_PUBLIC_CONSOLE_URL",
+    "NEXT_PUBLIC_SITE_URL",
+    "UNKEY_AUTH_TOKEN",
+    "KAYLE_API_KEY",
+    "UNKEY_API_ID",
+    "NODE_ENV"
+  ],
   "pipeline": {
     "dev": {
       "cache": false,

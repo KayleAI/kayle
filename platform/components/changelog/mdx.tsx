@@ -27,7 +27,7 @@ export const img = function Img(props: ImagePropsWithOptionalAlt) {
 function ContentWrapper({
   className,
   ...props
-}: React.ComponentPropsWithoutRef<'div'>) {
+}: Readonly<React.ComponentPropsWithoutRef<'div'>>) {
   return (
     <div className="mx-auto max-w-7xl px-6 lg:flex lg:px-8">
       <div className="lg:ml-96 lg:flex lg:w-full lg:justify-end lg:pl-32">
@@ -43,7 +43,7 @@ function ContentWrapper({
   )
 }
 
-function ArticleHeader({ id, date }: { id: string; date: string | Date }) {
+function ArticleHeader({ id, date }: { readonly id: string; readonly date: string | Date }) {
   return (
     <header className="relative mb-10 xl:mb-0">
       <div className="pointer-events-none absolute left-[max(-0.5rem,calc(50%-18.625rem))] top-0 z-50 flex h-4 items-center justify-end gap-x-2 lg:left-0 lg:right-[calc(max(2rem,50%-38rem)+40rem)] lg:min-w-[32rem] xl:h-8">

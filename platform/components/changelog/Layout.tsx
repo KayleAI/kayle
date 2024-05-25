@@ -94,7 +94,7 @@ function FixedSidebar({
   )
 }
 
-export function Layout({ children }: { children: React.ReactNode }) {
+export function Layout({ children }: { readonly children: React.ReactNode }) {
   return (
     <>
       <FixedSidebar main={<Intro />} footer={<IntroFooter />} />

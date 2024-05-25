@@ -1,4 +1,4 @@
-export function SparkleIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
+export function SparkleIcon(props: Readonly<React.ComponentPropsWithoutRef<'svg'>>) {
   return (
     <svg viewBox="0 0 16 16" aria-hidden="true" {...props}>
       <path

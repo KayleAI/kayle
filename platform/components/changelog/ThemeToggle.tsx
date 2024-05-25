@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useTheme } from 'next-themes'
 
-function ThemeIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
+function ThemeIcon(props: Readonly<React.ComponentPropsWithoutRef<'svg'>>) {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true" {...props}>
       <path

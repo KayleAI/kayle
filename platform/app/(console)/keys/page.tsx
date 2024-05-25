@@ -5,7 +5,7 @@ import { Button } from '@repo/ui/button'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@repo/ui/table'
 import CreateKeyDialog from './CreateKey'
 
-import { GET } from '../api/keys/route'
+import { GET } from '@/app/api/keys/route';
 import { Code, Strong, Text } from '@repo/ui/text'
 import { createClient } from '@/utils/supabase/server'
 import { Link } from '@repo/ui/link'
