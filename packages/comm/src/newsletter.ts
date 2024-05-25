@@ -14,7 +14,7 @@ export async function join({
   audienceId: string;
   firstName?: string | null;
   lastName?: string | null;
-}) {
+}): Promise<boolean> {
   try {
     await resend.contacts.create({
       email: email,
@@ -24,10 +24,10 @@ export async function join({
       audienceId: audienceId,
     });
 
-    return;
+    return true;
   } catch (error) {
     console.error(error);
-    return;
+    return false;
   }
 }
 
@@ -37,16 +37,16 @@ export async function remove({
 } : {
   email: string;
   audienceId: string;
-}) {
+}): Promise<boolean> {
   try {
     await resend.contacts.remove({
       email: email,
       audienceId: audienceId,
     });
 
-    return;
+    return true;
   } catch (error) {
     console.error(error);
-    return;
+    return false;
   }
 }

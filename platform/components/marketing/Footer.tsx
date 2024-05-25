@@ -15,7 +15,7 @@ const navigation = {
   ],
   developer: [
     { name: 'Documentation', href: '/docs' },
-    { name: 'API Reference', href: '/docs/api-reference' },
+    { name: 'API Reference', href: '/api-reference' },
     { name: 'API Status', href: 'https://status.kayle.ai' },
   ],
   company: [
