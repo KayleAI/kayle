@@ -55,7 +55,7 @@ export function Intro() {
         <IconLink href="https://github.com/KayleAI/kayle" icon={GitHubIcon} className="flex-none">
           GitHub
         </IconLink>
-        <IconLink href="/feed.xml" icon={FeedIcon} className="flex-none">
+        <IconLink href="/changelog/feed.xml" icon={FeedIcon} className="flex-none">
           RSS
         </IconLink>
       </div>

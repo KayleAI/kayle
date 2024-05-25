@@ -49,9 +49,10 @@ export function ChangelogNewsletterForm() {
               setSubmissionState("error");
               return reject(new Error("Something went wrong."));
             }
+            
             setSubmissionState("success"); // wait a lil’ so it feels like it’s doing something
             return resolve(true);
-          }, 1500);
+          }, 300);
         }), {
           loading: "Signing you up...",
           success: "You’re all set! 🎉",
