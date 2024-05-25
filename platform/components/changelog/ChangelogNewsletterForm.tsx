@@ -38,7 +38,7 @@ export function ChangelogNewsletterForm() {
   return (
     <>
       <div>
-
+        {/* TODO: Write success & error message */}
       </div>
       <form
         className='flex flex-col gap-y-4 my-8'
