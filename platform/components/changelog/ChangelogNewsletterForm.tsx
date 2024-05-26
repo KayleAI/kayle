@@ -25,12 +25,12 @@ export function ChangelogNewsletterForm() {
         id={id}
         invalid={submissionState === "email-error"}
         value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
         placeholder="Email address"
         className="w-full"
       />
       <Button
-        color='white'
+        color='green'
         className='!cursor-pointer'
         onClick={async () => toast.promise(new Promise((resolve, reject) => {
           setSubmissionState("loading");
