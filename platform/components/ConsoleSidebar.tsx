@@ -41,16 +41,23 @@ import {
 import { useTheme } from 'next-themes';
 import { signout } from '@/utils/auth/signout';
 import { toggleSearch } from './Search';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 export default function ConsoleSidebar(): JSX.Element {
   const { setTheme, resolvedTheme } = useTheme();
   const pathname = usePathname();
+  const router = useRouter();
 
   const toggleTheme = () => {
     if (resolvedTheme) {
       setTheme(resolvedTheme === 'dark' ? 'light' : 'dark');
     }
+  }
+
+  const handleSignout = async () => {
+    await signout();
+
+    router.refresh();
   }
 
   return (
@@ -170,7 +177,7 @@ export default function ConsoleSidebar(): JSX.Element {
               </DropdownLabel>
             </DropdownItem>
             <DropdownDivider />
-            <DropdownItem onClick={signout}>
+            <DropdownItem onClick={handleSignout}>
               <ArrowRightStartOnRectangleIcon />
               <DropdownLabel>Sign out</DropdownLabel>
             </DropdownItem>

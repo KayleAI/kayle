@@ -19,13 +19,11 @@ export default function RootLayout({
   readonly children: React.ReactNode;
 }): JSX.Element {
   return (
-    <body>
-      <SidebarLayout
-        sidebar={<ConsoleSidebar />}
-        navbar={<ConsoleNavbar />}
-      >
-        {children}
-      </SidebarLayout>
-    </body>
+    <SidebarLayout
+      sidebar={<ConsoleSidebar />}
+      navbar={<ConsoleNavbar />}
+    >
+      {children}
+    </SidebarLayout>
   );
 }

@@ -27,9 +27,9 @@ const navigation = {
     { name: 'Contact us', href: 'mailto:help@kayle.ai' },
   ],
   legal: [
-    { name: 'Privacy Policy', href: '#' },
-    { name: 'Terms of Service', href: '#' },
-    { name: 'Security Policy', href: '#' },
+    { name: 'Privacy Policy', href: '/privacy' },
+    { name: 'Terms of Service', href: '/terms' },
+    { name: 'Security Policy', href: '/security' },
   ],
   social: [
     {
