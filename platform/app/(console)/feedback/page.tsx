@@ -39,10 +39,15 @@ export default function Feedback() {
           toast.promise(new Promise((resolve, reject) => {
             setSubmissionState("loading");
             setTimeout(async () => {
-              await captureFeedback({
+              const { success, error } = await captureFeedback({
                 feedback,
                 feedbackType,
               });
+
+              if (error && !success) {
+                setSubmissionState("error");
+                return reject(new Error(error));
+              }
 
               setSubmissionState("success");
               return resolve(true);

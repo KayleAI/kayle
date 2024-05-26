@@ -6,15 +6,21 @@ export async function captureFeedback({
 }: {
   feedback: string;
   feedbackType: string;
-}): Promise<boolean> {
+}): Promise<{ success: boolean; error: string | null }> {
   // TODO: Only authenticated users should be able to submit feedback
 
   try {
     console.log(`Feedback: ${feedback}`);
     console.log(`Feedback Type: ${feedbackType}`);
-    return true;
+    return {
+      success: true,
+      error: null,
+    };
   } catch (error) {
     console.error(error);
-    return false;
+    return {
+      success: false,
+      error: "An unknown error occurred",
+    };
   }
 }
