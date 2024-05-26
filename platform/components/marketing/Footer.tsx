@@ -6,6 +6,8 @@ import { Input } from "@repo/ui/input"
 import { join } from "@repo/comm/newsletter"
 
 import Kayle from '@repo/icons/kayle.svg'
+import { useState } from "react";
+import { toast } from "sonner";
 
 const navigation = {
   solutions: [
@@ -56,6 +58,9 @@ const navigation = {
 }
 
 export function Footer() {
+  const [email, setEmail] = useState('');
+  const [submissionState, setSubmissionState] = useState<"idle" | "loading" | "success" | "error" | "email-error">("idle");
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -155,6 +160,9 @@ export function Footer() {
               type="email"
               name="email-address"
               id="email-address"
+              invalid={submissionState === "email-error"}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               autoComplete="email"
               required
               className="w-full"
@@ -162,9 +170,35 @@ export function Footer() {
             />
             <div className="mt-4 sm:ml-4 sm:mt-0 sm:flex-shrink-0 w-full sm:w-fit">
               <Button
-                type="submit"
-                className="w-full sm:w-auto"
+                className="w-full sm:w-auto !cursor-pointer"
                 color="green"
+                onClick={async () => toast.promise(new Promise((resolve, reject) => {
+                  setSubmissionState("loading");
+                  setTimeout(async () => {
+                    if (!email?.includes('@')) {
+                      setSubmissionState("email-error");
+                      return reject(new Error("Invalid email address."));
+                    }
+
+                    const success = await join({
+                      email: email,
+                      audienceId: 'b23a5d3b-c8de-4d2e-b73b-b726b8f20ec4',
+                    });
+
+                    if (!success) {
+                      setSubmissionState("error");
+                      return reject(new Error("Something went wrong."));
+                    }
+
+                    setSubmissionState("success"); // wait a lil’ so it feels like it’s doing something
+                    return resolve(true);
+                  }, 300);
+                }), {
+                  loading: "Signing you up...",
+                  success: "You’re all set! 🎉",
+                  error: "Something went wrong. Please try again.",
+                })}
+                disabled={submissionState === "loading"}
               >
                 Join
               </Button>
