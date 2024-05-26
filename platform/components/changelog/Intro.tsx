@@ -65,7 +65,7 @@ export function Intro() {
 
 export function IntroFooter() {
   return (
-    <p className="flex items-baseline gap-x-2 text-[0.8125rem]/6 text-zinc-500">
+    <p className="flex items-baseline gap-x-2 text-[0.8125rem]/6 text-zinc-400">
       We’re on a mission to make the internet safer for children.
     </p>
   )
