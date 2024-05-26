@@ -2,6 +2,7 @@
 
 import { useAuth } from "@/utils/auth/AuthProvider";
 import { Button } from "@repo/ui/button";
+import Card from "../Card";
 
 export function AuthArea({
   authRequired = false,
@@ -63,13 +64,13 @@ function AuthAreaContainer({
   readonly children: React.ReactNode;
 }): React.ReactNode {
   return (
-    <div
-      className="border border-zinc-200 dark:border-zinc-800 rounded-xl h-64 w-full bg-repeat flex flex-col sm:justify-center items-center"
+    <Card
+      className="h-64 w-full bg-repeat flex flex-col sm:justify-center items-center"
       style={{
         backgroundImage: "url(/dots.svg)",
       }}
     >
       {children}
-    </div>
+    </Card>
   );
 }
