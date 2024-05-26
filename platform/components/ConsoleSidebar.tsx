@@ -89,7 +89,8 @@ export default function ConsoleSidebar(): JSX.Element {
                 </SidebarLabel>
                 <ChevronDownIcon />
               </DropdownButton>
-            )}
+            )
+          }
           <DropdownMenu className="min-w-64" anchor="bottom start">
             {org?.activeOrg
               ? (
@@ -104,7 +105,8 @@ export default function ConsoleSidebar(): JSX.Element {
                   <Cog8ToothIcon />
                   <DropdownLabel>Settings</DropdownLabel>
                 </DropdownItem>
-              )}
+              )
+            }
             <DropdownDivider />
             {org?.memberOrgs?.map((org) => (
               <DropdownItem

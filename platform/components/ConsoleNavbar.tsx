@@ -9,59 +9,112 @@ import {
   DropdownMenu,
   DropdownDivider,
 } from '@repo/ui/dropdown'
-import { Navbar, NavbarItem, NavbarLabel, NavbarDivider, NavbarSection, NavbarSpacer } from '@repo/ui/navbar'
+import { Navbar, NavbarItem, NavbarLabel, NavbarSection, NavbarSpacer } from '@repo/ui/navbar'
 import {
   ArrowRightStartOnRectangleIcon,
   ChevronDownIcon,
   Cog8ToothIcon,
+  EnvelopeIcon,
+  HomeIcon,
   LightBulbIcon,
-  PlusIcon,
-  ShieldCheckIcon,
-  UserIcon,
+  MoonIcon,
+  PlusIcon
 } from '@heroicons/react/16/solid'
 import { InboxIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
+import { useTheme } from 'next-themes';
+import { signout } from '@/utils/auth/signout';
+import { toggleSearch } from './Search';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/utils/auth/AuthProvider';
+import { switchOrg, useOrg } from '@/utils/auth/OrgProvider';
 
 export default function ConsoleNavbar(): JSX.Element {
+  const { setTheme, resolvedTheme } = useTheme();
+  const router = useRouter();
+  const user = useAuth();
+  const org = useOrg();
+
+  const toggleTheme = () => {
+    if (resolvedTheme) {
+      setTheme(resolvedTheme === 'dark' ? 'light' : 'dark');
+    }
+  }
+
+  const handleSignout = async () => {
+    await signout();
+
+    router.push("/portal");
+  }
+
   return (
     <Navbar>
       <Dropdown>
-        <DropdownButton as={NavbarItem}>
-          <Avatar src="/tailwind-logo.svg" />
-          <NavbarLabel>Tailwind Labs</NavbarLabel>
-          <ChevronDownIcon />
-        </DropdownButton>
+        {org?.activeOrg
+          ? (
+            <DropdownButton as={NavbarItem}>
+              <Avatar
+                src={org?.activeOrg?.logo}
+                initials={!org?.activeOrg?.logo ? (org?.activeOrg?.name[0] || 'K') : undefined}
+                className="text-emerald-500 bg-zinc-100 dark:bg-zinc-900"
+              />
+              <NavbarLabel>
+                {org?.activeOrg?.name}
+              </NavbarLabel>
+              <ChevronDownIcon />
+            </DropdownButton>
+          ) : (
+            <DropdownButton as={NavbarItem}>
+              <Avatar src="/favicon.ico" />
+              <NavbarLabel>
+                Select organisation
+              </NavbarLabel>
+              <ChevronDownIcon />
+            </DropdownButton>
+          )
+        }
         <DropdownMenu className="min-w-64" anchor="bottom start">
-          <DropdownItem href="/teams/1/settings">
-            <Cog8ToothIcon />
-            <DropdownLabel>Settings</DropdownLabel>
-          </DropdownItem>
+          {org?.activeOrg
+            ? (
+              <DropdownItem href={`/org/${org?.activeOrg?.slug}/settings`}>
+                <Cog8ToothIcon />
+                <DropdownLabel>
+                  Organisation Settings
+                </DropdownLabel>
+              </DropdownItem>
+            ) : (
+              <DropdownItem href="/settings">
+                <Cog8ToothIcon />
+                <DropdownLabel>Settings</DropdownLabel>
+              </DropdownItem>
+            )
+          }
           <DropdownDivider />
-          <DropdownItem href="/teams/1">
-            <Avatar slot="icon" src="/tailwind-logo.svg" />
-            <DropdownLabel>Tailwind Labs</DropdownLabel>
-          </DropdownItem>
-          <DropdownItem href="/teams/2">
-            <Avatar slot="icon" initials="WC" className="bg-purple-500 text-white " />
-            <DropdownLabel>Workcation</DropdownLabel>
-          </DropdownItem>
+          {org?.memberOrgs?.map((org) => (
+            <DropdownItem
+              key={org.id}
+              onClick={() => switchOrg(org.id)}
+            >
+              <Avatar
+                slot="icon"
+                src={org.logo}
+                initials={!org.logo ? (org.name[0] || 'K') : undefined}
+                className="text-emerald-500 bg-zinc-100 dark:bg-zinc-900"
+              />
+              <DropdownLabel>{org.name}</DropdownLabel>
+            </DropdownItem>
+          ))}
           <DropdownDivider />
-          <DropdownItem href="/teams/create">
+          <DropdownItem href="/org/create">
             <PlusIcon />
-            <DropdownLabel>New team&hellip;</DropdownLabel>
+            <DropdownLabel>
+              Create new organisation
+            </DropdownLabel>
           </DropdownItem>
         </DropdownMenu>
       </Dropdown>
-      <NavbarDivider className="max-lg:hidden" />
-      <NavbarSection className="max-lg:hidden">
-        <NavbarItem href="/" current>
-          Home
-        </NavbarItem>
-        <NavbarItem href="/events">Events</NavbarItem>
-        <NavbarItem href="/orders">Orders</NavbarItem>
-      </NavbarSection>
       <NavbarSpacer />
       <NavbarSection>
-        <NavbarItem href="/search" aria-label="Search">
+        <NavbarItem aria-label="Search" onClick={toggleSearch}>
           <MagnifyingGlassIcon />
         </NavbarItem>
         <NavbarItem href="/inbox" aria-label="Inbox">
@@ -69,28 +122,41 @@ export default function ConsoleNavbar(): JSX.Element {
         </NavbarItem>
         <Dropdown>
           <DropdownButton as={NavbarItem}>
-            <Avatar src="/profile-photo.jpg" square />
+            <Avatar
+              src="/"
+              initials={
+                user?.data?.name
+                  ? user.data.name.split(' ').map((name) => name[0]).join('')
+                  : 'ME'
+              }
+              square
+              alt=""
+            />
           </DropdownButton>
           <DropdownMenu className="min-w-64" anchor="bottom end">
-            <DropdownItem href="/my-profile">
-              <UserIcon />
-              <DropdownLabel>My profile</DropdownLabel>
+            <DropdownItem href="/home">
+              <HomeIcon />
+              <DropdownLabel>Visit Homepage</DropdownLabel>
             </DropdownItem>
             <DropdownItem href="/settings">
               <Cog8ToothIcon />
-              <DropdownLabel>Settings</DropdownLabel>
+              <DropdownLabel>Account Settings</DropdownLabel>
             </DropdownItem>
             <DropdownDivider />
-            <DropdownItem href="/privacy-policy">
-              <ShieldCheckIcon />
-              <DropdownLabel>Privacy policy</DropdownLabel>
+            <DropdownItem href="/feedback">
+              <EnvelopeIcon />
+              <DropdownLabel>
+                Send Feedback
+              </DropdownLabel>
             </DropdownItem>
-            <DropdownItem href="/share-feedback">
-              <LightBulbIcon />
-              <DropdownLabel>Share feedback</DropdownLabel>
+            <DropdownItem onClick={toggleTheme}>
+              {resolvedTheme === 'dark' ? <LightBulbIcon /> : <MoonIcon />}
+              <DropdownLabel>
+                Toggle Theme
+              </DropdownLabel>
             </DropdownItem>
             <DropdownDivider />
-            <DropdownItem href="/logout">
+            <DropdownItem onClick={handleSignout}>
               <ArrowRightStartOnRectangleIcon />
               <DropdownLabel>Sign out</DropdownLabel>
             </DropdownItem>
