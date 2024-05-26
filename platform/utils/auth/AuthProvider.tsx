@@ -61,12 +61,14 @@ export default function AuthProvider({
 }): JSX.Element {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [session, setSession] = useState<Session | null>(null);
+  const [authStatus, setAuthStatus] = useState<AuthSessionContext["authStatus"]>("loading");
 
   useEffect(() => {
     async function loadSession() {
       const { session, user } = await getSession();
       setUser(user);
       setSession(session);
+      setAuthStatus(session ? "authenticated" : "unauthenticated");
     }
 
     loadSession();
@@ -74,18 +76,10 @@ export default function AuthProvider({
     setSession,
   ]);
 
-  const authStatus = useMemo(() => {
-    if (!user) {
-      return "loading";
-    }
-
-    return session ? "authenticated" : "unauthenticated";
-  }, [session]);
-
   const value = useMemo(() => ({
     session,
     data: user,
-    authStatus: authStatus as AuthSessionContext["authStatus"],
+    authStatus: authStatus,
   }), [session, user, authStatus]);
 
   return (
