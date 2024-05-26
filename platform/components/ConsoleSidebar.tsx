@@ -30,7 +30,7 @@ import {
   PlusIcon
 } from '@heroicons/react/16/solid'
 import {
-  Cog6ToothIcon,
+  CodeBracketSquareIcon,
   HomeIcon,
   InboxIcon,
   MagnifyingGlassIcon,
@@ -42,11 +42,13 @@ import { useTheme } from 'next-themes';
 import { signout } from '@/utils/auth/signout';
 import { toggleSearch } from './Search';
 import { usePathname, useRouter } from 'next/navigation';
+import { useAuth } from '@/utils/auth/AuthProvider';
 
 export default function ConsoleSidebar(): JSX.Element {
   const { setTheme, resolvedTheme } = useTheme();
   const pathname = usePathname();
   const router = useRouter();
+  const user = useAuth();
 
   const toggleTheme = () => {
     if (resolvedTheme) {
@@ -57,7 +59,7 @@ export default function ConsoleSidebar(): JSX.Element {
   const handleSignout = async () => {
     await signout();
 
-    router.refresh();
+    router.push("/portal");
   }
 
   return (
@@ -119,9 +121,11 @@ export default function ConsoleSidebar(): JSX.Element {
               Review
             </SidebarLabel>
           </SidebarItem>
-          <SidebarItem href="/settings" current={pathname === '/settings'}>
-            <Cog6ToothIcon />
-            <SidebarLabel>Settings</SidebarLabel>
+          <SidebarItem href="/developers" current={pathname === '/developers'}>
+            <CodeBracketSquareIcon />
+            <SidebarLabel>
+              Developers
+            </SidebarLabel>
           </SidebarItem>
         </SidebarSection>
         <SidebarSpacer />
@@ -140,13 +144,23 @@ export default function ConsoleSidebar(): JSX.Element {
         <Dropdown>
           <DropdownButton as={SidebarItem}>
             <span className="flex min-w-0 items-center gap-3">
-              <Avatar src="https://arsenstorm.com/avatar.jpg" className="size-10" square alt="" />
+              <Avatar
+                src="/"
+                initials={
+                  user?.data?.name
+                    ? user.data.name.split(' ').map((name) => name[0]).join('')
+                    : 'ME'
+                }
+                className="size-10"
+                square
+                alt=""
+              />
               <span className="min-w-0">
                 <span className="block truncate text-sm/5 font-medium text-zinc-950 dark:text-white">
-                  Arsen
+                  {user?.data?.name || 'Someone'}
                 </span>
                 <span className="block truncate text-xs/5 font-normal text-zinc-500 dark:text-zinc-400">
-                  arsen@kayle.ai
+                  {user?.data?.email || 'guest@kayle.ai'}
                 </span>
               </span>
             </span>

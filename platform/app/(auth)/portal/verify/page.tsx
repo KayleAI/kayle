@@ -28,7 +28,7 @@ export default function VerifyLogin() {
   return (
     <div className='flex justify-center items-center min-h-screen'>
       <form
-        className='max-w-md mx-auto w-full border border-zinc-100 dark:border-zinc-900 p-6 rounded-3xl'
+        className='max-w-md mx-auto w-full border border-zinc-200 dark:border-zinc-800 p-6 rounded-3xl'
         ref={formRef}
         onSubmit={async (e: React.FormEvent<HTMLFormElement>) => {
           e.preventDefault();

@@ -18,7 +18,7 @@ export default function PortalClientPage() {
   return (
     <div className='flex justify-center items-center min-h-screen'>
       <form
-        className='max-w-md mx-auto w-full border border-zinc-100 dark:border-zinc-900 p-6 rounded-3xl'
+        className='max-w-md mx-auto w-full border border-zinc-200 dark:border-zinc-800 p-6 rounded-3xl'
         onSubmit={async (e: React.FormEvent<HTMLFormElement>) => {
           e.preventDefault();
 
@@ -37,6 +37,7 @@ export default function PortalClientPage() {
                 return reject(new Error(message));
               }
 
+              router.push(`/portal/verify?email=${email}`);
               setSubmissionState("success");
               return resolve(true);
             }, 500);
@@ -45,8 +46,6 @@ export default function PortalClientPage() {
             success: "Check your inbox to continue.",
             error: (error) => `Error: ${error.message}`.replace("Error: Error: ", ""),
           })
-
-          router.push(`/portal/verify?email=${email}`);
         }}
       >
         <Fieldset>
