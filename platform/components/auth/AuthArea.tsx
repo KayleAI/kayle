@@ -1,6 +1,7 @@
 "use client";
 
 import { useAuth } from "@/utils/auth/AuthProvider";
+import { Button } from "@repo/ui/button";
 
 export function AuthArea({
   authRequired = false,
@@ -22,6 +23,11 @@ export function AuthArea({
         <p className="text-zinc-700 dark:text-zinc-300">
           Please wait while we check your authentication status.
         </p>
+        <div className="mt-4 flex flex-col sm:flex-row gap-x-4">
+          <Button plain disabled>
+            Verifying...
+          </Button>
+        </div>
       </AuthAreaContainer>
     );
   }
@@ -37,6 +43,13 @@ export function AuthArea({
         <p className="text-zinc-700 dark:text-zinc-300">
           You need to be logged in to access this page.
         </p>
+        <div className="mt-4 flex flex-col sm:flex-row gap-x-4">
+          <Button
+            href="/portal"
+          >
+            Sign in to continue
+          </Button>
+        </div>
       </AuthAreaContainer>
     );
   }
