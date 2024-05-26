@@ -38,11 +38,32 @@ export async function signup(email: string, password: string) {
 export async function magicOtp(email: string) {
   const supabase = createClient();
 
+  console.log(process.env.NODE_ENV === "production"
+  ? "https://kayle.ai/"
+  : "http://localhost:2800/")
+
   const { error } = await supabase.auth.signInWithOtp({
     email: email,
     options: {
-      emailRedirectTo: "https://kayle.ai/"
-    }
+      emailRedirectTo: process.env.NODE_ENV === "production"
+        ? "https://kayle.ai/"
+        : "http://localhost:2800/",
+    },
+  });
+
+  return {
+    error: !!error,
+    message: error?.message,
+  };
+}
+
+export async function verifyOtp(email: string, otp: string) {
+  const supabase = createClient();
+
+  const { error } = await supabase.auth.verifyOtp({
+    email: email,
+    type: "email",
+    token: otp,
   });
 
   return {
