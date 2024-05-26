@@ -1,26 +1,50 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 /**import { createClient } from "@/utils/supabase/client";*/
 
 type Org = {
   id: string;
   name: string;
-  logo: string;
+  logo: string | null;
+  slug: string;
 };
 
-export const OrgContext = createContext<Org | null>(null);
+interface OrgContext {
+  activeOrg: Org | null;
+  memberOrgs: Org[] | null;
+}
+
+export const OrgContext = createContext<OrgContext | null>(null);
 
 export function useOrg() {
   return useContext(OrgContext);
 }
 
-async function getOrg() {  
+export function switchOrg(orgId: Org['id']) {
+  // TODO: Implement org switching
+  console.log('Switching org to', orgId);
+}
+
+async function getOrg(): Promise<OrgContext> {
+
+
   return {
-    id: '1',
-    name: 'Kayle LTD',
-    logo: 'https://kayle.ai/favicon.ico',
-  };
+    activeOrg: {
+      id: 'a809fcbd-738f-43e1-9d4a-44afa491d648',
+      name: 'Kayle LTD',
+      logo: 'https://kayle.ai/favicon.ico',
+      slug: 'kayle'
+    },
+    memberOrgs: [
+      {
+        id: 'a809fcbd-738f-43e1-9d4a-44afa491d648',
+        name: 'Kayle LTD',
+        logo: 'https://kayle.ai/favicon.ico',
+        slug: 'kayle'
+      }
+    ],
+  }
 }
 
 export default function OrgProvider({
@@ -28,22 +52,32 @@ export default function OrgProvider({
 }: {
   readonly children: React.ReactNode;
 }): JSX.Element {
-  const [org, setOrg] = useState<Org | null>(null);
+  const [activeOrg, setActiveOrg] = useState<Org | null>(null);
+  const [memberOrgs, setMemberOrgs] = useState<Org[] | null>([]);
 
   useEffect(() => {
     async function getSetOrg() {
-      const orgData = await getOrg();
+      const { activeOrg, memberOrgs } = await getOrg();
 
-      setOrg(orgData);
+      setActiveOrg(activeOrg);
+      setMemberOrgs(memberOrgs);
     }
 
     getSetOrg();
   }, [
-    setOrg,
+    setActiveOrg,
+  ]);
+
+  const value = useMemo(() => ({
+    activeOrg,
+    memberOrgs,
+  }), [
+    activeOrg,
+    memberOrgs,
   ]);
 
   return (
-    <OrgContext.Provider value={org}>
+    <OrgContext.Provider value={value}>
       {children}
     </OrgContext.Provider>
   );

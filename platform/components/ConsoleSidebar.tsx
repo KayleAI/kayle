@@ -43,12 +43,14 @@ import { signout } from '@/utils/auth/signout';
 import { toggleSearch } from './Search';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/utils/auth/AuthProvider';
+import { switchOrg, useOrg } from '@/utils/auth/OrgProvider';
 
 export default function ConsoleSidebar(): JSX.Element {
   const { setTheme, resolvedTheme } = useTheme();
   const pathname = usePathname();
   const router = useRouter();
   const user = useAuth();
+  const org = useOrg();
 
   const toggleTheme = () => {
     if (resolvedTheme) {
@@ -66,27 +68,58 @@ export default function ConsoleSidebar(): JSX.Element {
     <Sidebar>
       <SidebarHeader>
         <Dropdown>
-          <DropdownButton as={SidebarItem} className="mb-2.5">
-            <Avatar initials="KA" className="bg-green-500 text-white" />
-            <SidebarLabel>Kayle LTD</SidebarLabel>
-            <ChevronDownIcon />
-          </DropdownButton>
+          {org?.activeOrg
+            ? (
+              <DropdownButton as={SidebarItem} className="mb-2.5">
+                <Avatar
+                  src={org?.activeOrg?.logo}
+                  initials={!org?.activeOrg?.logo ? (org?.activeOrg?.name[0] || 'K') : undefined}
+                  className="text-emerald-500 bg-zinc-100 dark:bg-zinc-900"
+                />
+                <SidebarLabel>
+                  {org?.activeOrg?.name}
+                </SidebarLabel>
+                <ChevronDownIcon />
+              </DropdownButton>
+            ) : (
+              <DropdownButton as={SidebarItem} className="mb-2.5">
+                <Avatar src="/favicon.ico" />
+                <SidebarLabel>
+                  Select organisation
+                </SidebarLabel>
+                <ChevronDownIcon />
+              </DropdownButton>
+            )}
           <DropdownMenu className="min-w-64" anchor="bottom start">
-            <DropdownItem href="/teams/1/settings">
-              <Cog8ToothIcon />
-              <DropdownLabel>Settings</DropdownLabel>
-            </DropdownItem>
+            {org?.activeOrg
+              ? (
+                <DropdownItem href={`/org/${org?.activeOrg?.slug}/settings`}>
+                  <Cog8ToothIcon />
+                  <DropdownLabel>
+                    Organisation Settings
+                  </DropdownLabel>
+                </DropdownItem>
+              ) : (
+                <DropdownItem href="/settings">
+                  <Cog8ToothIcon />
+                  <DropdownLabel>Settings</DropdownLabel>
+                </DropdownItem>
+              )}
             <DropdownDivider />
-            <DropdownItem href="/teams/1">
-              <Avatar slot="icon" initials="KA" className="bg-green-500 text-white" />
-              <DropdownLabel>Kayle LTD</DropdownLabel>
-            </DropdownItem>
-            <DropdownItem href="/">
-              <Avatar slot="icon" initials="ME" className="bg-blue-500 text-white" />
-              <DropdownLabel>
-                Personal
-              </DropdownLabel>
-            </DropdownItem>
+            {org?.memberOrgs?.map((org) => (
+              <DropdownItem
+                key={org.id}
+                onClick={() => switchOrg(org.id)}
+              >
+                <Avatar
+                  slot="icon"
+                  src={org.logo}
+                  initials={!org.logo ? (org.name[0] || 'K') : undefined}
+                  className="text-emerald-500 bg-zinc-100 dark:bg-zinc-900"
+                />
+                <DropdownLabel>{org.name}</DropdownLabel>
+              </DropdownItem>
+            ))}
             <DropdownDivider />
             <DropdownItem href="/org/create">
               <PlusIcon />
@@ -198,6 +231,6 @@ export default function ConsoleSidebar(): JSX.Element {
           </DropdownMenu>
         </Dropdown>
       </SidebarFooter>
-    </Sidebar>
+    </Sidebar >
   );
 }
