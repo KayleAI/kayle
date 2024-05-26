@@ -11,7 +11,7 @@ type AuthUser = {
   readonly avatar: string | null;
 };
 
-interface AuthSessionContext {
+export interface AuthSessionContext {
   readonly session: Session | null;
   readonly data: AuthUser | null;
   readonly authStatus: "loading" | "authenticated" | "unauthenticated";

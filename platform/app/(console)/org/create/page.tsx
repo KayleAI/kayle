@@ -12,6 +12,7 @@ import { createClient } from "@/utils/supabase/client";
 import { Input } from "@repo/ui/input";
 import { useAuth } from "@/utils/auth/AuthProvider";
 import { useRouter } from "next/navigation";
+import { AuthArea } from "@/components/auth/AuthArea";
 
 type OrganisationType = "social_media" | "forum" | "gaming" | "education" | "other";
 
@@ -25,24 +26,8 @@ export default function CreateNewOrganisation() {
   const [orgType, setOrgType] = useState<OrganisationType>("education");
   const [submissionState, setSubmissionState] = useState<"idle" | "loading" | "success" | "error">("idle");
 
-  if (user?.authStatus === "loading") {
-    return (
-      <div>
-        Loading...
-      </div>
-    )
-  }
-
-  if (user?.authStatus === "unauthenticated") {
-    return (
-      <div>
-        You’re not signed in.
-      </div>
-    )
-  }
-
   return (
-    <main>
+    <AuthArea authRequired>
       <div className="flex w-full flex-wrap items-end justify-between gap-4 border-b border-zinc-950/10 pb-6 dark:border-white/10">
         <Heading>
           Create new organisation
@@ -156,6 +141,6 @@ export default function CreateNewOrganisation() {
           </FieldGroup>
         </Fieldset>
       </form>
-    </main>
+    </AuthArea>
   )
 }

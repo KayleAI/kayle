@@ -12,6 +12,7 @@ import { Input } from "@repo/ui/input";
 import { useAuth } from "@/utils/auth/AuthProvider";
 import { useRouter } from "next/navigation";
 import { signout } from "@/utils/auth/signout";
+import { AuthArea } from "@/components/auth/AuthArea";
 
 export default function Settings() {
   const supabase = createClient();
@@ -29,24 +30,8 @@ export default function Settings() {
     user?.data?.name
   ]);
 
-  if (user?.authStatus === "loading") {
-    return (
-      <div>
-        Loading...
-      </div>
-    )
-  }
-
-  if (user?.authStatus === "unauthenticated") {
-    return (
-      <div>
-        You’re not signed in.
-      </div>
-    )
-  }
-
   return (
-    <main>
+    <AuthArea authRequired>
       <div className="flex w-full flex-wrap items-end justify-between gap-4 border-b border-zinc-950/10 pb-6 dark:border-white/10">
         <Heading>
           Settings
@@ -133,6 +118,6 @@ export default function Settings() {
           </FieldGroup>
         </Fieldset>
       </form>
-    </main>
+    </AuthArea>
   )
 }
