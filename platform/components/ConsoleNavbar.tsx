@@ -134,7 +134,9 @@ export default function ConsoleNavbar(): JSX.Element {
             />
           </DropdownButton>
           <DropdownMenu className="min-w-64" anchor="bottom end">
-            <DropdownItem href="/home">
+            <DropdownItem
+              href={user?.authStatus === 'authenticated' ? '/home' : '/'}
+            >
               <HomeIcon />
               <DropdownLabel>Visit Homepage</DropdownLabel>
             </DropdownItem>

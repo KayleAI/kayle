@@ -144,7 +144,10 @@ export default function ConsoleSidebar(): JSX.Element {
       </SidebarHeader>
       <SidebarBody>
         <SidebarSection>
-          <SidebarItem href="/" current={pathname === '/'}>
+          <SidebarItem
+            href={user?.authStatus === 'authenticated' ? '/' : '/dashboard'}
+            current={pathname === '/' || pathname === '/dashboard'}
+          >
             <HomeIcon />
             <SidebarLabel>
               Dashboard
@@ -202,7 +205,7 @@ export default function ConsoleSidebar(): JSX.Element {
             <ChevronUpIcon />
           </DropdownButton>
           <DropdownMenu className="min-w-64" anchor="top start">
-            <DropdownItem href="/home">
+            <DropdownItem href={user?.authStatus === 'authenticated' ? '/home' : '/'}>
               <HomeIcon />
               <DropdownLabel>
                 Visit homepage
