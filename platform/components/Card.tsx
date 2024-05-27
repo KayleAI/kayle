@@ -8,7 +8,7 @@ type CardType = {
   readonly [x: string]: any;
 };
 
-export default function Card({
+export function Card({
   children,
   className = "",
   ...props
@@ -16,7 +16,7 @@ export default function Card({
   return (
     <div
       className={clsx(
-        "border border-zinc-200 dark:border-zinc-800",
+        "border border-zinc-950/10 dark:border-white/10",
         "rounded-lg",
         className
       )}

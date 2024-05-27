@@ -2,7 +2,7 @@
 
 import { useAuth } from "@/utils/auth/AuthProvider";
 import { Button } from "@repo/ui/button";
-import Card from "../Card";
+import { Card } from "@/components/card";
 
 export function AuthArea({
   authRequired = false,
