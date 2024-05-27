@@ -8,12 +8,15 @@ type Org = {
   name: string;
   logo: string | null;
   slug: string;
+  role?: string;
+  user_id?: string;
 };
 
 interface OrgContext {
   activeOrg: Org | null;
   memberOrgs: Org[] | null;
   switchOrg: (orgId: Org['id']) => void;
+  orgStatus: 'loading' | 'loaded' | 'error';
 }
 
 export const OrgContext = createContext<OrgContext | null>(null);
@@ -27,7 +30,7 @@ async function getOrg(): Promise<Org[]> {
 
   const { data: orgs, error } = await supabase
     .from("organisations")
-    .select("id, org_name, org_avatar, org_slug");
+    .select("id, org_name, org_avatar, org_slug, org_members(user_id, role)");
 
   if (error) {
     return [];
@@ -38,6 +41,8 @@ async function getOrg(): Promise<Org[]> {
     name: org.org_name,
     logo: org.org_avatar,
     slug: org.org_slug,
+    role: org.org_members[0].role,
+    user_id: org.org_members[0].user_id,
   }));
 }
 
@@ -48,6 +53,7 @@ export default function OrgProvider({
 }): JSX.Element {
   const [activeOrg, setActiveOrg] = useState<Org | null>(null);
   const [memberOrgs, setMemberOrgs] = useState<Org[] | null>([]);
+  const [orgStatus, setOrgStatus] = useState<'loading' | 'loaded' | 'error'>('loading');
 
   useEffect(() => {
     async function getSetOrg() {
@@ -58,8 +64,10 @@ export default function OrgProvider({
       if (storedOrgId && memberOrgs.length > 0) {
         const storedOrg = memberOrgs.find(org => org.id === storedOrgId);
         setActiveOrg(storedOrg || memberOrgs[0] || null);
-      } else if (memberOrgs.length > 0 && memberOrgs[0] !== undefined) {
+        setOrgStatus('loaded');
+      } else if (memberOrgs[0] !== undefined) {
         setActiveOrg(memberOrgs[0]);
+        setOrgStatus('loaded');
       }
     }
 
@@ -72,16 +80,17 @@ export default function OrgProvider({
     if (selectedOrg) {
       localStorage.setItem('activeOrgId', selectedOrg.id);
     }
-    console.log('Switched to org:', selectedOrg);
   };
 
   const value = useMemo(() => ({
     activeOrg,
     memberOrgs,
     switchOrg,
+    orgStatus,
   }), [
     activeOrg,
     memberOrgs,
+    orgStatus,
   ]);
 
   return (

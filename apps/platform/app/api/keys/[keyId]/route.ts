@@ -1,5 +1,3 @@
-export const runtime = 'edge';
-
 import { NextRequest, NextResponse } from "next/server";
 
 import { Unkey } from "@unkey/api";
@@ -8,7 +6,7 @@ import { createClient } from "@/utils/supabase/server";
 const unkey = new Unkey({ rootKey: process.env.UNKEY_AUTH_TOKEN! });
 
 export async function GET(
-  _: NextRequest,
+  req: NextRequest,
   {
     params: {
       keyId,
@@ -21,7 +19,9 @@ export async function GET(
 ) {
   const supabase = createClient();
 
-  const { data, error } = await supabase.auth.getUser();
+  const { data: { user }, error } = await supabase.auth.getUser();
+  
+  const org_id = req.nextUrl.searchParams.get("org_id") ?? null;
 
   if (error) {
     return NextResponse.json(
@@ -36,7 +36,7 @@ export async function GET(
     );
   }
 
-  if (!data) {
+  if (!user) {
     return NextResponse.json(
       {
         status: "error",
@@ -71,7 +71,39 @@ export async function GET(
     );
   }
 
-  if (result.ownerId !== data.user.id) {
+  const { data: orgs, error: orgError } = await supabase
+    .from("organisations")
+    .select("*");
+
+  if (orgError || !orgs) {
+    return NextResponse.json(
+      {
+        status: "error",
+        message: "Failed to fetch organisations.",
+        keys: null,
+      },
+      {
+        status: 500,
+      },
+    );
+  }
+
+  const org = orgs.find((o: any) => o.id === org_id);
+
+  if (!org) {
+    return NextResponse.json(
+      {
+        status: "error",
+        message: "Organisation not found.",
+        keys: null,
+      },
+      {
+        status: 404,
+      },
+    );
+  }
+
+  if (result.ownerId !== org_id) {
     return NextResponse.json(
       {
         status: "error",

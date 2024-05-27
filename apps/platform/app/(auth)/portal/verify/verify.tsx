@@ -10,11 +10,10 @@ import clsx from 'clsx';
 import { OTPInput, SlotProps } from 'input-otp'
 import { useQueryState } from 'nuqs';
 import { verifyOtp } from '../actions';
-import { redirect, useRouter } from 'next/navigation';
+import { redirect } from 'next/navigation';
 
 export default function VerifyLogin() {
   const [otp, setOtp] = useState('');
-  const router = useRouter();
   const formRef = useRef<HTMLFormElement>(null);
   const [email] = useQueryState('email', {
     defaultValue: ''
@@ -54,6 +53,7 @@ export default function VerifyLogin() {
               }
 
               setSubmissionState("success");
+              window.location.href = "/"; // force page reload to update auth status
               return resolve(true);
             }, 500);
           }), {
@@ -61,10 +61,6 @@ export default function VerifyLogin() {
             success: "Awesome! You’re now signed in. Redirecting...",
             error: (error) => `Error: ${error.message}`.replace("Error: Error: ", ""),
           })
-
-          setTimeout(() => {
-            router.push("/");
-          }, 500);
         }}
       >
         <Fieldset>

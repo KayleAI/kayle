@@ -13,10 +13,14 @@ import { useState } from 'react'
 
 // Router
 import { useRouter } from 'next/navigation'
+import { useOrg } from '@/utils/auth/OrgProvider';
 
 export default function CreateKeyDialog() {
+  const orgs = useOrg();
+
   let [isOpen, setIsOpen] = useQueryState('create', parseAsBoolean.withDefault(false));
   
+  const org_id = orgs?.activeOrg?.id;
   let [testMode, setTestMode] = useQueryState('environment', { defaultValue: "test" });
   let [keyName, setKeyName] = useQueryState('name', { defaultValue: "my-new-api-key" });
 
@@ -58,6 +62,7 @@ export default function CreateKeyDialog() {
                       name="key_name"
                       defaultValue={keyName || "my-new-api-key"}
                       id="key_name"
+                      value={keyName}
                       onChange={(e) => {
                         setKeyName(e.target.value);
                       }}
@@ -120,7 +125,8 @@ export default function CreateKeyDialog() {
                   method: 'POST',
                   body: JSON.stringify({
                     test_mode: testMode === "test",
-                    key_name: keyName
+                    key_name: keyName,
+                    org_id: org_id
                   })
                 })
 

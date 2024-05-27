@@ -1,47 +1,46 @@
-export const runtime = 'edge';
+"use client";
 
 import { Badge } from '@repo/ui/badge'
 import { Button } from '@repo/ui/button'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@repo/ui/table'
 import CreateKeyDialog from './CreateKey'
 
-import { GET } from '@/app/api/keys/route';
 import { Code, Strong, Text } from '@repo/ui/text'
-import { createClient } from '@/utils/supabase/server'
-import { Link } from '@repo/ui/link'
+import { Heading } from '@repo/ui/heading';
+import { OrgArea } from '@/components/auth/OrgArea';
+import { useOrg } from '@/utils/auth/OrgProvider';
+import { useEffect, useState } from 'react';
 
-export default async function DisplayUserKeys() {
-  const supabase = createClient();
+export default function DisplayUserKeys() {
+  const orgs = useOrg();
+  const [keys, setKeys] = useState([] as any[]);
+  const [loading, setLoading] = useState(true);
 
-  const { data: { user } } = await supabase.auth.getUser();
+  useEffect(() => {
+    async function getKeys() {
+      const response = await fetch(`/api/keys?org_id=${orgs?.activeOrg?.id}`);
 
-  if (!user) {
-    return (
-      <main className='text-lg flex flex-col gap-y-2'>
-        <Text>
-          You need to be logged in to view this page.
-        </Text>
-        <Link
-          href="/portal"
-          className="text-blue-500"
-        >
-          Login
-        </Link>
-      </main>
-    )
-  };
+      const result = await response.json();
 
-  const response = await GET()
+      setKeys(result.keys || []);
+      setLoading(false);
+    }
 
-  const result = await response.json();
-  const keys = result.keys || []
+    if (orgs?.activeOrg?.id !== undefined) getKeys();
+  }, [
+    orgs?.activeOrg?.id
+  ]);
 
   return (
-    <main className='py-40 px-10'>
+    <OrgArea authRequired acceptRoles={["owner", "admin", "developer"]}>
       <div className='flex flex-col gap-y-8'>
-        <div className='flex flex-row justify-between gap-x-4'>
-          <div />
-          <CreateKeyDialog />
+        <div className="flex w-full flex-wrap items-end justify-between gap-4 border-b border-zinc-950/10 pb-6 dark:border-white/10">
+          <Heading>
+            API Keys
+          </Heading>
+          <div className="flex gap-4">
+            <CreateKeyDialog />
+          </div>
         </div>
         <Table striped className="[--gutter:theme(spacing.6)] sm:[--gutter:theme(spacing.8)]">
           <TableHead>
@@ -66,7 +65,7 @@ export default async function DisplayUserKeys() {
           <TableBody>
             {keys?.map((key: any) => {
               return (
-                <TableRow key={key.id} href={`/keys/${key.id}`}>
+                <TableRow key={key.id} href={`/developers/keys/${key.id}`}>
                   <TableCell className="text-neutral-500">{key.id}</TableCell>
                   <TableCell className="font-medium">{key.name}</TableCell>
                   <TableCell className="font-medium">
@@ -78,23 +77,32 @@ export default async function DisplayUserKeys() {
                     {key.environment === "test" ? <Badge color="amber">Testing</Badge> : <Badge color="lime">Production</Badge>}
                   </TableCell>
                   <TableCell>
-                    <Button color="white" href={`/keys/${key.id}`}>
+                    <Button color="white" href={`/developers/keys/${key.id}`}>
                       View Key
                     </Button>
                   </TableCell>
                 </TableRow>
               )
             })}
-            {keys.length === 0 && (
+            {!loading && keys.length === 0 && (
               <TableRow>
                 <TableCell colSpan={5} className="text-center">
                   <Text>No keys found. <Strong>Create one now!</Strong></Text>
                 </TableCell>
               </TableRow>
             )}
+            {loading && (
+              <TableRow>
+                <TableCell colSpan={5} className="text-center">
+                  <Text>
+                    Loading...
+                  </Text>
+                </TableCell>
+              </TableRow>
+            )}
           </TableBody>
         </Table>
       </div>
-    </main>
+    </OrgArea>
   )
 }

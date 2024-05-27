@@ -7,20 +7,22 @@ const unkey = new Unkey({ rootKey: process.env.UNKEY_AUTH_TOKEN! });
 
 export async function performActionOnKey({
   keyId,
-  action
-}:{
+  org_id,
+  action,
+}: {
   keyId: string;
+  org_id: string;
   action: "activate" | "suspend" | "revoke";
 }) {
   const supabase = createClient();
 
-  const { data, error } = await supabase.auth.getUser();
+  const { data: { user }, error } = await supabase.auth.getUser();
 
   if (error) {
     return { error };
   }
 
-  if (!data) {
+  if (!user) {
     return { error: "No data." };
   }
 
@@ -38,7 +40,21 @@ export async function performActionOnKey({
     return { error: result.error.message };
   }
 
-  if (result.ownerId !== data.user.id) {
+  const { data: orgs, error: orgError } = await supabase
+    .from("organisations")
+    .select("*");
+
+  if (orgError || !orgs) {
+    return { error: "Failed to fetch organisations" };
+  }
+
+  const org = orgs.find((o: any) => o.id === org_id);
+
+  if (!org) {
+    return { error: "Organisation not found" };
+  }
+
+  if (result.ownerId !== org_id) {
     return { error: "Unauthorized" };
   }
 

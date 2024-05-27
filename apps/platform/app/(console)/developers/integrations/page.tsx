@@ -1,56 +1,49 @@
 "use client";
 
-import { Card } from "@/components/card";
 import { Heading, Subheading } from "@repo/ui/heading";
+
 import { Link } from "@repo/ui/link";
+import { Card } from "@/components/card";
 import { Text } from "@repo/ui/text";
+import { Badge } from "@repo/ui/badge";
+import { integrations } from "./integrations";
 
-const options = [
-  {
-    slug: "keys",
-    name: "API Keys",
-    description: "Manage your API keys.",
-  },
-  {
-    slug: "integrations",
-    name: "Integrations",
-    description: "Connect Kayle to other services.",
-  },
-  {
-    slug: "webhooks",
-    name: "Webhooks",
-    description: "Connect Kayle to your own services.",
-  }
-]
-
-export default function DeveloperDashboard() {
+export default function IntegrationsDashboard() {
   return (
-    <>
+    <div>
       <div className="flex w-full flex-wrap items-end justify-between gap-4 border-b border-zinc-950/10 pb-6 dark:border-white/10">
         <Heading>
-          Developer Dashboard
+          Integrations Dashboard
         </Heading>
         <div className="flex gap-4">
         </div>
       </div>
       <main className="my-8 grid grid-cols-1 md:grid-cols-2 gap-4">
-        {options.map((option) => (
-          <Link href={`/developers/${option.slug}`} key={option.slug}>
+        {integrations.map((integration) => (
+          <Link href={`/developers/integrations/${integration.slug}`} key={integration.slug}>
             <Card className="p-4 relative">
               <div className="grid grid-cols-5 gap-4">
+                <div className="w-full col-span-1 flex flex-col items-center justify-center">
+                  <integration.icon />
+                </div>
                 <div className="col-span-4">
                   <Subheading level={2}>
-                    {option.name}
+                    {integration.name}
                   </Subheading>
                   <Text>
-                    {option.description}
+                    {integration.description}
                   </Text>
                 </div>
+              </div>
+              <div className="absolute top-0.5 right-1">
+                <Badge color="purple">
+                  Coming soon!
+                </Badge>
               </div>
             </Card>
           </Link>
         ))}
       </main>
-    </>
+    </div>
   )
 }

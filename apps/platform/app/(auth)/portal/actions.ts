@@ -38,10 +38,6 @@ export async function signup(email: string, password: string) {
 export async function magicOtp(email: string) {
   const supabase = createClient();
 
-  console.log(process.env.NODE_ENV === "production"
-  ? "https://kayle.ai/"
-  : "http://localhost:2800/")
-
   const { error } = await supabase.auth.signInWithOtp({
     email: email,
     options: {

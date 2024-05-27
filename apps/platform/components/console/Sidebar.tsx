@@ -185,11 +185,13 @@ export default function ConsoleSidebar(): JSX.Element {
           <DropdownButton as={SidebarItem}>
             <span className="flex min-w-0 items-center gap-3">
               <Avatar
-                src="/"
+                src={user?.data?.avatar || undefined}
                 initials={
-                  user?.data?.name
-                    ? user.data.name.split(' ').map((name) => name[0]).join('')
-                    : 'ME'
+                  !user?.data?.avatar && (
+                    user?.data?.name
+                      ? user.data.name.split(' ').map((name) => name[0]).join('')
+                      : 'ME'
+                  ) || undefined
                 }
                 className="size-10"
                 square
