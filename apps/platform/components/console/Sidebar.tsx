@@ -40,7 +40,7 @@ import {
 } from '@heroicons/react/20/solid'
 import { useTheme } from 'next-themes';
 import { signout } from '@/utils/auth/signout';
-import { toggleSearch } from './Search';
+import { toggleSearch } from '../Search';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/utils/auth/AuthProvider';
 import { useOrg } from '@/utils/auth/OrgProvider';

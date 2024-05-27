@@ -2,8 +2,8 @@ import "@repo/ui/globals.css";
 
 import type { Metadata } from "next";
 import { SidebarLayout } from "@repo/ui/sidebar-layout";
-import ConsoleSidebar from "@/components/ConsoleSidebar";
-import ConsoleNavbar from "@/components/ConsoleNavbar";
+import ConsoleSidebar from "@/components/console/Sidebar";
+import ConsoleNavbar from "@/components/console/Navbar";
 
 export const metadata: Metadata = {
   title: {
