@@ -1,0 +1,12 @@
+{
+  "private": true,
+  "name": "kayle-reddit",
+  "version": "0.0.0",
+  "type": "module",
+  "dependencies": {
+    "@devvit/public-api": "0.10.17"
+  },
+  "devDependencies": {
+    "typescript": "5.3.2"
+  }
+}
