@@ -122,7 +122,9 @@ export default function ConsoleSidebar(): JSX.Element {
                 <DropdownLabel>{org.name}</DropdownLabel>
               </DropdownItem>
             ))}
-            <DropdownDivider />
+            {orgs?.memberOrgs?.length !== 0 && (
+              <DropdownDivider />
+            )}
             <DropdownItem href="/org/create">
               <PlusIcon />
               <DropdownLabel>
