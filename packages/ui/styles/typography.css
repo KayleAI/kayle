@@ -1,48 +1,48 @@
 .typography {
-  --typography-body: theme(colors.gray.600);
-  --typography-headings: theme(colors.gray.900);
-  --typography-quotes: theme(colors.gray.500);
-  --typography-quotes-border: theme(colors.gray.200);
+  --typography-body: theme(colors.zinc.600);
+  --typography-headings: theme(colors.zinc.900);
+  --typography-quotes: theme(colors.zinc.500);
+  --typography-quotes-border: theme(colors.zinc.200);
   --typography-links: theme(colors.green.500);
   --typography-link-hover: theme(colors.green.600);
   --typography-link-underline: theme(colors.green.400 / 0.4);
   --typography-link-hover-underline: theme(colors.green.600 / 0.4);
-  --typography-pre: theme(colors.gray.300);
+  --typography-pre: theme(colors.zinc.300);
   --typography-pre-shadow: theme(boxShadow.md);
-  --typography-bold: theme(colors.gray.900);
-  --typography-kbd: theme(colors.gray.600);
-  --typography-kbd-border: theme(colors.gray.200);
-  --typography-kbd-bg: theme(colors.gray.50);
-  --typography-code: theme(colors.gray.900);
-  --typography-hr: theme(colors.gray.900 / 0.05);
-  --typography-th-borders: theme(colors.gray.900 / 0.2);
-  --typography-td-borders: theme(colors.gray.900 / 0.05);
+  --typography-bold: theme(colors.zinc.900);
+  --typography-kbd: theme(colors.zinc.600);
+  --typography-kbd-border: theme(colors.zinc.200);
+  --typography-kbd-bg: theme(colors.zinc.50);
+  --typography-code: theme(colors.zinc.900);
+  --typography-hr: theme(colors.zinc.900 / 0.05);
+  --typography-th-borders: theme(colors.zinc.900 / 0.2);
+  --typography-td-borders: theme(colors.zinc.900 / 0.05);
 
   --shiki-color-text: theme(colors.white);
   --shiki-token-constant: theme(colors.emerald.300);
   --shiki-token-string: theme(colors.emerald.300);
-  --shiki-token-comment: theme(colors.gray.500);
+  --shiki-token-comment: theme(colors.zinc.500);
   --shiki-token-keyword: theme(colors.green.300);
   --shiki-token-parameter: theme(colors.pink.300);
   --shiki-token-function: theme(colors.violet.300);
   --shiki-token-string-expression: theme(colors.emerald.300);
-  --shiki-token-punctuation: theme(colors.gray.200);
+  --shiki-token-punctuation: theme(colors.zinc.200);
 
   .dark & {
-    --typography-body: theme(colors.gray.300);
+    --typography-body: theme(colors.zinc.300);
     --typography-headings: theme(colors.white);
-    --typography-quotes: theme(colors.gray.400);
-    --typography-quotes-border: theme(colors.gray.800);
+    --typography-quotes: theme(colors.zinc.400);
+    --typography-quotes-border: theme(colors.zinc.800);
     --typography-links: theme(colors.green.400);
     --typography-link-hover: theme(colors.white);
     --typography-link-underline: theme(colors.green.400 / 0.4);
     --typography-link-hover-underline: theme(colors.white / 0.4);
-    --typography-pre: theme(colors.gray.400);
+    --typography-pre: theme(colors.zinc.400);
     --typography-pre-shadow: inset 0 0 0 1px theme(colors.white / 0.1);
     --typography-bold: theme(colors.white);
     --typography-kbd: theme(colors.white);
-    --typography-kbd-border: theme(colors.gray.800);
-    --typography-kbd-bg: theme(colors.gray.900);
+    --typography-kbd-border: theme(colors.zinc.800);
+    --typography-kbd-bg: theme(colors.zinc.900);
     --typography-code: theme(colors.white);
     --typography-hr: theme(colors.white / 0.1);
     --typography-th-borders: theme(colors.white / 0.1);
@@ -158,7 +158,7 @@
   /* Code blocks */
   pre {
     display: flex;
-    background-color: theme(colors.gray.900);
+    background-color: theme(colors.zinc.900);
     border-radius: theme(borderRadius.lg);
     overflow-x: auto;
     box-shadow: var(--typography-pre-shadow);
@@ -196,7 +196,7 @@
   }
 
   li::marker {
-    color: theme(colors.gray.400);
+    color: theme(colors.zinc.400);
   }
 
   ol > li::marker {
