@@ -8,6 +8,19 @@ import { remarkRehypeWrap } from 'remark-rehype-wrap'
 import * as shiki from 'shiki'
 import { visit } from 'unist-util-visit'
 
+function rehypeParseCodeBlocks() {
+  return (tree) => {
+    visit(tree, 'element', (node, _nodeIndex, parentNode) => {
+      if (node.tagName === 'code' && node.properties.className) {
+        parentNode.properties.language = node.properties.className[0]?.replace(
+          /^language-/,
+          '',
+        )
+      }
+    })
+  }
+}
+
 let highlighter
 
 function rehypeShiki() {
@@ -24,35 +37,21 @@ function rehypeShiki() {
 
         if (node.properties.language) {
           try {
-          let tokens = highlighter.codeToThemedTokens(
-            textNode.value,
-            node.properties.language,
-          )
+            let tokens = highlighter.codeToThemedTokens(
+              textNode.value,
+              node.properties.language,
+            )
 
-          textNode.value = shiki.renderToHtml(tokens, {
-            elements: {
-              pre: ({ children }) => children,
-              code: ({ children }) => children,
-              line: ({ children }) => `<span>${children}</span>`,
-            },
-          })
-          } catch (e) {
-            console.error(e)
-          };
+            textNode.value = shiki.renderToHtml(tokens, {
+              elements: {
+                pre: ({ children }) => children,
+                code: ({ children }) => children,
+                line: ({ children }) => `<span>${children}</span>`,
+              },
+            })
+          } catch (_) {
+          }
         }
-      }
-    })
-  }
-}
-
-function rehypeParseCodeBlocks() {
-  return (tree) => {
-    visit(tree, 'element', (node, _nodeIndex, parentNode) => {
-      if (node.tagName === 'code' && node.properties.className) {
-        parentNode.properties.language = node.properties.className[0]?.replace(
-          /^language-/,
-          '',
-        )
       }
     })
   }
