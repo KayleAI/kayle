@@ -43,14 +43,14 @@ import { signout } from '@/utils/auth/signout';
 import { toggleSearch } from './Search';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/utils/auth/AuthProvider';
-import { switchOrg, useOrg } from '@/utils/auth/OrgProvider';
+import { useOrg } from '@/utils/auth/OrgProvider';
 
 export default function ConsoleSidebar(): JSX.Element {
   const { setTheme, resolvedTheme } = useTheme();
   const pathname = usePathname();
   const router = useRouter();
   const user = useAuth();
-  const org = useOrg();
+  const orgs = useOrg();
 
   const toggleTheme = () => {
     if (resolvedTheme) {
@@ -68,16 +68,16 @@ export default function ConsoleSidebar(): JSX.Element {
     <Sidebar>
       <SidebarHeader>
         <Dropdown>
-          {org?.activeOrg
+          {orgs?.activeOrg
             ? (
               <DropdownButton as={SidebarItem} className="mb-2.5">
                 <Avatar
-                  src={org?.activeOrg?.logo}
-                  initials={!org?.activeOrg?.logo ? (org?.activeOrg?.name[0] || 'K') : undefined}
+                  src={orgs?.activeOrg?.logo}
+                  initials={!orgs?.activeOrg?.logo ? (orgs?.activeOrg?.name[0] || 'K') : undefined}
                   className="text-emerald-500 bg-zinc-100 dark:bg-zinc-900"
                 />
                 <SidebarLabel>
-                  {org?.activeOrg?.name}
+                  {orgs?.activeOrg?.name}
                 </SidebarLabel>
                 <ChevronDownIcon />
               </DropdownButton>
@@ -92,9 +92,9 @@ export default function ConsoleSidebar(): JSX.Element {
             )
           }
           <DropdownMenu className="min-w-64" anchor="bottom start">
-            {org?.activeOrg
+            {orgs?.activeOrg
               ? (
-                <DropdownItem href={`/org/${org?.activeOrg?.slug}/settings`}>
+                <DropdownItem href={`/org/${orgs?.activeOrg?.slug}/settings`}>
                   <Cog8ToothIcon />
                   <DropdownLabel>
                     Organisation Settings
@@ -108,10 +108,10 @@ export default function ConsoleSidebar(): JSX.Element {
               )
             }
             <DropdownDivider />
-            {org?.memberOrgs?.map((org) => (
+            {orgs?.memberOrgs?.map((org) => (
               <DropdownItem
                 key={org.id}
-                onClick={() => switchOrg(org.id)}
+                onClick={() => orgs.switchOrg(org.id)}
               >
                 <Avatar
                   slot="icon"

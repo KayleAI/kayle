@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
-/**import { createClient } from "@/utils/supabase/client";*/
+import { createClient } from "@/utils/supabase/client";
 
 type Org = {
   id: string;
@@ -13,6 +13,7 @@ type Org = {
 interface OrgContext {
   activeOrg: Org | null;
   memberOrgs: Org[] | null;
+  switchOrg: (orgId: Org['id']) => void;
 }
 
 export const OrgContext = createContext<OrgContext | null>(null);
@@ -21,30 +22,23 @@ export function useOrg() {
   return useContext(OrgContext);
 }
 
-export function switchOrg(orgId: Org['id']) {
-  // TODO: Implement org switching
-  console.log('Switching org to', orgId);
-}
+async function getOrg(): Promise<Org[]> {
+  const supabase = createClient();
 
-async function getOrg(): Promise<OrgContext> {
+  const { data: orgs, error } = await supabase
+    .from("organisations")
+    .select("id, org_name, org_avatar, org_slug");
 
-
-  return {
-    activeOrg: {
-      id: 'a809fcbd-738f-43e1-9d4a-44afa491d648',
-      name: 'Kayle LTD',
-      logo: 'https://kayle.ai/favicon.ico',
-      slug: 'kayle'
-    },
-    memberOrgs: [
-      {
-        id: 'a809fcbd-738f-43e1-9d4a-44afa491d648',
-        name: 'Kayle LTD',
-        logo: 'https://kayle.ai/favicon.ico',
-        slug: 'kayle'
-      }
-    ],
+  if (error) {
+    return [];
   }
+
+  return orgs.map((org: any) => ({
+    id: org.id,
+    name: org.org_name,
+    logo: org.org_avatar,
+    slug: org.org_slug,
+  }));
 }
 
 export default function OrgProvider({
@@ -57,20 +51,34 @@ export default function OrgProvider({
 
   useEffect(() => {
     async function getSetOrg() {
-      const { activeOrg, memberOrgs } = await getOrg();
-
-      setActiveOrg(activeOrg);
+      const memberOrgs = await getOrg();
       setMemberOrgs(memberOrgs);
+
+      const storedOrgId = localStorage.getItem('activeOrgId');
+      if (storedOrgId && memberOrgs.length > 0) {
+        const storedOrg = memberOrgs.find(org => org.id === storedOrgId);
+        setActiveOrg(storedOrg || memberOrgs[0] || null);
+      } else if (memberOrgs.length > 0 && memberOrgs[0] !== undefined) {
+        setActiveOrg(memberOrgs[0]);
+      }
     }
 
     getSetOrg();
-  }, [
-    setActiveOrg,
-  ]);
+  }, []);
+
+  const switchOrg = (orgId: string) => {
+    const selectedOrg = memberOrgs?.find(org => org.id === orgId) || null;
+    setActiveOrg(selectedOrg);
+    if (selectedOrg) {
+      localStorage.setItem('activeOrgId', selectedOrg.id);
+    }
+    console.log('Switched to org:', selectedOrg);
+  };
 
   const value = useMemo(() => ({
     activeOrg,
     memberOrgs,
+    switchOrg,
   }), [
     activeOrg,
     memberOrgs,
