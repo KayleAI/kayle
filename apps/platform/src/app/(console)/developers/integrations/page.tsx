@@ -24,7 +24,7 @@ export default function IntegrationsDashboard() {
             <Card className="p-4 relative">
               <div className="grid grid-cols-5 gap-4">
                 <div className="w-full col-span-1 flex flex-col items-center justify-center">
-                  <integration.icon />
+                  <integration.icon className="fill-zinc-900 dark:fill-zinc-100 size-10" />
                 </div>
                 <div className="col-span-4">
                   <Subheading level={2}>
@@ -35,11 +35,13 @@ export default function IntegrationsDashboard() {
                   </Text>
                 </div>
               </div>
-              <div className="absolute top-0.5 right-1">
-                <Badge color="purple">
-                  Coming soon!
-                </Badge>
-              </div>
+              {integration.comingSoon &&
+                <div className="absolute top-1 right-1">
+                  <Badge color="purple">
+                    Coming soon!
+                  </Badge>
+                </div>
+              }
             </Card>
           </Link>
         ))}

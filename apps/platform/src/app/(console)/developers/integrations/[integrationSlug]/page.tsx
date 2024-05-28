@@ -25,9 +25,11 @@ export default function IntegrationListing({
     <main>
       <Heading className="flex flex-row gap-x-2 items-center">
         {integration.name}
-        <Badge color="purple">
-          Coming soon!
-        </Badge>
+        {integration.comingSoon &&
+          <Badge color="purple">
+            Coming soon!
+          </Badge>
+        }
       </Heading>
       <Text>
         {integration.description}

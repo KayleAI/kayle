@@ -1,5 +1,9 @@
 "use client";
 
+import { OrgArea } from "@/components/auth/OrgArea";
+import { OrgSelect } from "@/components/auth/OrgSelect";
+import { useOrg } from "@/utils/auth/OrgProvider";
+
 export default function OrganisationSettings({
   params: {
     orgId
@@ -10,13 +14,17 @@ export default function OrganisationSettings({
   };
 }) {
   if (orgId === '_') {
-    // TODO: Select an organisation
-    console.warn("We need to select an organisation to view this page")
+    return (
+      <OrgSelect url="/org/_/settings" />
+    )
   }
 
-  return (
-    <main>
+  const orgs = useOrg();
 
-    </main>
+  return (
+    <OrgArea authRequired acceptRoles={["owner", "admin", "billing", "manager"]} loading={orgs?.orgStatus === "loading"}>
+      <main>
+      </main>
+    </OrgArea>
   )
 }

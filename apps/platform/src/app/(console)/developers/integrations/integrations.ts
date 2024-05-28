@@ -1,7 +1,14 @@
+import OwnPlatform from "@/icons/custom.svg";
 import Discord from "@/icons/discord.svg";
 import Reddit from "@/icons/reddit.svg";
 
 export const integrations = [
+  {
+    slug: "custom",
+    name: "Custom Integration",
+    description: "Connect Kayle to your platform.",
+    icon: OwnPlatform,
+  },
   {
     slug: "reddit",
     name: "Reddit Integration",

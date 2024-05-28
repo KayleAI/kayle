@@ -57,7 +57,7 @@ export default function DisplayUserKeys() {
               <TableHeader>
                 Environment
               </TableHeader>
-              <TableHeader>
+              <TableHeader align='right'>
                 Actions
               </TableHeader>
             </TableRow>
@@ -66,7 +66,11 @@ export default function DisplayUserKeys() {
             {keys?.map((key: any) => {
               return (
                 <TableRow key={key.id} href={`/developers/keys/${key.id}`}>
-                  <TableCell className="text-neutral-500">{key.id}</TableCell>
+                  <TableCell className="">
+                    <Text>
+                      {key.id}
+                    </Text>
+                  </TableCell>
                   <TableCell className="font-medium">{key.name}</TableCell>
                   <TableCell className="font-medium">
                     <Code>
@@ -74,11 +78,11 @@ export default function DisplayUserKeys() {
                     </Code>
                   </TableCell>
                   <TableCell>
-                    {key.environment === "test" ? <Badge color="amber">Testing</Badge> : <Badge color="lime">Production</Badge>}
+                    {key.environment === "test" ? <Badge color="amber">Testing</Badge> : <Badge color="emerald">Production</Badge>}
                   </TableCell>
-                  <TableCell>
-                    <Button color="white" href={`/developers/keys/${key.id}`}>
-                      View Key
+                  <TableCell align='right'>
+                    <Button href={`/developers/keys/${key.id}`}>
+                      View Details
                     </Button>
                   </TableCell>
                 </TableRow>

@@ -23,7 +23,7 @@ export function OrgArea({
   children
 }: {
   readonly authRequired?: boolean;
-  readonly acceptRoles?: PossibleRole[];
+  readonly acceptRoles?: PossibleRole[] | "any";
   readonly loading?: boolean;
   readonly children: React.ReactNode;
 }): React.ReactNode {
@@ -72,26 +72,28 @@ export function OrgArea({
     );
   }
 
-  if (acceptRoles.length > 0 && !acceptRoles.includes(orgs?.activeOrg?.role as PossibleRole)) {
-    return (
-      <AuthAreaContainer>
-        <h3
-          className="text-2xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tighter"
-        >
-          Access Denied
-        </h3>
-        <p className="text-zinc-700 dark:text-zinc-300">
-          Contact your organisation administrator for access.
-        </p>
-        <div className="mt-4 flex flex-col sm:flex-row gap-x-4">
-          <Button plain disabled>
+  if (acceptRoles !== "any" && acceptRoles.length > 0) {
+    if (!acceptRoles.includes(orgs?.activeOrg?.role as PossibleRole)) {
+      return (
+        <AuthAreaContainer>
+          <h3
+            className="text-2xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tighter"
+          >
             Access Denied
-          </Button>
-        </div>
-      </AuthAreaContainer>
-    );
+          </h3>
+          <p className="text-zinc-700 dark:text-zinc-300">
+            Contact your organisation administrator for access.
+          </p>
+          <div className="mt-4 flex flex-col sm:flex-row gap-x-4">
+            <Button plain disabled>
+              Access Denied
+            </Button>
+          </div>
+        </AuthAreaContainer>
+      );
+    }
   }
-  
+
   if (loading) {
     return (
       <AuthAreaContainer>

@@ -155,12 +155,6 @@ export default function ConsoleSidebar(): JSX.Element {
               Dashboard
             </SidebarLabel>
           </SidebarItem>
-          <SidebarItem href="/review" current={pathname === '/review'}>
-            <Square2StackIcon />
-            <SidebarLabel>
-              Review
-            </SidebarLabel>
-          </SidebarItem>
           <SidebarItem href="/developers" current={pathname === '/developers'}>
             <CodeBracketSquareIcon />
             <SidebarLabel>

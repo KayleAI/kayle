@@ -57,7 +57,7 @@ export default function SpecificKey({
             color={
               keyData?.enabled
                 ? "amber"
-                : "lime"
+                : "emerald"
             }
             onClick={async () => {
               toast.promise(new Promise((resolve, reject) => {
