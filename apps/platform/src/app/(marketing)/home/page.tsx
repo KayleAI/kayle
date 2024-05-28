@@ -283,8 +283,8 @@ function CTAComponent() {
           <circle cx={512} cy={512} r={512} fill="url(#827591b1-ce8c-4110-b064-7cb85a0b1217)" fillOpacity="0.7" />
           <defs>
             <radialGradient id="827591b1-ce8c-4110-b064-7cb85a0b1217">
-              <stop stopColor="#22C55E" />
-              <stop offset={1} stopColor="#22C55E" />
+              <stop stopColor="#10b981" />
+              <stop offset={1} stopColor="#10b981" />
             </radialGradient>
           </defs>
         </svg>
