@@ -16,8 +16,8 @@ const navigation = {
     { name: 'Document Moderation', href: '#' },
   ],
   developer: [
-    { name: 'Documentation', href: '/docs' },
-    { name: 'API Reference', href: '/api-reference' },
+    { name: 'Documentation', href: 'https://docs.kayle.ai' },
+    { name: 'API Reference', href: 'https://docs.kayle.ai' },
     { name: 'API Status', href: 'https://status.kayle.ai' },
     { name: 'Changelog', href: '/changelog' },
   ],

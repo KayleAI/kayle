@@ -67,7 +67,7 @@ function HeroComponent() {
                   Join the waitlist
                 </Button>
                 <Button
-                  href="/docs"
+                  href="https://docs.kayle.ai"
                   plain
                 >
                   Documentation <span aria-hidden="true">→</span>
@@ -267,11 +267,11 @@ function CTAComponent() {
         </p>
         <div className="mt-10 flex items-center justify-center gap-x-6">
           <Button
-            href="#"
+            href="/portal"
           >
             Get started
           </Button>
-          <Button href="/docs/" plain className="!text-white">
+          <Button href="https://docs.kayle.ai" plain className="!text-white">
             See the docs <span aria-hidden="true">→</span>
           </Button>
         </div>

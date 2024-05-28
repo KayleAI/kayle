@@ -14,7 +14,7 @@ const navigation = [
   //{ name: 'About', href: '/about' },
   //{ name: 'Blog', href: '/blog' },
   { name: 'GitHub', href: 'https://github.com/KayleAI', newTab: true },
-  { name: 'Docs', href: '/docs' },
+  { name: 'Docs', href: 'https://docs.kayle.ai' },
   //{ name: 'Pricing', href: '/pricing' },
   //{ name: 'Investors', href: '/investors' },
 ]

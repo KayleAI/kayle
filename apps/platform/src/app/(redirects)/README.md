@@ -1,2 +1,0 @@
-## Kayle Redirects
-
