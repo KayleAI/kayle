@@ -56,7 +56,7 @@ export function ChangelogNewsletterForm() {
         }), {
           loading: "Signing you up...",
           success: "You’re all set! 🎉",
-          error: "Something went wrong. Please try again.",
+          error: (error) => `${error.message}`,
         })}
         disabled={submissionState === "loading"}
       >
