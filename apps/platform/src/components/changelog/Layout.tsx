@@ -2,7 +2,7 @@ import { useId } from 'react'
 
 import { Intro, IntroFooter } from '@/components/changelog/Intro'
 import { StarField } from '@/components/changelog/StarField'
-import { ThemeToggle } from '@/components/changelog/ThemeToggle'
+import { ThemeToggle } from '@/components/ThemeToggle'
 
 function Timeline() {
   let id = useId()
@@ -17,7 +17,7 @@ function Timeline() {
           <pattern id={id} width="6" height="8" patternUnits="userSpaceOnUse">
             <path
               d="M0 0H6M0 8H6"
-              className="stroke-green-900/10 xl:stroke-white/10 dark:stroke-white/10"
+              className="stroke-emerald-900/10 xl:stroke-white/10 dark:stroke-white/10"
               fill="none"
             />
           </pattern>
@@ -39,13 +39,13 @@ function Glow() {
       >
         <defs>
           <radialGradient id={`${id}-desktop`} cx="100%">
-            <stop offset="0%" stopColor="rgba(0, 255, 128, 0.3)" />
-            <stop offset="53.95%" stopColor="rgba(0, 255, 0, 0.09)" />
+            <stop offset="0%" stopColor="rgba(16, 185, 129, 0.3)" />
+            <stop offset="53.95%" stopColor="rgba(16, 185, 129, 0.09)" />
             <stop offset="100%" stopColor="rgba(10, 14, 23, 0)" />
           </radialGradient>
           <radialGradient id={`${id}-mobile`} cy="100%">
-            <stop offset="0%" stopColor="rgba(0, 255, 128, 0.3)" />
-            <stop offset="53.95%" stopColor="rgba(0, 255, 0, 0.09)" />
+            <stop offset="0%" stopColor="rgba(16, 185, 129, 0.3)" />
+            <stop offset="53.95%" stopColor="rgba(16, 185, 129, 0.09)" />
             <stop offset="100%" stopColor="rgba(10, 14, 23, 0)" />
           </radialGradient>
         </defs>
@@ -98,7 +98,11 @@ export function Layout({ children }: { readonly children: React.ReactNode }) {
   return (
     <>
       <FixedSidebar main={<Intro />} footer={<IntroFooter />} />
-      <ThemeToggle />
+      <div
+        className="group absolute right-4 top-4 z-50 -m-2.5 p-2.5"
+      >
+        <ThemeToggle />
+      </div>
       <div className="relative flex-auto">
         <Timeline />
         <main className="space-y-20 py-20 sm:space-y-32 sm:py-32">

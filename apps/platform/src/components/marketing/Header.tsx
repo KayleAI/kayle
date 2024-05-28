@@ -142,14 +142,14 @@ function NavItem({
         className={clsx(
           'relative block px-3 py-2 transition',
           isActive
-            ? 'text-green-500 dark:text-green-400'
-            : 'hover:text-green-500 dark:hover:text-green-400',
+            ? 'text-emerald-500 dark:text-emerald-400'
+            : 'hover:text-emerald-500 dark:hover:text-emerald-400',
         )}
         target={newTab ? '_blank' : undefined}
       >
         {children}
         {isActive && (
-          <span className="absolute inset-x-1 -bottom-px h-px bg-gradient-to-r from-green-500/0 via-green-500/40 to-green-500/0 dark:from-green-400/0 dark:via-green-400/40 dark:to-green-400/0" />
+          <span className="absolute inset-x-1 -bottom-px h-px bg-gradient-to-r from-emerald-500/0 via-emerald-500/40 to-emerald-500/0 dark:from-emerald-400/0 dark:via-emerald-400/40 dark:to-emerald-400/0" />
         )}
       </Link>
     </li>
@@ -176,7 +176,7 @@ function LoginButton() {
       //href="https://console.kayle.ai" // Login &rarr;
       href="https://researchat.typeform.com/kayle"
       target='_blank'
-      className="group rounded-full bg-white/90 text-sm font-medium text-neutral-800 dark:text-neutral-200 px-3 py-2 shadow-lg shadow-neutral-800/5 ring-1 ring-neutral-900/5 backdrop-blur transition dark:bg-neutral-800/90 dark:ring-white/10 dark:hover:ring-white/20 flex flex-row justify-center items-center gap-x-1 hover:text-green-500 dark:hover:text-green-400"
+      className="group rounded-full bg-white/90 text-sm font-medium text-neutral-800 dark:text-neutral-200 px-3 py-2 shadow-lg shadow-neutral-800/5 ring-1 ring-neutral-900/5 backdrop-blur transition dark:bg-neutral-800/90 dark:ring-white/10 dark:hover:ring-white/20 flex flex-row justify-center items-center gap-x-1 hover:text-emerald-500 dark:hover:text-emerald-400"
     >
       Join the waitlist      
     </Link>

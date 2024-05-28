@@ -35,13 +35,13 @@ export function Intro() {
   return (
     <>
       <div>
-        <Link href="/" className='!text-green-400'>
+        <Link href="/" className='!text-emerald-400'>
           Kayle
         </Link>
       </div>
       <h1 className="mt-14 font-display text-4xl/tight font-light text-white">
         Open-source realtime{' '}
-        <span className="text-green-400">content moderation.</span>
+        <span className="text-emerald-400">content moderation.</span>
       </h1>
       <p className="mt-4 text-sm/6 text-zinc-300">
         Moderate content autonomously with AI and focus 

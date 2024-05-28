@@ -7,7 +7,10 @@
     "UNKEY_AUTH_TOKEN",
     "KAYLE_API_KEY",
     "UNKEY_API_ID",
-    "NODE_ENV"
+    "NODE_ENV",
+    "NEXT_PUBLIC_SUPABASE_URL",
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
   ],
   "pipeline": {
     "dev": {

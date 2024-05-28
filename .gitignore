@@ -41,3 +41,6 @@ bun.lockb
 # Ignore certain files we don't want 
 # in the repo as they are unfinished
 *.ignore.*
+
+# ignore temporary files
+.temp/

@@ -30,7 +30,7 @@ export function ChangelogNewsletterForm() {
         className="w-full"
       />
       <Button
-        color='green'
+        color='emerald'
         className='!cursor-pointer'
         onClick={async () => toast.promise(new Promise((resolve, reject) => {
           setSubmissionState("loading");

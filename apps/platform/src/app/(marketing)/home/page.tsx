@@ -36,14 +36,14 @@ const res = await fetch('https://api.kayle.ai/v1/moderate', {
 
 function HeroComponent() {
   return (
-    <div className="relative isolate overflow-hidden bg-gradient-to-b from-green-100/20 dark:from-green-900/20">
+    <div className="relative isolate overflow-hidden bg-gradient-to-b from-emerald-100/20 dark:from-emerald-900/20">
       <div className="mx-auto max-w-7xl pb-24 pt-10 sm:pb-32 lg:grid lg:grid-cols-2 lg:gap-x-8 lg:px-8 lg:py-40">
         <div className="px-6 lg:px-0 lg:pt-4">
           <div className="mx-auto max-w-2xl">
             <div className="max-w-lg">
               <div className="mt-24 sm:mt-32 lg:mt-16">
                 <Link href="https://researchat.typeform.com/kayle" className="inline-flex space-x-6">
-                  <span className="rounded-full bg-green-600/10 px-3 py-1 text-sm font-semibold leading-6 text-green-600 ring-1 ring-inset ring-green-600/10">
+                  <span className="rounded-full bg-emerald-600/10 px-3 py-1 text-sm font-semibold leading-6 text-emerald-600 ring-1 ring-inset ring-emerald-600/10">
                     What’s new
                   </span>
                   <span className="inline-flex items-center space-x-2 text-sm font-medium leading-6 text-zinc-600 dark:text-zinc-400">
@@ -62,7 +62,7 @@ function HeroComponent() {
                 <Button
                   //href={"https://console.kayle.ai"} // Get started
                   href={"https://researchat.typeform.com/kayle"}
-                  color="green"
+                  color="emerald"
                 >
                   Join the waitlist
                 </Button>
@@ -78,13 +78,13 @@ function HeroComponent() {
         </div>
         <div className="mt-20 sm:mt-24 md:mx-auto md:max-w-2xl lg:mx-0 lg:mt-0 lg:w-screen">
           <div
-            className="absolute inset-y-0 right-1/2 -z-10 -mr-10 w-[200%] skew-x-[-30deg] bg-white lg:bg-zinc-100 dark:bg-zinc-900 dark:lg:bg-zinc-950 shadow-xl shadow-green-600/10 ring-1 ring-green-500 md:-mr-20 lg:-mr-36"
+            className="absolute inset-y-0 right-1/2 -z-10 -mr-10 w-[200%] skew-x-[-30deg] bg-white lg:bg-zinc-100 dark:bg-zinc-900 dark:lg:bg-zinc-950 shadow-xl shadow-emerald-600/10 ring-1 ring-emerald-500 md:-mr-20 lg:-mr-36"
             aria-hidden="true"
           />
           <div className="shadow-lg md:rounded-3xl">
-            <div className="bg-green-500 [clip-path:inset(0)] md:[clip-path:inset(0_round_theme(borderRadius.3xl))]">
+            <div className="bg-emerald-500 [clip-path:inset(0)] md:[clip-path:inset(0_round_theme(borderRadius.3xl))]">
               <div
-                className="absolute -inset-y-px left-1/2 -z-10 ml-10 w-[200%] skew-x-[-30deg] bg-green-100 opacity-20 ring-1 ring-inset ring-white md:ml-20 lg:ml-36"
+                className="absolute -inset-y-px left-1/2 -z-10 ml-10 w-[200%] skew-x-[-30deg] bg-emerald-100 opacity-20 ring-1 ring-inset ring-white md:ml-20 lg:ml-36"
                 aria-hidden="true"
               />
               <div className="relative px-6 pt-8 sm:pt-16 md:pl-16 md:pr-0">
@@ -163,7 +163,7 @@ function HunterComponent() {
   return (
     <div className="mx-auto py-24 px-6 sm:py-32 lg:px-8">
       <div className="mx-auto max-w-2xl lg:text-center">
-        <h2 className="text-lg font-semibold leading-8 tracking-tight text-green-600 dark:text-green-400">
+        <h2 className="text-lg font-semibold leading-8 tracking-tight text-emerald-600 dark:text-emerald-400">
           Happy Hunting!
         </h2>
         <p className="mt-2 text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl dark:text-zinc-100">
@@ -195,7 +195,7 @@ function HunterComponent() {
                 <br />
                 Here you can see whether a message will be flagged by Kayle’s filters!
                 <br />
-                <span className="text-green-400">kayle@ai~$:</span> run hunter
+                <span className="text-emerald-400">kayle@ai~$:</span> run hunter
                 <br />
                 {terminalOutput}
                 <br />

@@ -171,7 +171,7 @@ export function Footer() {
             <div className="mt-4 sm:ml-4 sm:mt-0 sm:flex-shrink-0 w-full sm:w-fit">
               <Button
                 className="w-full sm:w-auto !cursor-pointer"
-                color="green"
+                color="emerald"
                 onClick={async () => toast.promise(new Promise((resolve, reject) => {
                   setSubmissionState("loading");
                   setTimeout(async () => {
