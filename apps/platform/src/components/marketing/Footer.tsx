@@ -5,7 +5,7 @@ import { Input } from "@repo/ui/input"
 
 import { join } from "@repo/comm/newsletter"
 
-import Kayle from '@repo/icons/kayle.svg'
+import { Kayle } from '@repo/icons/ui/index'
 import { useState } from "react";
 import { toast } from "sonner";
 

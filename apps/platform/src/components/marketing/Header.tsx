@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation'
 import { Popover, PopoverButton, PopoverOverlay, PopoverPanel, Transition, TransitionChild } from '@headlessui/react'
 import clsx from 'clsx'
 
-import Kayle from '@repo/icons/kayle.svg'
+import { Kayle } from '@repo/icons/ui/index'
 
 import { Container } from '@/components/marketing/Container'
 
@@ -178,7 +178,7 @@ function LoginButton() {
       target='_blank'
       className="group rounded-full bg-white/90 text-sm font-medium text-neutral-800 dark:text-neutral-200 px-3 py-2 shadow-lg shadow-neutral-800/5 ring-1 ring-neutral-900/5 backdrop-blur transition dark:bg-neutral-800/90 dark:ring-white/10 dark:hover:ring-white/20 flex flex-row justify-center items-center gap-x-1 hover:text-emerald-500 dark:hover:text-emerald-400"
     >
-      Join the waitlist      
+      Join the waitlist
     </Link>
   )
 }
