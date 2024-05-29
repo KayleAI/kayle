@@ -1,7 +1,7 @@
 "use client";
 
 import { Heading } from "@repo/ui/heading";
-import { integrations } from "../integrations";
+import { integrations } from "@repo/config/integrations";
 import { notFound } from "next/navigation";
 import { Text } from "@repo/ui/text";
 import { Badge } from "@repo/ui/badge";

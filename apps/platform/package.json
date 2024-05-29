@@ -18,6 +18,7 @@
     "@mdx-js/loader": "^3.0.0",
     "@mdx-js/react": "^3.0.0",
     "@next/mdx": "^14.2.3",
+    "@repo/config": "workspace:*",
     "@repo/icons": "workspace:*",
     "@repo/ui": "workspace:*",
     "@sindresorhus/slugify": "^2.1.1",

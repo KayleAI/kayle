@@ -6,7 +6,7 @@ import { Link } from "@repo/ui/link";
 import { Card } from "@/components/card";
 import { Text } from "@repo/ui/text";
 import { Badge } from "@repo/ui/badge";
-import { integrations } from "./integrations";
+import { integrations } from "@repo/config/integrations";
 
 export default function IntegrationsDashboard() {
   return (

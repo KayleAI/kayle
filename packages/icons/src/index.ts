@@ -1,5 +1,5 @@
-// @ts-nocheck - we don't want to check this file for now
+// Nothing here
 
-export { default as UK } from './uk.svg';
-
-export { default as Kayle } from './kayle.svg';
+export * from "./flags";
+export * from "./integrations";
+export * from "./ui";

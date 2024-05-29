@@ -1,5 +1,5 @@
 {
-  "name": "@repo/icons",
+  "name": "@repo/config",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -11,7 +11,7 @@
     "@types/node": "^20.10.6"
   },
   "dependencies": {
-    "@svgr/webpack": "^8.1.0",
+    "@repo/icons": "workspace:*",
     "@types/node": "^20.10.6"
   },
   "exports": {
