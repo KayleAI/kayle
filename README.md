@@ -1,7 +1,7 @@
 # Kayle Platform
 
-`/engine` contains the Rust API (Engine) for Kayle.
+`/engine` contains Kayle’s Rust Engine.
 
-`/platform` contains other stuff necessary for the platform.
+`/apps` contains various apps for Kayle.
 
 `/packages` contains the things the platform depends on.
