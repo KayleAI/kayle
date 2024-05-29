@@ -1,0 +1,17 @@
+[package]
+name = "kayle-engine"
+description = "The API for an Open Source Content Moderation Platform"
+version = "0.1.0"
+edition = "2021"
+authors = ["Arsen Shkrumelyak <arsen@shkrumelyak.com>"]
+readme = "https://github.com/KayleAI/kayle/blob/main/README.md"
+homepage = "https://kayle.ai"
+repository = "https://github.com/KayleAI/kayle"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+hyper = { version = "1", features = ["full"] }
+tokio = { version = "1", features = ["full"] }
+http-body-util = "0.1"
+hyper-util = { version = "0.1", features = ["full"] }
