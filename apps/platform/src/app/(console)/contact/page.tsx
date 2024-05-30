@@ -4,29 +4,27 @@ import { Button } from "@repo/ui/button"
 import { Heading } from "@repo/ui/heading"
 
 import { Description, Field, FieldGroup, Fieldset, Label, Legend } from '@repo/ui/fieldset'
-import { Listbox, ListboxOption, ListboxLabel } from '@repo/ui/listbox'
-import { Text } from '@repo/ui/text'
+import { Text, TextLink } from '@repo/ui/text'
 import { Textarea } from '@repo/ui/textarea'
 import { useRef, useState } from "react"
 import { toast } from "sonner";
 
-import { captureFeedback } from "@repo/comm/feedback";
+import { captureContactForm } from "@repo/comm/contact";
 
-export default function Feedback() {
+export default function Contact() {
   const formRef = useRef<HTMLFormElement>(null);
-  const [feedbackType, setFeedbackType] = useState<string>("feature");
   const [submissionState, setSubmissionState] = useState<"idle" | "loading" | "success" | "error" | "email-error">("idle");
-  const [feedback, setFeedback] = useState("");
+  const [message, setMessage] = useState("");
 
   return (
     <div>
       <div className="flex w-full flex-wrap items-end justify-between gap-4 border-b border-zinc-950/10 pb-6 dark:border-white/10">
         <Heading>
-          Share Feedback with the Kayle team
+          Contact the Kayle team
         </Heading>
         <div className="flex gap-4">
           <Button href="/" outline>
-            Go back to Dashboard
+            Head back
           </Button>
         </div>
       </div>
@@ -39,9 +37,8 @@ export default function Feedback() {
           toast.promise(new Promise((resolve, reject) => {
             setSubmissionState("loading");
             setTimeout(async () => {
-              const { success, error } = await captureFeedback({
-                feedback,
-                feedbackType,
+              const { success, error } = await captureContactForm({
+                message: message,
               });
 
               if (error && !success) {
@@ -53,58 +50,33 @@ export default function Feedback() {
               return resolve(true);
             }, 500);
           }), {
-            loading: "Sending feedback...",
-            success: "Awesome! Thanks for sharing your feedback!",
+            loading: "Sending message...",
+            success: "Awesome! Thanks for reaching out!",
             error: (error) => `Error: ${error.message}`.replace("Error: Error: ", ""),
           })
         }}
       >
         <Fieldset>
           <Legend>
-            Feedback
+            Contact Us
           </Legend>
           <Text>
-            How can we make Kayle better?
+            Have a question or need help? Send us a message and we’ll get back to you as soon as possible.
           </Text>
           <FieldGroup>
             <Field>
               <Label>
-                Feedback Type
-              </Label>
-              <Listbox
-                name="type"
-                defaultValue="feature"
-                value={feedbackType}
-                onChange={setFeedbackType}
-                disabled={submissionState === "loading"}
-              >
-                <ListboxOption value="feature">
-                  <ListboxLabel>New Feature</ListboxLabel>
-                </ListboxOption>
-                <ListboxOption value="bug">
-                  <ListboxLabel>Bug Report</ListboxLabel>
-                </ListboxOption>
-                <ListboxOption value="other">
-                  <ListboxLabel>Other</ListboxLabel>
-                </ListboxOption>
-              </Listbox>
-              <Description>
-                What kind of feedback are you sharing?
-              </Description>
-            </Field>
-            <Field>
-              <Label>
-                Your Feedback
+                Your Message
               </Label>
               <Textarea
                 required
-                name="feedback"
-                value={feedback}
-                onChange={(e) => setFeedback(e.target.value)}
+                name="message"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
                 disabled={submissionState === "loading"}
               />
               <Description>
-                Please share your feedback here.
+                Say hello, ask a question, or share your <TextLink href="/feedback">feedback</TextLink>.
               </Description>
             </Field>
             <Field>
@@ -112,7 +84,7 @@ export default function Feedback() {
                 type="submit"
                 disabled={submissionState === "loading"}
               >
-                Send Feedback
+                Send Message
               </Button>
             </Field>
           </FieldGroup>

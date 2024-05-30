@@ -24,7 +24,7 @@ const navigation = {
   company: [
     { name: 'About', href: '#' },
     { name: 'Blog', href: '#' },
-    { name: 'Contact us', href: 'mailto:help@kayle.ai' },
+    { name: 'Contact us', href: '/contact' },
   ],
   legal: [
     { name: 'Privacy Policy', href: '/privacy' },

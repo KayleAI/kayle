@@ -8,7 +8,7 @@ import { Text } from '@repo/ui/text'
 import { useRef, useState } from "react"
 import { Listbox, ListboxOption, ListboxLabel } from '@repo/ui/listbox'
 import { toast } from "sonner";
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@repo/db/client";
 import { Input } from "@repo/ui/input";
 import { useAuth } from "@/utils/auth/AuthProvider";
 import { useRouter } from "next/navigation";

@@ -1,0 +1,11 @@
+{
+  "name": "@repo/db",
+  "description": "Database connectivity for Kayle",
+  "version": "0.0.0",
+  "exports": {
+    "./*": "./src/*.ts"
+  },
+  "scripts": {},
+  "dependencies": { "@supabase/ssr": "^0.3.0", "@supabase/supabase-js": "^2.43.4", "next": "^14.2.3" },
+  "devDependencies": {}
+}

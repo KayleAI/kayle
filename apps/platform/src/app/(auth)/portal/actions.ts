@@ -1,6 +1,6 @@
 "use server";
 
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@repo/db/server";
 
 export async function login(email: string, password: string) {
   const supabase = createClient();

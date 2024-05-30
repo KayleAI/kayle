@@ -1,11 +1,9 @@
 import { createClient } from "@repo/db/client";
 
-export async function captureFeedback({
-  feedback,
-  feedbackType,
+export async function captureContactForm({
+  message
 }: {
-  feedback: string;
-  feedbackType: string;
+  message: string;
 }): Promise<{ success: boolean; error: string | null }> {
   const supabase = createClient();
 
@@ -14,9 +12,8 @@ export async function captureFeedback({
       .from("contact")
       .insert(
         {
-          is_feedback: true,
-          message: feedback,
-          type: feedbackType,
+          is_feedback: false,
+          message: message
         }
       );
 

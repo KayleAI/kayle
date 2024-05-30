@@ -1,7 +1,7 @@
 "use server";
 
 import { Unkey } from "@unkey/api";
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@repo/db/server";
 
 const unkey = new Unkey({ rootKey: process.env.UNKEY_AUTH_TOKEN! });
 

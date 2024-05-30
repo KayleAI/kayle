@@ -20,6 +20,7 @@
     "@next/mdx": "^14.2.3",
     "@repo/config": "workspace:*",
     "@repo/icons": "workspace:*",
+    "@repo/db": "workspace:*",
     "@repo/ui": "workspace:*",
     "@sindresorhus/slugify": "^2.1.1",
     "@supabase/ssr": "^0.3.0",
