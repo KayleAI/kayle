@@ -2,10 +2,12 @@
 
 import { useOrg } from "@/utils/auth/OrgProvider";
 import { OrgArea } from "./OrgArea";
-import { Text, TextLink } from "@repo/ui/text";
+import { Strong, Text, TextLink } from "@repo/ui/text";
 import { Heading } from "@repo/ui/heading";
 import { Card, CardGrid } from "@/components/card";
 import { Link } from "@repo/ui/link";
+import { useRouter } from "next/navigation";
+import { newUrl } from "@/utils/url";
 
 export function OrgSelect({
   url,
@@ -13,6 +15,11 @@ export function OrgSelect({
   readonly url: string;
 }): JSX.Element {
   const orgs = useOrg();
+  const router = useRouter();
+
+  if (orgs?.activeOrg) {
+    router.push(newUrl({ organisationSlug: orgs.activeOrg.slug, url: url }));
+  }
 
   return (
     <OrgArea authRequired acceptRoles="any" loading={orgs?.orgStatus === "loading"}>
@@ -33,11 +40,9 @@ export function OrgSelect({
               >
                 <Card canHover>
                   <Text>
-                    <TextLink
-                      href={newUrl({ organisationSlug: org.slug, url: url })}
-                    >
+                    <Strong>
                       {org.name}
-                    </TextLink>
+                    </Strong>
                   </Text>
                 </Card>
               </Link>
@@ -60,14 +65,4 @@ export function OrgSelect({
       </Card>
     </OrgArea>
   )
-}
-
-function newUrl({
-  organisationSlug,
-  url,
-}: {
-  readonly organisationSlug: string;
-  readonly url: string;
-}): string {
-  return url.replace("_", organisationSlug);
 }
