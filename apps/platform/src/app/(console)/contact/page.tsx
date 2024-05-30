@@ -51,8 +51,8 @@ export default function Contact() {
             }, 500);
           }), {
             loading: "Sending message...",
-            success: "Awesome! Thanks for reaching out!",
-            error: (error) => `Error: ${error.message}`.replace("Error: Error: ", ""),
+            success: "Thanks for reaching out! We’ll get back to you soon.",
+            error: (error) => `${error.message}`.replace("Error: ", ""),
           })
         }}
       >

@@ -36,7 +36,6 @@ import {
   MagnifyingGlassIcon,
   QuestionMarkCircleIcon,
   SparklesIcon,
-  Square2StackIcon,
 } from '@heroicons/react/20/solid'
 import { useTheme } from 'next-themes';
 import { signout } from '@/utils/auth/signout';

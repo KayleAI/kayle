@@ -18,11 +18,11 @@ type OrganisationType = "social_media" | "forum" | "gaming" | "education" | "oth
 
 export default function CreateNewOrganisation() {
   const router = useRouter();
-  const user = useAuth();
   const supabase = createClient();
 
   const formRef = useRef<HTMLFormElement>(null);
-  const [orgName, setOrgName] = useState<string>(user?.data?.name || "");
+  const [orgName, setOrgName] = useState<string>("");
+  const [orgSlug, setOrgSlug] = useState<string>("");
   const [orgType, setOrgType] = useState<OrganisationType>("education");
   const [submissionState, setSubmissionState] = useState<"idle" | "loading" | "success" | "error">("idle");
 
@@ -34,7 +34,7 @@ export default function CreateNewOrganisation() {
         </Heading>
         <div className="flex gap-4">
           <Button
-            href="#coming-soon"
+            href="/contact"
           >
             Contact sales
           </Button>
@@ -54,6 +54,8 @@ export default function CreateNewOrganisation() {
                   "create_organisation",
                   {
                     org_name: orgName,
+                    org_avatar: null,
+                    org_slug: orgSlug,
                     org_type: orgType,
                   }
                 );
@@ -64,6 +66,7 @@ export default function CreateNewOrganisation() {
               }
 
               setSubmissionState("success");
+              window.location.href = `/org/${orgSlug}`;
               return resolve(true);
             }, 500);
           }), {
@@ -71,8 +74,6 @@ export default function CreateNewOrganisation() {
             success: "Organisation created!",
             error: (error) => `Error: ${error.message}`.replace("Error: Error: ", ""),
           })
-
-          router.refresh();
         }}
       >
         <Fieldset>
@@ -97,6 +98,22 @@ export default function CreateNewOrganisation() {
               />
               <Description>
                 The name of your organisation.
+              </Description>
+            </Field>
+            <Field>
+              <Label>
+                Organisation Identifier
+              </Label>
+              <Input
+                required
+                name="org_slug"
+                type="text"
+                value={orgSlug}
+                onChange={(e) => setOrgSlug(e.target.value)}
+                disabled={submissionState === "loading"}
+              />
+              <Description>
+                The unique identifier for your organisation.
               </Description>
             </Field>
             <Field>
