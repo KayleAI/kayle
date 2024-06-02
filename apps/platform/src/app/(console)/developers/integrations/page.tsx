@@ -22,11 +22,11 @@ export default function IntegrationsDashboard() {
         {integrations.map((integration) => (
           <Link href={`/developers/integrations/${integration.slug}`} key={integration.slug}>
             <Card className="p-4 relative">
-              <div className="grid grid-cols-5 gap-4">
-                <div className="w-full col-span-1 flex flex-col items-center justify-center">
+              <div className="flex flex-row gap-x-4">
+                <div className="size-12 flex flex-col items-center justify-center">
                   <integration.icon className="fill-zinc-900 dark:fill-zinc-100 size-10" />
                 </div>
-                <div className="col-span-4">
+                <div className="flex flex-col">
                   <Subheading level={2}>
                     {integration.name}
                   </Subheading>
