@@ -5,7 +5,6 @@ import { OrgSelect } from "@/components/auth/OrgSelect";
 import { useOrg } from "@/utils/auth/OrgProvider";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { newUrl } from "@/utils/url";
 
 export default function Organisation({
   params: {
@@ -21,7 +20,8 @@ export default function Organisation({
 
   useEffect(() => {
     if (orgId !== orgs?.activeOrg?.slug) {
-      /**router.push(newUrl({ organisationSlug: orgs?.activeOrg?.slug ?? "", url: "/org/_" }));*/
+      /**import { newUrl } from "@/utils/url";
+      router.push(newUrl({ organisationSlug: orgs?.activeOrg?.slug ?? "", url: "/org/_" }));*/
       router.refresh();
     }
   }, [

@@ -26,7 +26,6 @@
   ],
   "dependencies": {
     "@algolia/autocomplete-core": "^1.17.1",
-    "@headlessui/react": "^2.0.0-alpha.4",
     "@types/pg": "^8.11.5",
     "@types/uuid": "^9.0.8",
     "@unkey/api": "^0.19.4",

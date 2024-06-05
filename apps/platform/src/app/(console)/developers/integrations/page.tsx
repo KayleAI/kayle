@@ -35,7 +35,7 @@ export default function IntegrationsDashboard() {
                   </Text>
                 </div>
               </div>
-              {integration.comingSoon &&
+              {integration?.comingSoon !== undefined && integration.comingSoon &&
                 <div className="absolute top-1 right-1">
                   <Badge color="purple">
                     Coming soon!

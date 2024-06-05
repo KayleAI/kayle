@@ -62,6 +62,6 @@ export function ChangelogNewsletterForm() {
       >
         Stay in the loop
       </Button>
-    </div >
+    </div>
   )
 }

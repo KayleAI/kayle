@@ -10,14 +10,11 @@ import { Listbox, ListboxOption, ListboxLabel } from '@repo/ui/listbox'
 import { toast } from "sonner";
 import { createClient } from "@repo/db/client";
 import { Input } from "@repo/ui/input";
-import { useAuth } from "@/utils/auth/AuthProvider";
-import { useRouter } from "next/navigation";
 import { AuthArea } from "@/components/auth/AuthArea";
 
 type OrganisationType = "social_media" | "forum" | "gaming" | "education" | "other";
 
 export default function CreateNewOrganisation() {
-  const router = useRouter();
   const supabase = createClient();
 
   const formRef = useRef<HTMLFormElement>(null);

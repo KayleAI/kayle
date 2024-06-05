@@ -4,6 +4,14 @@ import {
   Reddit
 } from "@repo/icons/integrations/index";
 
+interface Integration {
+  slug: string;
+  name: string;
+  description: string;
+  icon: any;
+  comingSoon?: boolean;
+}
+
 export const integrations = [
   {
     slug: "custom",
@@ -25,4 +33,4 @@ export const integrations = [
     icon: Discord,
     comingSoon: true,
   },
-];
+] as Integration[];
