@@ -192,6 +192,7 @@
     /* <hr> */
     hr {
       border-color: var(--typography-hr);
+      margin-top: calc(theme(margin.16) - 1px);
     }
   
     /* Lists */
@@ -210,6 +211,7 @@
   
     li {
       padding-left: 0.625rem;
+      margin-top: theme(margin.4);
     }
   
     li::marker {
@@ -269,14 +271,6 @@
   
     :is(h2, h3, h4, blockquote, pre, table) {
       margin-top: theme(margin.8);
-    }
-  
-    hr {
-      margin-top: calc(theme(margin.16) - 1px);
-    }
-  
-    li {
-      margin-top: theme(margin.4);
     }
   
     li > :is(p, ol, ul) {
