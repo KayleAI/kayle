@@ -1,8 +1,8 @@
 "use client";
 
-import { Button } from '@repo/ui/button';
 import { magicOtp } from './actions'
 
+import { Button } from '@repo/ui/button';
 import { Field, FieldGroup, Fieldset, Label, Legend } from '@repo/ui/fieldset'
 import { Input } from '@repo/ui/input'
 import { Text, TextLink } from '@repo/ui/text'
