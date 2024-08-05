@@ -11,7 +11,11 @@ repository = "https://github.com/KayleAI/kayle"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-hyper = { version = "1", features = ["full"] }
-tokio = { version = "1", features = ["full"] }
-http-body-util = "0.1"
-hyper-util = { version = "0.1", features = ["full"] }
+actix-web = { version = "4.8.0", features = ["rustls-0_23"] }
+env_logger = "0.11.5"
+dotenv = "0.15.0"
+log = "0.4.22"
+rustls = "0.23"
+rustls-pemfile ="2"
+unkey = "0.4"
+
