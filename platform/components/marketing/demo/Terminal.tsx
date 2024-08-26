@@ -35,12 +35,12 @@ export function DemoTerminal() {
 	return (
 		<div className="relative isolate mx-auto max-w-7xl p-2 lg:px-8">
 			<TabGroup>
-				<TabList className="flex gap-4">
+				<TabList className="flex gap-4 overflow-x-scroll">
 					{options.map(({ id, name, disabled }) => (
 						<Tab
 							key={id}
 							disabled={disabled}
-							className="group relative rounded-full py-1 px-3 text-sm/6 font-semibold text-white focus:outline-none data-[selected]:bg-white/10 data-[hover]:bg-white/5 data-[selected]:data-[hover]:bg-white/10 data-[focus]:outline-1 data-[focus]:outline-white disabled:cursor-not-allowed"
+							className="group relative min-w-fit rounded-full py-1 px-3 text-sm/6 font-semibold text-white focus:outline-none data-[selected]:bg-white/10 data-[hover]:bg-white/5 data-[selected]:data-[hover]:bg-white/10 data-[focus]:outline-1 data-[focus]:outline-white disabled:cursor-not-allowed"
 						>
 							{disabled ? (
 								<div className="absolute inset-0 rounded-full hidden group-hover:block backdrop-blur-[1px] bg-black/50 text-white py-1 px-2">
@@ -174,7 +174,7 @@ export function ModerateDemo({
 			<div className="mt-2 flex flex-row gap-2">
 				{status === "idle" ? (
 					<Badge>
-						Press <Code>Moderate</Code> when you’re ready to see the results.
+						Press <Code>Moderate</Code> when ready.
 					</Badge>
 				) : null}
 				{status === "loading" ? (
