@@ -1,8 +1,8 @@
 "use client";
 
-import { Heading, Subheading } from "@/components/ui/heading";
-import { Divider } from "@/components/ui/divider";
-import { Text } from "@/components/ui/text";
+import { Heading, Subheading } from "@repo/ui/heading";
+import { Divider } from "@repo/ui/divider";
+import { Text } from "@repo/ui/text";
 
 export function PageHeading({
 	title = "",

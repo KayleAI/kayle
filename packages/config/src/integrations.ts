@@ -2,7 +2,7 @@ import {
   CustomPlatform as OwnPlatform,
   Discord,
   Reddit
-} from "@/icons/integrations/index";
+} from "@repo/icons/integrations/index";
 
 export interface Integration {
   slug: string;
