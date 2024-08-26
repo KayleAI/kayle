@@ -1,0 +1,17 @@
+# Cloudflare
+
+CLOUDFLARE_ACCOUNT_ID=
+
+# Unkey
+
+UNKEY_API_ID=
+UNKEY_ROOT_API_KEY=
+
+# Groq
+
+GROQ_API_KEY=
+
+# OpenAI Keys
+
+AI_API_KEY=
+AI_BASE_URL=

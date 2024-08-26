@@ -1,0 +1,20 @@
+{
+  "name": "@repo/icons",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "lint": "eslint ."
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@types/node": "^20.10.6"
+  },
+  "dependencies": {
+    "@svgr/webpack": "^8.1.0",
+    "@types/node": "^20.10.6"
+  },
+  "exports": {
+    "./*": "./src/*.ts"
+  }
+}

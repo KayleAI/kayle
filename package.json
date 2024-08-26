@@ -18,6 +18,8 @@
   "packageManager": "bun@1.1.15",
   "workspaces": [
     "apps/*",
-    "packages/*"
+    "packages/*",
+    "engine/",
+    "platform/"
   ]
 }
