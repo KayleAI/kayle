@@ -1,6 +1,6 @@
 "use client";
 
-import { createClient } from "utils/supabase/client";
+import { createClient } from "@repo/db/client";
 import {
 	Description,
 	Field,
@@ -22,7 +22,7 @@ import {
 } from "./better-error-messages";
 import { LoaderIcon } from "@repo/icons/ui/index";
 import { useRouter } from "next/navigation";
-import { useAuth } from "utils/auth/AuthProvider";
+import { useAuth } from "@/utils/auth/AuthProvider";
 
 export function AuthPanel({
 	signIn = false,

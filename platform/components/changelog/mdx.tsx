@@ -5,7 +5,7 @@ import Image, { type ImageProps } from "next/image";
 import Link from "next/link";
 import clsx from "clsx";
 
-import { FormattedDate } from "components/changelog/FormattedDate";
+import { FormattedDate } from "@/components/changelog/FormattedDate";
 
 export const a = Link;
 

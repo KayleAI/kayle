@@ -1,8 +1,8 @@
 import { useId } from "react";
 
-import { Intro, IntroFooter } from "components/changelog/Intro";
-import { StarField } from "components/changelog/StarField";
-import { ThemeToggle } from "components/ThemeToggle";
+import { Intro, IntroFooter } from "@/components/changelog/Intro";
+import { StarField } from "@/components/changelog/StarField";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 function Timeline() {
 	const id = useId();

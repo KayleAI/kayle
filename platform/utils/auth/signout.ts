@@ -1,6 +1,6 @@
 "use client";
 
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@repo/db/client";
 import { toast } from "sonner";
 
 export async function signout() {

@@ -38,11 +38,11 @@ import {
 	SparklesIcon,
 } from "@heroicons/react/20/solid";
 import { useTheme } from "next-themes";
-import { signout } from "utils/auth/signout";
+import { signout } from "@/utils/auth/signout";
 import { toggleSearch } from "../Search";
 import { usePathname, useRouter } from "next/navigation";
-import { useAuth } from "utils/auth/AuthProvider";
-import { useOrg } from "utils/auth/OrgProvider";
+import { useAuth } from "@/utils/auth/AuthProvider";
+import { useOrg } from "@/utils/auth/OrgProvider";
 
 export default function ConsoleSidebar(): JSX.Element {
 	const { setTheme, resolvedTheme } = useTheme();

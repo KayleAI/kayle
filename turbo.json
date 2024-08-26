@@ -1,6 +1,21 @@
 {
 	"$schema": "https://turbo.build/schema.json",
 	"ui": "tui",
+	"globalEnv": [
+		"NEXT_PUBLIC_SITE_URL",
+		"NODE_ENV",
+		"ARCJET_KEY",
+		"KAYLE_API_KEY",
+		"NEXT_PUBLIC_SUPABASE_URL",
+		"NEXT_PUBLIC_SUPABASE_ANON_KEY",
+		"SUPABASE_SERVICE_ROLE_KEY",
+		"SUPABASE_JWT_SECRET",
+		"UNKEY_AUTH_TOKEN",
+		"UNKEY_API_ID",
+		"NEXT_PUBLIC_OPENPANEL_CLIENT_ID",
+		"OPENPANEL_SECRET_KEY",
+		"RESEND_API_KEY"
+	],
 	"tasks": {
 		"build": {
 			"dependsOn": ["^build"],

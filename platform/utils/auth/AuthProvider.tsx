@@ -8,7 +8,7 @@ import {
 	useMemo,
 	useState,
 } from "react";
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@repo/db/client";
 import type { Session } from "@supabase/supabase-js";
 
 type AuthUser = {

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@repo/db/server";
 
 import { Unkey, verifyKey } from "@unkey/api";
 

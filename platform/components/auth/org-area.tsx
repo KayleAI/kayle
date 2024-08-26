@@ -1,7 +1,7 @@
 "use client";
 
-import { useAuth } from "utils/auth/AuthProvider";
-import { useOrg } from "utils/auth/OrgProvider";
+import { useAuth } from "@/utils/auth/AuthProvider";
+import { useOrg } from "@/utils/auth/OrgProvider";
 import { Button } from "@repo/ui/button";
 import { Heading } from "@repo/ui/heading";
 import { Text } from "@repo/ui/text";

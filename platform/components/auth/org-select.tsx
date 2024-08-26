@@ -1,6 +1,6 @@
 "use client";
 
-import { useOrg } from "utils/auth/OrgProvider";
+import { useOrg } from "@/utils/auth/OrgProvider";
 import { OrgArea } from "./org-area";
 import { Strong, Text } from "@repo/ui/text";
 import { Heading } from "@repo/ui/heading";

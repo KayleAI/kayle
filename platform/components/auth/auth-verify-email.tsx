@@ -11,7 +11,7 @@ import { Strong, Text, TextLink } from "@repo/ui/text";
 
 import { useState } from "react";
 import { useQueryState } from "nuqs";
-import { createClient } from "utils/supabase/client";
+import { createClient } from "@repo/db/client";
 import { toast } from "sonner";
 import { LoaderIcon } from "@repo/icons/ui/index";
 

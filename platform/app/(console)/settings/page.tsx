@@ -14,7 +14,7 @@ import {
 import { Text } from "@repo/ui/text";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@repo/db/client";
 import { Input } from "@repo/ui/input";
 import { useAuth } from "@/utils/auth/AuthProvider";
 import { useRouter } from "next/navigation";

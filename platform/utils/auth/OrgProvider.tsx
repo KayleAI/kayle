@@ -8,7 +8,7 @@ import {
 	useState,
 	useCallback,
 } from "react";
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@repo/db/client";
 
 type Org = {
 	id: string;
