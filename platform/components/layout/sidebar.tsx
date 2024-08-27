@@ -30,11 +30,14 @@ import {
 	PlusIcon,
 } from "@heroicons/react/16/solid";
 import {
+	ArchiveBoxIcon,
 	CodeBracketSquareIcon,
+	HandRaisedIcon,
 	HomeIcon,
 	InboxIcon,
 	MagnifyingGlassIcon,
 	QuestionMarkCircleIcon,
+	ScaleIcon,
 	SparklesIcon,
 } from "@heroicons/react/20/solid";
 import { useTheme } from "next-themes";
@@ -133,11 +136,38 @@ export default function ConsoleSidebar(): JSX.Element {
 			<SidebarBody>
 				<SidebarSection>
 					<SidebarItem
-						href={user?.authStatus === "authenticated" ? "/" : "/dashboard"}
+						href={"/"}
 						current={pathname === "/" || pathname === "/dashboard"}
 					>
 						<HomeIcon />
 						<SidebarLabel>Dashboard</SidebarLabel>
+					</SidebarItem>
+					<SidebarItem
+						href={"/"}
+						current={pathname === "/chat"}
+					>
+						<ScaleIcon />
+						<SidebarLabel>
+							Policies
+						</SidebarLabel>
+					</SidebarItem>
+					<SidebarItem
+						href={"/"}
+						current={pathname === "/chat"}
+					>
+						<HandRaisedIcon />
+						<SidebarLabel>
+							Moderation
+						</SidebarLabel>
+					</SidebarItem>
+					<SidebarItem
+						href={"/"}
+						current={pathname === "/chat"}
+					>
+						<ArchiveBoxIcon />
+						<SidebarLabel>
+							Archive
+						</SidebarLabel>
 					</SidebarItem>
 					{["Owner", "Admin", "Developer"].includes(orgs?.activeOrg?.role ?? "") && (
 						<SidebarItem

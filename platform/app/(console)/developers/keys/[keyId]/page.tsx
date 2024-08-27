@@ -46,7 +46,7 @@ export default function SpecificKey({
 	return (
 		<OrgArea
 			authRequired
-			acceptRoles={["owner", "admin", "developer"]}
+			acceptRoles={["Owner", "Admin", "Developer"]}
 			loading={loading}
 		>
 			<main className="max-w-7xl mx-auto px-4 sm:px-8 py-10">

@@ -49,7 +49,11 @@ export default function CreateKeyDialog() {
 
 	const handleClose = () => {
 		setIsOpen(null);
-		setKeyCreatedSecret("false");
+		setTimeout(() => {
+			setKeyName("");
+			setTestMode("test");
+			setKeyCreatedSecret("false");
+		}, 200);
 	};
 
 	return (

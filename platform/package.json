@@ -19,6 +19,7 @@
     "@mdx-js/loader": "^3.0.0",
     "@mdx-js/react": "^3.0.0",
     "@next/mdx": "^15.0.0-rc.0",
+    "@openpanel/nextjs": "^1.0.0",
     "@repo/comm": "workspace:*",
     "@repo/config": "workspace:*",
     "@repo/db": "workspace:*",
