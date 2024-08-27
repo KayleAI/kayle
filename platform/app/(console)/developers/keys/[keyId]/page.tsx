@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import { getApiKey } from "@/actions/keys/get-api-key";
 import { deleteApiKey } from "@/actions/keys/delete-api-key";
 import { updateApiKey } from "@/actions/keys/update-api-key";
+import { getApiUsage } from "@/actions/keys/get-api-usage";
 
 export default function SpecificKey({
 	params: { keyId = null },
@@ -25,19 +26,31 @@ export default function SpecificKey({
 
 	const [loading, setLoading] = useState(true);
 	const [keyData, setKeyData] = useState(null as any);
+	const [usageData, setUsageData] = useState(null as any);
 
 	const getKey = useCallback(async () => {
 		if (!keyId) return;
 		if (!orgs?.activeOrg?.id) return;
 
 		const { data: key, error } = await getApiKey(keyId, orgs?.activeOrg?.id);
+		const { data: usage, error: usageError } = await getApiUsage({
+			orgId: orgs?.activeOrg?.id,
+			keyId,
+			type: "key",
+		});
 
 		if (error) {
 			console.error(error);
 			return;
 		}
 
+		if (usageError) {
+			console.error(usageError);
+			return;
+		}
+
 		setKeyData(key || null);
+		setUsageData(usage || null);
 		setLoading(false);
 	}, [keyId, orgs?.activeOrg?.id]);
 
@@ -162,10 +175,10 @@ export default function SpecificKey({
 				</div>
 				<div className="mt-4">
 					<h2 className="text-lg font-semibold">Usage Graph</h2>
-					{keyData?.usage?.length === 0 ? (
+					{usageData?.length === 0 ? (
 						<div>No usage data available.</div>
 					) : (
-						<div />
+						<pre>{JSON.stringify(usageData, null, 2)}</pre>
 					)}
 				</div>
 				<pre>{JSON.stringify(keyData, null, 2)}</pre>
