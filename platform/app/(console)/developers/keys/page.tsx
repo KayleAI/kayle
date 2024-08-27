@@ -7,6 +7,8 @@ import { ListKeysLoading } from "@/components/console/keys/list/loading";
 
 // Functions
 import { Suspense } from "react";
+
+// Auth
 import { OrgSelect } from "@/components/auth/org-select";
 
 export default async function DisplayUserKeys({
