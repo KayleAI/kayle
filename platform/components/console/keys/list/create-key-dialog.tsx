@@ -18,6 +18,7 @@ import {
 } from "@repo/ui/fieldset";
 import { Input } from "@repo/ui/input";
 import { Listbox, ListboxLabel, ListboxOption } from "@repo/ui/listbox";
+import clsx from "clsx";
 
 // State
 import { useQueryState, parseAsBoolean } from "nuqs";
@@ -31,6 +32,7 @@ import { createApiKey } from "@/actions/keys/create-api-key";
 // Hooks
 import { useClipboard } from "@mantine/hooks";
 import { toast } from "sonner";
+import { CopyIcon } from "@repo/icons/ui/index";
 
 export default function CreateKeyDialog() {
 	const orgs = useOrg();
@@ -135,8 +137,17 @@ export default function CreateKeyDialog() {
 									disabled
 									id="secret_key"
 								/>
-								<Button plain onClick={copyToClipboard}>
-									copy
+								<Button
+									outline
+									onClick={copyToClipboard}
+									className="h-11 sm:h-9"
+								>
+									<CopyIcon
+										className={clsx(
+											"size-5 sm:size-4",
+											clipboard.copied && "text-green-500 dark:text-green-300",
+										)}
+									/>
 								</Button>
 							</div>
 						</Field>

@@ -1,5 +1,6 @@
 "use client";
 
+// UI
 import { Avatar } from "@repo/ui/avatar";
 import {
 	Dropdown,
@@ -20,32 +21,34 @@ import {
 	SidebarSpacer,
 } from "@repo/ui/sidebar";
 import {
-	ArrowRightStartOnRectangleIcon,
+	InboxIcon,
+	ArchiveIcon,
+	CodeIcon,
+	EnvelopeIcon,
+	HandShieldIcon,
+	HouseGrinIcon,
+	LeaveIcon,
+	MagnifierIcon,
+	ScaleIcon,
+	SettingsIcon,
+	SunIcon,
+	MoonIcon,
 	ChevronDownIcon,
 	ChevronUpIcon,
-	Cog8ToothIcon,
-	EnvelopeIcon,
-	LightBulbIcon,
-	MoonIcon,
-	PlusIcon,
-} from "@heroicons/react/16/solid";
-import {
-	ArchiveBoxIcon,
-	CodeBracketSquareIcon,
-	HandRaisedIcon,
-	HomeIcon,
-	InboxIcon,
-	MagnifyingGlassIcon,
 	QuestionMarkCircleIcon,
-	ScaleIcon,
+	PlusIcon,
 	SparklesIcon,
-} from "@heroicons/react/20/solid";
-import { useTheme } from "next-themes";
+} from "@repo/icons/ui/index";
+
+// Auth
 import { signout } from "@/utils/auth/signout";
-import { toggleSearch } from "../Search";
-import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "@/utils/auth/AuthProvider";
 import { useOrg } from "@/utils/auth/OrgProvider";
+
+// Functions
+import { useTheme } from "next-themes";
+import { toggleSearch } from "../Search";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function ConsoleSidebar(): JSX.Element {
 	const { setTheme, resolvedTheme } = useTheme();
@@ -82,7 +85,7 @@ export default function ConsoleSidebar(): JSX.Element {
 								className="text-emerald-500 bg-zinc-100 dark:bg-zinc-900"
 							/>
 							<SidebarLabel>{orgs?.activeOrg?.name}</SidebarLabel>
-							<ChevronDownIcon />
+							<ChevronDownIcon data-slot="icon" />
 						</DropdownButton>
 					) : (
 						<DropdownButton as={SidebarItem} className="mb-2.5">
@@ -94,12 +97,12 @@ export default function ConsoleSidebar(): JSX.Element {
 					<DropdownMenu className="min-w-64" anchor="bottom start">
 						{orgs?.activeOrg ? (
 							<DropdownItem href={`/org/${orgs?.activeOrg?.slug}/settings`}>
-								<Cog8ToothIcon />
+								<SettingsIcon data-slot="icon" />
 								<DropdownLabel>Organisation Settings</DropdownLabel>
 							</DropdownItem>
 						) : (
 							<DropdownItem href="/settings">
-								<Cog8ToothIcon />
+								<SettingsIcon data-slot="icon" />
 								<DropdownLabel>Settings</DropdownLabel>
 							</DropdownItem>
 						)}
@@ -117,18 +120,18 @@ export default function ConsoleSidebar(): JSX.Element {
 						))}
 						{orgs?.memberOrgs?.length !== 0 && <DropdownDivider />}
 						<DropdownItem href="/org/create">
-							<PlusIcon />
+							<PlusIcon data-slot="icon" />
 							<DropdownLabel>Create new organisation</DropdownLabel>
 						</DropdownItem>
 					</DropdownMenu>
 				</Dropdown>
 				<SidebarSection>
 					<SidebarItem onClick={toggleSearch}>
-						<MagnifyingGlassIcon />
+						<MagnifierIcon data-slot="icon" />
 						<SidebarLabel>Search</SidebarLabel>
 					</SidebarItem>
 					<SidebarItem href="/inbox">
-						<InboxIcon />
+						<InboxIcon data-slot="icon" />
 						<SidebarLabel>Inbox</SidebarLabel>
 					</SidebarItem>
 				</SidebarSection>
@@ -139,42 +142,29 @@ export default function ConsoleSidebar(): JSX.Element {
 						href={"/"}
 						current={pathname === "/" || pathname === "/dashboard"}
 					>
-						<HomeIcon />
+						<HouseGrinIcon data-slot="icon" />
 						<SidebarLabel>Dashboard</SidebarLabel>
 					</SidebarItem>
-					<SidebarItem
-						href={"/"}
-						current={pathname === "/chat"}
-					>
-						<ScaleIcon />
-						<SidebarLabel>
-							Policies
-						</SidebarLabel>
+					<SidebarItem href={"/"} current={pathname === "/chat"}>
+						<ScaleIcon data-slot="icon" />
+						<SidebarLabel>Policies</SidebarLabel>
 					</SidebarItem>
-					<SidebarItem
-						href={"/"}
-						current={pathname === "/chat"}
-					>
-						<HandRaisedIcon />
-						<SidebarLabel>
-							Moderation
-						</SidebarLabel>
+					<SidebarItem href={"/"} current={pathname === "/chat"}>
+						<HandShieldIcon data-slot="icon" />
+						<SidebarLabel>Moderation</SidebarLabel>
 					</SidebarItem>
-					<SidebarItem
-						href={"/"}
-						current={pathname === "/chat"}
-					>
-						<ArchiveBoxIcon />
-						<SidebarLabel>
-							Archive
-						</SidebarLabel>
+					<SidebarItem href={"/"} current={pathname === "/chat"}>
+						<ArchiveIcon data-slot="icon" />
+						<SidebarLabel>Archive</SidebarLabel>
 					</SidebarItem>
-					{["Owner", "Admin", "Developer"].includes(orgs?.activeOrg?.role ?? "") && (
+					{["Owner", "Admin", "Developer"].includes(
+						orgs?.activeOrg?.role ?? "",
+					) && (
 						<SidebarItem
 							href="/developers"
 							current={pathname === "/developers"}
 						>
-							<CodeBracketSquareIcon />
+							<CodeIcon data-slot="icon" />
 							<SidebarLabel>Developers</SidebarLabel>
 						</SidebarItem>
 					)}
@@ -182,11 +172,11 @@ export default function ConsoleSidebar(): JSX.Element {
 				<SidebarSpacer />
 				<SidebarSection>
 					<SidebarItem href="/support">
-						<QuestionMarkCircleIcon />
+						<QuestionMarkCircleIcon data-slot="icon" />
 						<SidebarLabel>Support</SidebarLabel>
 					</SidebarItem>
 					<SidebarItem href="/changelog">
-						<SparklesIcon />
+						<SparklesIcon data-slot="icon" />
 						<SidebarLabel>Changelog</SidebarLabel>
 					</SidebarItem>
 				</SidebarSection>
@@ -220,31 +210,35 @@ export default function ConsoleSidebar(): JSX.Element {
 								</span>
 							</span>
 						</span>
-						<ChevronUpIcon />
+						<ChevronUpIcon data-slot="icon" />
 					</DropdownButton>
 					<DropdownMenu className="min-w-64" anchor="top start">
 						<DropdownItem
 							href={user?.authStatus === "authenticated" ? "/home" : "/"}
 						>
-							<HomeIcon />
+							<HouseGrinIcon data-slot="icon" />
 							<DropdownLabel>Visit homepage</DropdownLabel>
 						</DropdownItem>
 						<DropdownItem href="/settings">
-							<Cog8ToothIcon />
+							<SettingsIcon data-slot="icon" />
 							<DropdownLabel>Account Settings</DropdownLabel>
 						</DropdownItem>
 						<DropdownDivider />
 						<DropdownItem href="/feedback">
-							<EnvelopeIcon />
+							<EnvelopeIcon data-slot="icon" />
 							<DropdownLabel>Send feedback</DropdownLabel>
 						</DropdownItem>
 						<DropdownItem onClick={toggleTheme}>
-							{resolvedTheme === "dark" ? <LightBulbIcon /> : <MoonIcon />}
+							{resolvedTheme === "dark" ? (
+								<SunIcon data-slot="icon" />
+							) : (
+								<MoonIcon data-slot="icon" />
+							)}
 							<DropdownLabel>Toggle Theme</DropdownLabel>
 						</DropdownItem>
 						<DropdownDivider />
 						<DropdownItem onClick={handleSignout}>
-							<ArrowRightStartOnRectangleIcon />
+							<LeaveIcon data-slot="icon" />
 							<DropdownLabel>Sign out</DropdownLabel>
 						</DropdownItem>
 					</DropdownMenu>
