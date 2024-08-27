@@ -40,8 +40,8 @@ export function ListKeys({
 				</div>
 				<Table
 					bleed
+					dense
 					striped
-					className="[--gutter:theme(spacing.6)] sm:[--gutter:theme(spacing.8)]"
 				>
 					<TableHead>
 						<TableRow>

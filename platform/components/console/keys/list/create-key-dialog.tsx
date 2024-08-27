@@ -28,8 +28,14 @@ import { useRouter } from "next/navigation";
 import { useOrg } from "@/utils/auth/OrgProvider";
 import { createApiKey } from "@/actions/keys/create-api-key";
 
+// Hooks
+import { useClipboard } from "@mantine/hooks";
+import { toast } from "sonner";
+
 export default function CreateKeyDialog() {
 	const orgs = useOrg();
+
+	const clipboard = useClipboard({ timeout: 500 });
 
 	const [isOpen, setIsOpen] = useQueryState(
 		"create",
@@ -57,12 +63,17 @@ export default function CreateKeyDialog() {
 		}, 200);
 	};
 
+	const copyToClipboard = () => {
+		clipboard.copy(keyCreatedSecret);
+		toast.info("Copied to clipboard");
+	};
+
 	return (
 		<>
 			<Button type="button" onClick={() => setIsOpen(true)}>
 				Create API Key
 			</Button>
-			<Dialog open={isOpen} onClose={handleClose}>
+			<Dialog open={isOpen} onClose={handleClose} size="2xl">
 				<DialogTitle>
 					{keyCreatedSecret === "false" ? "Create API Key" : "API Key Created!"}
 				</DialogTitle>
@@ -117,12 +128,17 @@ export default function CreateKeyDialog() {
 							<Description>
 								This is your secret key. Store it securely.
 							</Description>
-							<Input
-								name="secret_key"
-								defaultValue={keyCreatedSecret}
-								disabled
-								id="secret_key"
-							/>
+							<div className="relative flex items-center gap-2 mt-2">
+								<Input
+									name="secret_key"
+									defaultValue={keyCreatedSecret}
+									disabled
+									id="secret_key"
+								/>
+								<Button plain onClick={copyToClipboard}>
+									copy
+								</Button>
+							</div>
 						</Field>
 					)}
 				</DialogBody>
