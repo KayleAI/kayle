@@ -5,7 +5,7 @@ import AuthProvider, { useAuth } from "@/utils/auth/AuthProvider";
 import OrgProvider from "@/utils/auth/OrgProvider";
 
 // Captcha
-import { CaptchaProvider } from "@/utils/captcha/CaptchaProvider";
+import { Captcha, CaptchaProvider } from "@/utils/captcha/CaptchaProvider";
 
 // Themes
 import { ThemeProvider, useTheme } from "next-themes";
@@ -36,6 +36,7 @@ export function Providers({
 					</ThemeProvider>
 				</OrgProvider>
 			</AuthProvider>
+			<Captcha invisible />
 		</CaptchaProvider>
 	);
 }
