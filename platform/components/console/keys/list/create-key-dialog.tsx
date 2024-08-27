@@ -22,7 +22,7 @@ import clsx from "clsx";
 
 // State
 import { useQueryState, parseAsBoolean } from "nuqs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // Router
 import { useRouter } from "next/navigation";
@@ -37,7 +37,8 @@ import { CopyIcon } from "@repo/icons/ui/index";
 export default function CreateKeyDialog() {
 	const orgs = useOrg();
 
-	const clipboard = useClipboard({ timeout: 500 });
+	const clipboard = useClipboard({ timeout: 2000 });
+	const envClipboard = useClipboard({ timeout: 2000 });
 
 	const [isOpen, setIsOpen] = useQueryState(
 		"create",
@@ -52,7 +53,20 @@ export default function CreateKeyDialog() {
 		defaultValue: "my-new-api-key",
 	});
 
-	const [keyCreatedSecret, setKeyCreatedSecret] = useState<string>("false"); // This will be a string when the key is created and the key secret will be stored here
+	const [keyCreatedSecret, setKeyCreatedSecret] = useState<string>("false");
+	const [hiddenKey, setHiddenKey] = useState<string>("");
+
+	const [isKeyRevealed, setIsKeyRevealed] = useState(false);
+
+	const toggleKeyVisibility = () => {
+		setIsKeyRevealed(!isKeyRevealed);
+	};
+
+	useEffect(() => {
+		if (keyCreatedSecret !== "false") {
+			setHiddenKey(keyCreatedSecret.replace(/./g, "•"));
+		}
+	}, [keyCreatedSecret]);
 
 	const router = useRouter();
 
@@ -67,6 +81,11 @@ export default function CreateKeyDialog() {
 
 	const copyToClipboard = () => {
 		clipboard.copy(keyCreatedSecret);
+		toast.info("Copied to clipboard");
+	};
+
+	const copyEnvToClipboard = () => {
+		envClipboard.copy(`KAYLE_API_KEY=${keyCreatedSecret}`);
 		toast.info("Copied to clipboard");
 	};
 
@@ -125,32 +144,69 @@ export default function CreateKeyDialog() {
 							</FieldGroup>
 						</Fieldset>
 					) : (
-						<Field>
-							<Label htmlFor="secret_key">Secret Key</Label>
-							<Description>
-								This is your secret key. Store it securely.
-							</Description>
-							<div className="relative flex items-center gap-2 mt-2">
-								<Input
-									name="secret_key"
-									defaultValue={keyCreatedSecret}
-									disabled
-									id="secret_key"
-								/>
-								<Button
-									outline
-									onClick={copyToClipboard}
-									className="h-11 sm:h-9"
-								>
-									<CopyIcon
-										className={clsx(
-											"size-5 sm:size-4",
-											clipboard.copied && "text-green-500 dark:text-green-300",
-										)}
+						<FieldGroup>
+							<Field>
+								<Label htmlFor="secret_key">Secret Key</Label>
+								<Description>
+									This is your secret key. Store it securely.
+								</Description>
+								<div className="relative flex items-center gap-2 mt-2">
+									<Input
+										name="secret_key"
+										value={isKeyRevealed ? keyCreatedSecret : hiddenKey}
+										disabled
+										id="secret_key"
 									/>
-								</Button>
-							</div>
-						</Field>
+									<Button
+										outline
+										onClick={toggleKeyVisibility}
+										className="h-11 sm:h-9"
+									>
+										{isKeyRevealed ? "Hide" : "Reveal"}
+									</Button>
+									<Button
+										outline
+										onClick={copyToClipboard}
+										className="h-11 sm:h-9"
+									>
+										<CopyIcon
+											className={clsx(
+												"size-5 sm:size-4",
+												clipboard.copied &&
+													"text-green-500 dark:text-green-300",
+											)}
+										/>
+									</Button>
+								</div>
+							</Field>
+							<Field>
+								<Label htmlFor="env_key">Paste this into your .env file</Label>
+								<Description>
+									You should never store this key in your code.
+								</Description>
+								<div className="relative flex items-center gap-2 mt-2">
+									<Input
+										name="env_key"
+										value={`KAYLE_API_KEY=${isKeyRevealed ? keyCreatedSecret : hiddenKey}`}
+										disabled
+										id="env_key"
+									/>
+									<Button
+										outline
+										onClick={copyEnvToClipboard}
+										className="h-11 sm:h-9"
+									>
+										<CopyIcon
+											className={clsx(
+												"size-5 sm:size-4",
+												envClipboard.copied &&
+													"text-green-500 dark:text-green-300",
+											)}
+										/>
+									</Button>
+								</div>
+							</Field>
+						</FieldGroup>
 					)}
 				</DialogBody>
 				<DialogActions>
