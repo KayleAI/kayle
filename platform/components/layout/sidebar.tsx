@@ -91,7 +91,7 @@ export default function ConsoleSidebar(): JSX.Element {
 						<DropdownButton as={SidebarItem} className="mb-2.5">
 							<Avatar src="/favicon.ico" />
 							<SidebarLabel>Select organisation</SidebarLabel>
-							<ChevronDownIcon />
+							<ChevronDownIcon data-slot="icon" />
 						</DropdownButton>
 					)}
 					<DropdownMenu className="min-w-64" anchor="bottom start">

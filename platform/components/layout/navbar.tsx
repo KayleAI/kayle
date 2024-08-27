@@ -77,7 +77,6 @@ export default function ConsoleNavbar(): JSX.Element {
 				) : (
 					<DropdownButton as={NavbarItem}>
 						<Avatar src="/favicon.ico" />
-						<NavbarLabel>Select organisation</NavbarLabel>
 						<ChevronDownIcon data-slot="icon" />
 					</DropdownButton>
 				)}
