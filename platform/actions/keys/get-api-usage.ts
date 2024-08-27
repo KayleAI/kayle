@@ -6,6 +6,9 @@ import { Unkey } from "@unkey/api";
 const unkey = new Unkey({
 	rootKey: process.env.UNKEY_AUTH_TOKEN!,
 	cache: "no-store",
+	retry: {
+		attempts: 0,
+	},
 });
 
 export async function getApiUsage({
@@ -40,7 +43,7 @@ export async function getApiUsage({
 
 	const { data: orgs, error: orgError } = await supabase
 		.from("organisations")
-		.select("*");
+		.select("id");
 
 	if (orgError || !orgs) {
 		return {

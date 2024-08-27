@@ -1,9 +1,9 @@
 export function newUrl({
-	organisationSlug,
+	replace,
 	url,
 }: {
-	readonly organisationSlug: string;
+	readonly replace: string;
 	readonly url: string;
 }): string {
-	return url.replace("_", organisationSlug);
+	return url.replace("_", replace);
 }

@@ -33,7 +33,7 @@ export async function getApiKey(keyId: string, orgId: string) {
 
 	const { data: orgs, error: orgError } = await supabase
 		.from("organisations")
-		.select("*");
+		.select("id");
 
 	if (orgError || !orgs) {
 		return {

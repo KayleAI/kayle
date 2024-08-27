@@ -19,8 +19,6 @@ export default function Organisation({
 
 	useEffect(() => {
 		if (orgId !== orgs?.activeOrg?.slug) {
-			/**import { newUrl } from "@/utils/url";
-      router.push(newUrl({ organisationSlug: orgs?.activeOrg?.slug ?? "", url: "/org/_" }));*/
 			router.refresh();
 		}
 	}, [orgs?.activeOrg, orgId, router]);

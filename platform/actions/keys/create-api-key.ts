@@ -34,7 +34,7 @@ export async function createApiKey({
 
 	const { data: orgs, error: orgError } = await supabase
 		.from("organisations")
-		.select("*");
+		.select("id");
 
 	if (orgError || !orgs) {
 		return {

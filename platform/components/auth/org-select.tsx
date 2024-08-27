@@ -11,14 +11,21 @@ import { newUrl } from "@/utils/url";
 
 export function OrgSelect({
 	url,
+	type = "slug",
 }: {
 	readonly url: string;
+	readonly type?: "slug" | "id";
 }): JSX.Element {
 	const orgs = useOrg();
 	const router = useRouter();
 
 	if (orgs?.activeOrg) {
-		router.push(newUrl({ organisationSlug: orgs.activeOrg.slug, url: url }));
+		router.push(
+			newUrl({
+				replace: type === "slug" ? orgs.activeOrg.slug : orgs.activeOrg.id,
+				url: url,
+			}),
+		);
 	}
 
 	return (
@@ -41,7 +48,10 @@ export function OrgSelect({
 					{orgs?.memberOrgs?.map((org) => (
 						<Link
 							key={org.id}
-							href={newUrl({ organisationSlug: org.slug, url: url })}
+							href={newUrl({
+								replace: type === "slug" ? org.slug : org.id,
+								url: url,
+							})}
 							className="w-full"
 						>
 							<Card title={org.name} description="">
