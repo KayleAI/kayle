@@ -1,9 +1,10 @@
+"use client";
+
 import * as Headless from "@headlessui/react";
 import clsx from "clsx";
-import React from "react";
+import { type default as React, forwardRef } from "react";
 import { TouchTarget } from "./button";
 import { Link } from "./link";
-import Image from "next/image";
 
 type AvatarProps = {
 	src?: string | null;
@@ -42,6 +43,7 @@ export function Avatar({
 					viewBox="0 0 100 100"
 					aria-hidden={alt ? undefined : "true"}
 				>
+					<title>{alt}</title>
 					<text
 						x="50%"
 						y="50%"
@@ -52,24 +54,14 @@ export function Avatar({
 					>
 						{initials}
 					</text>
-					<title>{alt}</title>
 				</svg>
 			)}
-			{src && (
-				<Image
-					className="size-full"
-					src={src}
-					alt={alt}
-					unoptimized
-					width={100}
-					height={100}
-				/>
-			)}
+			{src && <img className="size-full" src={src} alt={alt} />}
 		</span>
 	);
 }
 
-export const AvatarButton = React.forwardRef(function AvatarButton(
+export const AvatarButton = forwardRef(function AvatarButton(
 	{
 		src,
 		square = false,
@@ -79,7 +71,7 @@ export const AvatarButton = React.forwardRef(function AvatarButton(
 		...props
 	}: AvatarProps &
 		(
-			| Omit<Headless.ButtonProps, "className">
+			| Omit<Headless.ButtonProps, "as" | "className">
 			| Omit<React.ComponentPropsWithoutRef<typeof Link>, "className">
 		),
 	ref: React.ForwardedRef<HTMLElement>,

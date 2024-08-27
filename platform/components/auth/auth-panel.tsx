@@ -1,6 +1,8 @@
 "use client";
 
 import { createClient } from "@repo/db/client";
+
+// UI
 import {
 	Description,
 	Field,
@@ -12,17 +14,25 @@ import {
 import { Input } from "@repo/ui/input";
 import { Button } from "@repo/ui/button";
 import { Text, TextLink } from "@repo/ui/text";
-import { Divider } from "@repo/ui/divider"; // NOSONAR
-import { useState } from "react";
-import { useCaptcha } from "@/utils/captcha/CaptchaProvider";
+
+// UX
+import { LoaderIcon } from "@repo/icons/ui/index";
 import { toast } from "sonner";
 import {
 	type BetterErrorMessagesType,
 	betterErrorMessages,
 } from "./better-error-messages";
-import { LoaderIcon } from "@repo/icons/ui/index";
-import { useRouter } from "next/navigation";
+
+// Config
+import { NEXT_PUBLIC_APP_URL } from "@repo/config/env";
+
+// Auth
 import { useAuth } from "@/utils/auth/AuthProvider";
+
+// Functions
+import { useState } from "react";
+import { useCaptcha } from "@/utils/captcha/CaptchaProvider";
+import { useRouter } from "next/navigation";
 
 export function AuthPanel({
 	signIn = false,
@@ -71,6 +81,7 @@ export function AuthPanel({
 						password: password,
 						options: {
 							captchaToken: captchaToken,
+							emailRedirectTo: `${NEXT_PUBLIC_APP_URL}/sign-in`,
 						},
 					});
 
@@ -113,10 +124,7 @@ export function AuthPanel({
 					{signIn
 						? "Sign in to your account to continue. If you don’t have an account, you can create one"
 						: "Create an account to continue. If you already have an account, you can sign in"}{" "}
-					<TextLink href={signIn ? "/sign-up" : "/sign-in"}>
-						here
-					</TextLink>
-					.
+					<TextLink href={signIn ? "/sign-up" : "/sign-in"}>here</TextLink>.
 				</Text>
 				<FieldGroup>
 					<Field>

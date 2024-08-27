@@ -51,7 +51,7 @@ export default function CreateKeyDialog() {
 	const handleClose = () => {
 		setIsOpen(null);
 		setTimeout(() => {
-			setKeyName("");
+			setKeyName("my-new-api-key");
 			setTestMode("test");
 			setKeyCreatedSecret("false");
 		}, 200);
@@ -82,7 +82,6 @@ export default function CreateKeyDialog() {
 									</Description>
 									<Input
 										name="key_name"
-										defaultValue={keyName || "my-new-api-key"}
 										id="key_name"
 										value={keyName}
 										onChange={(e) => {
