@@ -26,6 +26,7 @@ import { useState } from "react";
 // Router
 import { useRouter } from "next/navigation";
 import { useOrg } from "@/utils/auth/OrgProvider";
+import { createApiKey } from "@/actions/keys/create-api-key";
 
 export default function CreateKeyDialog() {
 	const orgs = useOrg();
@@ -135,22 +136,27 @@ export default function CreateKeyDialog() {
 					<Button
 						onClick={async () => {
 							if (keyCreatedSecret === "false") {
-								const response = await fetch("/api/keys", {
-									method: "POST",
-									body: JSON.stringify({
-										test_mode: testMode === "test",
-										key_name: keyName,
-										org_id: org_id,
-									}),
+								if (!org_id) {
+									alert("No organization.");
+									return;
+								}
+
+								const { data: keyData, error: keyError } = await createApiKey({
+									name: keyName,
+									testMode: testMode === "test",
+									orgId: org_id,
 								});
 
-								const result = await response.json();
+								if (keyError) {
+									alert(keyError);
+									return;
+								}
 
-								if (result.status === "success") {
-									setKeyCreatedSecret(result.keys.key);
+								if (keyData?.keys) {
+									setKeyCreatedSecret(keyData.keys.key);
 									router.refresh();
 								} else {
-									alert(result.message);
+									alert("Failed to create key.");
 								}
 
 								return;

@@ -2,12 +2,14 @@
 
 import { Button } from "@repo/ui/button";
 import { Code } from "@repo/ui/text";
-import { performActionOnKey } from "./actions";
 import { useRouter, notFound } from "next/navigation";
 import { useEffect, useState, useCallback } from "react";
 import { OrgArea } from "@/components/auth/org-area";
 import { useOrg } from "@/utils/auth/OrgProvider";
 import { toast } from "sonner";
+import { getApiKey } from "@/actions/keys/get-api-key";
+import { deleteApiKey } from "@/actions/keys/delete-api-key";
+import { updateApiKey } from "@/actions/keys/update-api-key";
 
 export default function SpecificKey({
 	params: { keyId = null },
@@ -25,11 +27,17 @@ export default function SpecificKey({
 	const [keyData, setKeyData] = useState(null as any);
 
 	const getKey = useCallback(async () => {
-		const response = await fetch(
-			`/api/keys/${keyId}?org_id=${orgs?.activeOrg?.id}`,
-		);
-		const result = await response.json();
-		setKeyData(result.key || null);
+		if (!keyId) return;
+		if (!orgs?.activeOrg?.id) return;
+
+		const { data: key, error } = await getApiKey(keyId, orgs?.activeOrg?.id);
+
+		if (error) {
+			console.error(error);
+			return;
+		}
+
+		setKeyData(key || null);
 		setLoading(false);
 	}, [keyId, orgs?.activeOrg?.id]);
 
@@ -65,18 +73,23 @@ export default function SpecificKey({
 												throw new Error(
 													"Something went wrong. Please try again.",
 												);
-											if (keyData?.enabled)
-												await performActionOnKey({
+											if (keyData?.enabled) {
+												await updateApiKey({
 													keyId,
-													action: "suspend",
-													org_id: orgs?.activeOrg?.id,
+													orgId: orgs?.activeOrg?.id,
+													values: {
+														enabled: false,
+													},
 												});
-											else
-												await performActionOnKey({
+											} else {
+												await updateApiKey({
 													keyId,
-													action: "activate",
-													org_id: orgs?.activeOrg?.id,
+													orgId: orgs?.activeOrg?.id,
+													values: {
+														enabled: true,
+													},
 												});
+											}
 										} catch {
 											setButtonsDisabled(false);
 											return reject(
@@ -117,11 +130,7 @@ export default function SpecificKey({
 												throw new Error(
 													"Something went wrong. Please try again.",
 												);
-											await performActionOnKey({
-												keyId,
-												action: "revoke",
-												org_id: orgs?.activeOrg?.id,
-											});
+											await deleteApiKey(keyId, orgs?.activeOrg?.id);
 										} catch {
 											setButtonsDisabled(false);
 											return reject(new Error("Failed to delete key."));
@@ -153,7 +162,7 @@ export default function SpecificKey({
 				</div>
 				<div className="mt-4">
 					<h2 className="text-lg font-semibold">Usage Graph</h2>
-					{keyData?.usage.length === 0 ? (
+					{keyData?.usage?.length === 0 ? (
 						<div>No usage data available.</div>
 					) : (
 						<div />

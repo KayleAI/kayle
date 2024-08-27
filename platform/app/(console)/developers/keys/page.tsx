@@ -17,6 +17,7 @@ import { Heading } from "@repo/ui/heading";
 import { OrgArea } from "@/components/auth/org-area";
 import { useOrg } from "@/utils/auth/OrgProvider";
 import { useEffect, useState } from "react";
+import { listAllKeys } from "@/actions/keys/list-all-keys";
 
 export default function DisplayUserKeys() {
 	const orgs = useOrg();
@@ -25,11 +26,15 @@ export default function DisplayUserKeys() {
 
 	useEffect(() => {
 		async function getKeys() {
-			const response = await fetch(`/api/keys?org_id=${orgs?.activeOrg?.id}`);
+			if (!orgs?.activeOrg?.id) return;
 
-			const result = await response.json();
+			const { data: keys, error } = await listAllKeys(orgs?.activeOrg?.id);
 
-			setKeys(result.keys || []);
+			if (error) {
+				console.error(error);
+			}
+
+			setKeys(keys || []);
 			setLoading(false);
 		}
 
