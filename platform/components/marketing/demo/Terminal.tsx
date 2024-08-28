@@ -40,7 +40,7 @@ export function DemoTerminal() {
 						<Tab
 							key={id}
 							disabled={disabled}
-							className="group relative min-w-fit rounded-full py-1 px-3 text-sm/6 font-semibold text-white focus:outline-none data-[selected]:bg-white/10 data-[hover]:bg-white/5 data-[selected]:data-[hover]:bg-white/10 data-[focus]:outline-1 data-[focus]:outline-white disabled:cursor-not-allowed"
+							className="group relative min-w-fit rounded-full py-1 px-3 text-sm/6 font-semibold text-black dark:text-white focus:outline-none data-[selected]:bg-black/10 dark:data-[selected]:bg-white/10 dark:data-[hover]:bg-white/5 data-[hover]:bg-black/5 dark:data-[selected]:data-[hover]:bg-white/10 data-[selected]:data-[hover]:bg-black/10 data-[focus]:outline-1 dark;data-[focus]:outline-white data-[focus]:outline-black disabled:cursor-not-allowed"
 						>
 							{disabled ? (
 								<div className="absolute inset-0 rounded-full hidden group-hover:block backdrop-blur-[1px] bg-black/50 text-white py-1 px-2">
@@ -48,7 +48,7 @@ export function DemoTerminal() {
 								</div>
 							) : null}
 							<p
-								className="data-[disabled]:text-white/50"
+								className="data-[disabled]:text-black/50 dark:data-[disabled]:text-white/50"
 								data-disabled={disabled}
 							>
 								{name}
@@ -58,7 +58,7 @@ export function DemoTerminal() {
 				</TabList>
 				<TabPanels className="mt-3">
 					{options.map(({ id, placeholder }) => (
-						<TabPanel key={id} className="rounded-xl bg-white/5 p-3">
+						<TabPanel key={id} className="rounded-xl bg-black/5 dark:bg-white/5 p-3">
 							<ModerateDemo
 								type={id as "text" | "audio" | "image"}
 								placeholder={placeholder}
