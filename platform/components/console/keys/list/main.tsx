@@ -38,11 +38,7 @@ export function ListKeys({
 						<CreateKeyDialog />
 					</div>
 				</div>
-				<Table
-					bleed
-					dense
-					striped
-				>
+				<Table bleed dense striped>
 					<TableHead>
 						<TableRow>
 							<TableHeader>Key ID</TableHeader>

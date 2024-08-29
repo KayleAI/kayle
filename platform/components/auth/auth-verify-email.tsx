@@ -1,11 +1,6 @@
 "use client";
 
-import {
-	Field,
-	FieldGroup,
-	Fieldset,
-	Legend,
-} from "@repo/ui/fieldset";
+import { Field, FieldGroup, Fieldset, Legend } from "@repo/ui/fieldset";
 import { Button } from "@repo/ui/button";
 import { Strong, Text, TextLink } from "@repo/ui/text";
 

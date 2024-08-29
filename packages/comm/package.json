@@ -1,16 +1,16 @@
 {
-  "name": "@repo/comm",
-  "description": "Communicate with users via email and SMS.",
-  "version": "0.0.0",
-  "exports": {
-    "./*": "./src/*.ts",
-    "./templates/*": "./src/templates/*.tsx"
-  },
-  "scripts": {},
-  "dependencies": {
-    "resend": "^3.2.0",
-    "uuid": "^9.0.1",
-    "@repo/db": "workspace:*"
-  },
-  "devDependencies": {}
+	"name": "@repo/comm",
+	"description": "Communicate with users via email and SMS.",
+	"version": "0.0.0",
+	"exports": {
+		"./*": "./src/*.ts",
+		"./templates/*": "./src/templates/*.tsx"
+	},
+	"scripts": {},
+	"dependencies": {
+		"resend": "^3.2.0",
+		"uuid": "^9.0.1",
+		"@repo/db": "workspace:*"
+	},
+	"devDependencies": {}
 }

@@ -1,34 +1,34 @@
-import { IconLink } from 'components/changelog/IconLink'
-import { StarField } from 'components/changelog/StarField'
+import { IconLink } from "components/changelog/IconLink";
+import { StarField } from "components/changelog/StarField";
 
 export default function NotFound() {
-  return (
-    <div className="relative isolate flex flex-auto flex-col items-center justify-center overflow-hidden bg-zinc-950 text-center h-screen">
-      <svg
-        aria-hidden="true"
-        className="absolute left-1/2 top-[-10vh] -z-10 h-[120vh] w-[120vw] min-w-[60rem] -translate-x-1/2"
-      >
-        <defs>
-          <radialGradient id="gradient" cy="0%">
-            <stop offset="0%" stopColor="rgba(16, 185, 129, 0.3)" />
-            <stop offset="53.95%" stopColor="rgba(16, 185, 129, 0.09)" />
-            <stop offset="100%" stopColor="rgba(10, 14, 23, 0)" />
-          </radialGradient>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#gradient)" />
-      </svg>
-      <StarField className="sm:-mt-16" />
+	return (
+		<div className="relative isolate flex flex-auto flex-col items-center justify-center overflow-hidden bg-zinc-950 text-center h-screen">
+			<svg
+				aria-hidden="true"
+				className="absolute left-1/2 top-[-10vh] -z-10 h-[120vh] w-[120vw] min-w-[60rem] -translate-x-1/2"
+			>
+				<defs>
+					<radialGradient id="gradient" cy="0%">
+						<stop offset="0%" stopColor="rgba(16, 185, 129, 0.3)" />
+						<stop offset="53.95%" stopColor="rgba(16, 185, 129, 0.09)" />
+						<stop offset="100%" stopColor="rgba(10, 14, 23, 0)" />
+					</radialGradient>
+				</defs>
+				<rect width="100%" height="100%" fill="url(#gradient)" />
+			</svg>
+			<StarField className="sm:-mt-16" />
 
-      <p className="font-display text-4xl/tight font-light text-white">404</p>
-      <h1 className="mt-4 font-display text-xl/8 font-semibold text-white">
-        Page not found
-      </h1>
-      <p className="mt-2 text-sm/6 text-zinc-300">
-        Sorry, we couldn’t find the page you’re looking for.
-      </p>
-      <IconLink href="/" className="mt-4">
-        Go back home
-      </IconLink>
-    </div>
-  )
+			<p className="font-display text-4xl/tight font-light text-white">404</p>
+			<h1 className="mt-4 font-display text-xl/8 font-semibold text-white">
+				Page not found
+			</h1>
+			<p className="mt-2 text-sm/6 text-zinc-300">
+				Sorry, we couldn’t find the page you’re looking for.
+			</p>
+			<IconLink href="/" className="mt-4">
+				Go back home
+			</IconLink>
+		</div>
+	);
 }

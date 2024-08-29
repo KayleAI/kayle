@@ -12,7 +12,14 @@
 	"formatter": {
 		"enabled": true,
 		"formatWithErrors": false,
-		"ignore": [],
+		"ignore": [
+			"**/node_modules/**",
+			"**/dist/**",
+			"**/.next/**",
+			"**/tmp/**",
+			"**/*.min.js",
+			"**/*.min.css"
+		],
 		"attributePosition": "auto",
 		"indentStyle": "tab",
 		"indentWidth": 2,

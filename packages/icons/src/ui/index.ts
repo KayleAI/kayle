@@ -21,4 +21,3 @@ export { default as PlusIcon } from "./plus.svg";
 export { default as ChevronUpIcon } from "./chevron-up.svg";
 export { default as ChevronDownIcon } from "./chevron-down.svg";
 export { default as QuestionMarkCircleIcon } from "./circle-question.svg";
-

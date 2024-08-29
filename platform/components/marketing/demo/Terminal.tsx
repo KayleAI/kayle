@@ -58,7 +58,10 @@ export function DemoTerminal() {
 				</TabList>
 				<TabPanels className="mt-3">
 					{options.map(({ id, placeholder }) => (
-						<TabPanel key={id} className="rounded-xl bg-black/5 dark:bg-white/5 p-3">
+						<TabPanel
+							key={id}
+							className="rounded-xl bg-black/5 dark:bg-white/5 p-3"
+						>
 							<ModerateDemo
 								type={id as "text" | "audio" | "image"}
 								placeholder={placeholder}

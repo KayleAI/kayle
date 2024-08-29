@@ -82,7 +82,7 @@ export function AuthResetChangePanel() {
 							type="submit"
 							className="w-full"
 							color="dark/white"
-							disabled={(status === "pending" || status === "success")}
+							disabled={status === "pending" || status === "success"}
 						>
 							{(status === "pending" || status === "success") && (
 								<LoaderIcon className="size-5 animate-spin" />
