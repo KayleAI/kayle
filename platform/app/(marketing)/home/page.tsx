@@ -61,7 +61,7 @@ function HeroComponent() {
 								</Link>
 							</div>
 							<h1 className="mt-10 text-4xl font-bold tracking-tight text-zinc-950 dark:text-zinc-50 dark: sm:text-6xl">
-								Scale safely, affordably.
+								Content Moderation made simple.
 							</h1>
 							<p className="mt-6 text-lg leading-8 text-zinc-600 dark:text-zinc-400">
 								Content moderation that you know is worth paying for: All
