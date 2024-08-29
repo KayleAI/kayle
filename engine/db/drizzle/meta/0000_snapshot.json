@@ -1,329 +1,288 @@
 {
-  "id": "00000000-0000-0000-0000-000000000000",
-  "prevId": "",
-  "version": "7",
-  "dialect": "postgresql",
-  "tables": {
-    "public.org_members": {
-      "name": "org_members",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        },
-        "user_id": {
-          "name": "user_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "org_id": {
-          "name": "org_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "role": {
-          "name": "role",
-          "type": "Organisation Role",
-          "typeSchema": "public",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "'Guest'"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "org_members_user_id_fkey": {
-          "name": "org_members_user_id_fkey",
-          "tableFrom": "org_members",
-          "tableTo": "users",
-          "schemaTo": "public",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "cascade"
-        },
-        "org_members_org_id_fkey": {
-          "name": "org_members_org_id_fkey",
-          "tableFrom": "org_members",
-          "tableTo": "organisations",
-          "schemaTo": "public",
-          "columnsFrom": [
-            "org_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "cascade"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "public.org_details": {
-      "name": "org_details",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "name": {
-          "name": "name",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "slug": {
-          "name": "slug",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "avatar": {
-          "name": "avatar",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "type": {
-          "name": "type",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "org_details_id_fkey": {
-          "name": "org_details_id_fkey",
-          "tableFrom": "org_details",
-          "tableTo": "organisations",
-          "schemaTo": "public",
-          "columnsFrom": [
-            "id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "cascade"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "org_details_slug_key": {
-          "columns": [
-            "slug"
-          ],
-          "nullsNotDistinct": false,
-          "name": "org_details_slug_key"
-        }
-      }
-    },
-    "public.user_details": {
-      "name": "user_details",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "name": {
-          "name": "name",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "email": {
-          "name": "email",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "avatar": {
-          "name": "avatar",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "public_user_details_id_fkey": {
-          "name": "public_user_details_id_fkey",
-          "tableFrom": "user_details",
-          "tableTo": "users",
-          "schemaTo": "public",
-          "columnsFrom": [
-            "id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "cascade"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "user_details_id_key": {
-          "columns": [
-            "id"
-          ],
-          "nullsNotDistinct": false,
-          "name": "user_details_id_key"
-        }
-      }
-    },
-    "public.users": {
-      "name": "users",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "joined_at": {
-          "name": "joined_at",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        },
-        "role": {
-          "name": "role",
-          "type": "User Role",
-          "typeSchema": "public",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "'User'"
-        },
-        "status": {
-          "name": "status",
-          "type": "Account Status",
-          "typeSchema": "public",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "'Active'"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "public_users_id_fkey": {
-          "name": "public_users_id_fkey",
-          "tableFrom": "users",
-          "tableTo": "users",
-          "schemaTo": "auth",
-          "columnsFrom": [
-            "id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "cascade"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "users_id_key": {
-          "columns": [
-            "id"
-          ],
-          "nullsNotDistinct": false,
-          "name": "users_id_key"
-        }
-      }
-    },
-    "public.organisations": {
-      "name": "organisations",
-      "schema": "",
-      "columns": {
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        },
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    }
-  },
-  "enums": {
-    "public.Account Status": {
-      "name": "Account Status",
-      "values": [
-        "Active",
-        "Inactive",
-        "Suspended",
-        "Terminated"
-      ],
-      "schema": "public"
-    },
-    "public.Organisation Role": {
-      "name": "Organisation Role",
-      "values": [
-        "Owner",
-        "Admin",
-        "Moderator",
-        "Developer",
-        "Guest"
-      ],
-      "schema": "public"
-    },
-    "public.User Role": {
-      "name": "User Role",
-      "values": [
-        "User",
-        "Administrator",
-        "Owner"
-      ],
-      "schema": "public"
-    }
-  },
-  "schemas": {},
-  "sequences": {},
-  "_meta": {
-    "schemas": {},
-    "tables": {},
-    "columns": {}
-  },
-  "internal": {
-    "tables": {}
-  }
+	"id": "00000000-0000-0000-0000-000000000000",
+	"prevId": "",
+	"version": "7",
+	"dialect": "postgresql",
+	"tables": {
+		"public.org_members": {
+			"name": "org_members",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true,
+					"default": "gen_random_uuid()"
+				},
+				"created_at": {
+					"name": "created_at",
+					"type": "timestamp with time zone",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				},
+				"user_id": {
+					"name": "user_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"org_id": {
+					"name": "org_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"role": {
+					"name": "role",
+					"type": "Organisation Role",
+					"typeSchema": "public",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "'Guest'"
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"org_members_user_id_fkey": {
+					"name": "org_members_user_id_fkey",
+					"tableFrom": "org_members",
+					"tableTo": "users",
+					"schemaTo": "public",
+					"columnsFrom": ["user_id"],
+					"columnsTo": ["id"],
+					"onDelete": "cascade",
+					"onUpdate": "cascade"
+				},
+				"org_members_org_id_fkey": {
+					"name": "org_members_org_id_fkey",
+					"tableFrom": "org_members",
+					"tableTo": "organisations",
+					"schemaTo": "public",
+					"columnsFrom": ["org_id"],
+					"columnsTo": ["id"],
+					"onDelete": "cascade",
+					"onUpdate": "cascade"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {}
+		},
+		"public.org_details": {
+			"name": "org_details",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"name": {
+					"name": "name",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"slug": {
+					"name": "slug",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"avatar": {
+					"name": "avatar",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"type": {
+					"name": "type",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"org_details_id_fkey": {
+					"name": "org_details_id_fkey",
+					"tableFrom": "org_details",
+					"tableTo": "organisations",
+					"schemaTo": "public",
+					"columnsFrom": ["id"],
+					"columnsTo": ["id"],
+					"onDelete": "cascade",
+					"onUpdate": "cascade"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {
+				"org_details_slug_key": {
+					"columns": ["slug"],
+					"nullsNotDistinct": false,
+					"name": "org_details_slug_key"
+				}
+			}
+		},
+		"public.user_details": {
+			"name": "user_details",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"name": {
+					"name": "name",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"email": {
+					"name": "email",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"avatar": {
+					"name": "avatar",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"public_user_details_id_fkey": {
+					"name": "public_user_details_id_fkey",
+					"tableFrom": "user_details",
+					"tableTo": "users",
+					"schemaTo": "public",
+					"columnsFrom": ["id"],
+					"columnsTo": ["id"],
+					"onDelete": "cascade",
+					"onUpdate": "cascade"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {
+				"user_details_id_key": {
+					"columns": ["id"],
+					"nullsNotDistinct": false,
+					"name": "user_details_id_key"
+				}
+			}
+		},
+		"public.users": {
+			"name": "users",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"joined_at": {
+					"name": "joined_at",
+					"type": "timestamp with time zone",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				},
+				"role": {
+					"name": "role",
+					"type": "User Role",
+					"typeSchema": "public",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "'User'"
+				},
+				"status": {
+					"name": "status",
+					"type": "Account Status",
+					"typeSchema": "public",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "'Active'"
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"public_users_id_fkey": {
+					"name": "public_users_id_fkey",
+					"tableFrom": "users",
+					"tableTo": "users",
+					"schemaTo": "auth",
+					"columnsFrom": ["id"],
+					"columnsTo": ["id"],
+					"onDelete": "cascade",
+					"onUpdate": "cascade"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {
+				"users_id_key": {
+					"columns": ["id"],
+					"nullsNotDistinct": false,
+					"name": "users_id_key"
+				}
+			}
+		},
+		"public.organisations": {
+			"name": "organisations",
+			"schema": "",
+			"columns": {
+				"created_at": {
+					"name": "created_at",
+					"type": "timestamp with time zone",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				},
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true,
+					"default": "gen_random_uuid()"
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {}
+		}
+	},
+	"enums": {
+		"public.Account Status": {
+			"name": "Account Status",
+			"values": ["Active", "Inactive", "Suspended", "Terminated"],
+			"schema": "public"
+		},
+		"public.Organisation Role": {
+			"name": "Organisation Role",
+			"values": ["Owner", "Admin", "Moderator", "Developer", "Guest"],
+			"schema": "public"
+		},
+		"public.User Role": {
+			"name": "User Role",
+			"values": ["User", "Administrator", "Owner"],
+			"schema": "public"
+		}
+	},
+	"schemas": {},
+	"sequences": {},
+	"_meta": {
+		"schemas": {},
+		"tables": {},
+		"columns": {}
+	},
+	"internal": {
+		"tables": {}
+	}
 }

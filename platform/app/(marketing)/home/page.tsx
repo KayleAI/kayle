@@ -64,11 +64,11 @@ function HeroComponent() {
 								Scale safely, affordably.
 							</h1>
 							<p className="mt-6 text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-								Content moderation that you know is worth paying for:
-								All content types, 150+ languages, and only pay for what you use.
+								Content moderation that you know is worth paying for: All
+								content types, 150+ languages, and only pay for what you use.
 								{/* Later: Give each point their own hero section. */}
 								{/* 100% Open-sourced: Know the quality that you're paying for. */}
-							</p> 
+							</p>
 							<div className="mt-10 flex items-center gap-x-2">
 								<Button
 									//href={"https://console.kayle.ai"} // Get started

@@ -7,33 +7,27 @@ import { Badge } from "@repo/ui/badge";
 import { type Integration, integrations } from "@repo/config/integrations";
 
 export default function IntegrationListing({
-  params: {
-    integrationSlug
-  }
+	params: { integrationSlug },
 }: {
-  readonly params: {
-    readonly integrationSlug: string;
-  };
+	readonly params: {
+		readonly integrationSlug: string;
+	};
 }): JSX.Element {
-  const integration = integrations.find((integration: Integration) => integration.slug === integrationSlug);
+	const integration = integrations.find(
+		(integration: Integration) => integration.slug === integrationSlug,
+	);
 
-  if (!integration) {
-    return notFound();
-  }
+	if (!integration) {
+		return notFound();
+	}
 
-  return (
-    <main>
-      <Heading className="flex flex-row gap-x-2 items-center">
-        {integration.name}
-        {integration.comingSoon &&
-          <Badge color="purple">
-            Coming soon!
-          </Badge>
-        }
-      </Heading>
-      <Text>
-        {integration.description}
-      </Text>
-    </main>
-  )
+	return (
+		<main>
+			<Heading className="flex flex-row gap-x-2 items-center">
+				{integration.name}
+				{integration.comingSoon && <Badge color="purple">Coming soon!</Badge>}
+			</Heading>
+			<Text>{integration.description}</Text>
+		</main>
+	);
 }

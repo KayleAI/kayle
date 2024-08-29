@@ -33,8 +33,8 @@ export function AuthCheckpointRedirecting() {
 			</div>
 			<footer className="absolute bottom-0 w-full h-16 flex items-center justify-center">
 				<Text>
-          To prevent unauthorised access, we need to authenticate you.
-        </Text>
+					To prevent unauthorised access, we need to authenticate you.
+				</Text>
 			</footer>
 		</main>
 	);
