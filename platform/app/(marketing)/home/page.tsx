@@ -61,11 +61,13 @@ function HeroComponent() {
 								</Link>
 							</div>
 							<h1 className="mt-10 text-4xl font-bold tracking-tight text-zinc-950 dark:text-zinc-50 dark: sm:text-6xl">
-								Realtime content moderation
+								Content Moderation made simple.
 							</h1>
 							<p className="mt-6 text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-								Moderate content in real-time with Kayle’s open-source API. Keep
-								your platform safe and your users happy in minutes.
+								Content moderation that you know is worth paying for: All
+								content types, 150+ languages, and only pay for what you use.
+								{/* Later: Give each point their own hero section. */}
+								{/* 100% Open-sourced: Know the quality that you're paying for. */}
 							</p>
 							<div className="mt-10 flex items-center gap-x-2">
 								<Button
@@ -82,6 +84,8 @@ function HeroComponent() {
 						</div>
 					</div>
 				</div>
+				{/* TODO: Hero sections for big 3 benefits, KPI/Moderator platform preview and Testimonials. */}
+				{/* Hunting terminal */}
 				<div className="mt-20 sm:mt-24 md:mx-auto md:max-w-2xl lg:mx-0 lg:mt-0 lg:w-screen">
 					<div
 						className="absolute inset-y-0 right-1/2 -z-10 -mr-10 w-[200%] skew-x-[-30deg] bg-white lg:bg-zinc-100 dark:bg-zinc-900 dark:lg:bg-zinc-950 shadow-xl shadow-emerald-600/10 ring-1 ring-emerald-500 md:-mr-20 lg:-mr-36"
