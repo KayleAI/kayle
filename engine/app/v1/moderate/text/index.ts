@@ -8,6 +8,14 @@ import { z } from "zod";
 // Moderation
 import { moderateText } from "@/utils/text/moderate";
 
+// Normalisation
+import { normaliseText } from "@/utils/text/normalise";
+
+// Vector
+import { createVector } from "@/utils/text/create";
+import { search } from "@/utils/text/search";
+import { hashText } from "@/utils/text/hash";
+
 export const textModeration = new Hono<{
 	Bindings: CloudflareBindings;
 }>();
@@ -32,17 +40,50 @@ export async function moderateTextRoute(c: Context) {
 		);
 	}
 
-	const { AI_API_KEY, AI_BASE_URL } = env<{
+	const {
+		AI_API_KEY,
+		AI_BASE_URL,
+		AI_MODEL = "gpt-4o-2024-08-06",
+		HYPERDRIVE,
+		EMBEDDING_MODEL = "text-embedding-3-large",
+	} = env<{
 		AI_API_KEY: string;
 		AI_BASE_URL: string;
+		AI_MODEL?: string;
+		HYPERDRIVE: Hyperdrive;
+		EMBEDDING_MODEL?: string;
 	}>(c);
 
 	const { text } = parsed.data;
 
 	try {
+		const textToModerate = normaliseText(text);
+
+		const vector = await createVector({
+			AI_API_KEY,
+			AI_BASE_URL,
+			EMBEDDING_MODEL,
+			text: textToModerate,
+		});
+
+		const hash = await hashText(textToModerate);
+
+		const searchResult = await search({
+			hyperdrive: HYPERDRIVE,
+			vector,
+			hash,
+		});
+
+		if (searchResult) {
+			return c.json({
+				message: "Content has been flagged.",
+			});
+		}
+
 		const { data, error } = await moderateText({
 			AI_API_KEY,
 			AI_BASE_URL,
+			AI_MODEL,
 			text,
 		});
 

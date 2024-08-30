@@ -19,10 +19,12 @@ import {
 export async function moderateText({
 	AI_API_KEY,
 	AI_BASE_URL,
+	AI_MODEL = "gpt-4o-2024-08-06",
 	text,
 }: {
 	AI_API_KEY: string;
 	AI_BASE_URL: string;
+	AI_MODEL?: string;
 	text: string;
 }) {
 	const ai = new OpenAI({
@@ -32,7 +34,7 @@ export async function moderateText({
 
 	try {
 		const moderation = await ai.chat.completions.create({
-			model: "gpt-4o-2024-08-06",
+			model: AI_MODEL,
 			messages: [
 				textModerationPrompt,
 				{
