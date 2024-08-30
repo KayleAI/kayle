@@ -8,6 +8,8 @@ account_id = "fb040c8cdde6176c04d4449b52424e65"
 [placement]
 mode = "smart"
 
+## Baselime
+tail_consumers = [{service = "kayle-engine-tail"}]
 
 ### Other bindings
 
