@@ -24,4 +24,4 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           workingDirectory: "engine"
-          command: deploy --env ${{ github.event.inputs.environment }}
+          command: deploy --env ${{ github.event.inputs.environment || 'prod' }}
