@@ -85,7 +85,7 @@ function HeroComponent() {
 					</div>
 				</div>
 				{/* TODO: Hero sections for big 3 benefits, KPI/Moderator platform preview and Testimonials. */}
-				{/* Hunting terminal */}
+				{/* Terminal preview –not intuitive IMO–, would rather replace with hunter terminal*/}
 				<div className="mt-20 sm:mt-24 md:mx-auto md:max-w-2xl lg:mx-0 lg:mt-0 lg:w-screen">
 					<div
 						className="absolute inset-y-0 right-1/2 -z-10 -mr-10 w-[200%] skew-x-[-30deg] bg-white lg:bg-zinc-100 dark:bg-zinc-900 dark:lg:bg-zinc-950 shadow-xl shadow-emerald-600/10 ring-1 ring-emerald-500 md:-mr-20 lg:-mr-36"
@@ -188,11 +188,13 @@ function HunterComponent() {
 					that helps us improve our filters.
 				</p>
 			</div>
-			<div className="relative isolate overflow-hidden bg-zinc-900 shadow-2xl rounded-3xl lg:flex lg:gap-x-20 lg:pt-0 mt-8 mx-auto max-w-5xl">
-				<div className="mx-auto max-w-2xl md:mx-0 md:max-w-none">
-					<div className="w-screen overflow-visible rounded-tl-xl bg-zinc-900">
-						<div className="flex bg-zinc-800/40 ring-1 ring-white/5">
-							<div className="-mb-px flex text-sm font-medium leading-6 text-zinc-400">
+			{/* terminal division */}
+			{/* I removed some max-w-* configs as they caused bugs or didn't serve a purpose. Refactor if I'm wrong. */}
+			<div className="relative isolate overflow-hidden max-w-5xl bg-zinc-900 shadow-2xl rounded-3xl lg:flex lg:pt-0 mt-8 mx-auto"> 
+				<div className="flex-1 md:mx-0 md:max-w-none"> {/* max-w-2xl mx-auto  */}
+					<div className="w-auto rounded-tl-xl bg-zinc-900"> {/* removed over-flow visible as it interfered with grandchild div's p-x-6 */}
+						<div className="flex-1 min-w-3xl bg-zinc-800/40 ring-1 ring-white/5">
+							<div className="-mb-px flex text-s sm:text-sm font-medium leading-6 text-zinc-400">
 								<div className="border-b border-r border-b-white/10 border-r-white/10 bg-zinc-50/5 dark:bg-zinc-950/5 py-2 px-4 text-white">
 									&nbsp;&nbsp;&nbsp;terminal
 								</div>
@@ -202,11 +204,11 @@ function HunterComponent() {
 							</div>
 						</div>
 						{/*<span className="text-amber-300">Current Score: <span id="total_score">0</span></span>*/}
-						<div className="pt-6 px-6">
-							<pre className="text-white">
+						<div className="pt-6 px-6 text-s sm:text-sm overflow-hidden">
+							<pre className="text-white whitespace-pre-wrap break-words"> 
 								Kayle’s Hunting Terminal
 								<br />
-								Here you can see whether a message will be flagged by Kayle’s
+								Here, you can see whether a message will be flagged by Kayle’s
 								filters!
 								<br />
 								<span className="text-emerald-400">kayle@ai~$:</span> run hunter
@@ -217,25 +219,29 @@ function HunterComponent() {
 							</pre>
 						</div>
 
-						<div className="hidden lg:flex bg-zinc-800/40 ring-1 ring-white/5 max-w-5xl">
+						{/* TODO: Once we're fully multi-modal, we'll make the input bar similar to DMs in social media */}
+						{/* This span will be the '+' button at the left side of Whatsapp*/}
+						<div className="lg:flex bg-zinc-800/40 ring-1 ring-white/5 grow"> {/* max-w-5xl */}
 							<span>
 								<div className="-mb-px flex text-sm font-medium leading-6 text-zinc-400">
-									<div className="border-b border-r border-b-white/20 border-r-white/10 bg-zinc-50/5 dark:bg-zinc-950/5 py-2 px-4 text-white">
+									<div className="hidden lg:block border-b border-r border-b-white/20 border-r-white/10 bg-zinc-50/5 dark:bg-zinc-950/5 py-2 px-4 text-white">
 										&nbsp;&nbsp;&nbsp;Enter your message:
 									</div>
 								</div>
 							</span>
 
-							<div className="-mb-px flex text-sm font-medium leading-6 text-zinc-400 grow">
+							<div className="-mb-px flex text-s sm:text-sm font-medium leading-6 text-zinc-400 grow px-4 lg:px-0">
+								{/* previous placeholder: kayle@ai~$: */}
+								{/* IDEAL: Change to textarea with input properties so text can expand (e.g. large inputs) */}
 								<input
 									type="text"
 									name="terminal_input"
 									id="terminal_input"
-									maxLength={70}
+									maxLength={100}
 									required
 									value={terminalInput}
 									onChange={(e) => setTerminalInput(e.target.value)}
-									placeholder="kayle@ai~$:"
+									placeholder="Try type something you think Kayle won't detect..." 
 									className="border-none bg-transparent grow text-zinc-50 px-4"
 									onKeyDown={handleKeyPress}
 									disabled={isInputDisabled}
@@ -243,20 +249,12 @@ function HunterComponent() {
 							</div>
 
 							<button id="terminal_button" onClick={handleSubmit} type="button">
-								<div className="-mb-px flex text-sm font-medium leading-6 text-zinc-400">
+								<div className="hidden lg:block -mb-px text-sm font-medium leading-6 text-zinc-400">
 									<div className="border-b border-l border-b-white/20 border-l-white/10 bg-zinc-50/5 dark:bg-zinc-950/5 py-2 px-4 text-white">
 										Submit&nbsp;&nbsp;&nbsp;
 									</div>
 								</div>
 							</button>
-						</div>
-						<div className="flex lg:hidden bg-zinc-800/40 ring-1 ring-white/5 max-w-4xl">
-							<div className="-mb-px flex text-sm font-medium leading-6 text-zinc-400">
-								<div className="border-b border-r border-b-white/20 border-r-white/10 bg-zinc-50/5 dark:bg-zinc-950/5 py-2 px-4 text-white">
-									&nbsp;&nbsp;&nbsp;This hunt is only available on desktop,
-									sorry!
-								</div>
-							</div>
 						</div>
 					</div>
 				</div>
@@ -264,3 +262,5 @@ function HunterComponent() {
 		</div>
 	);
 }
+
+
