@@ -1,7 +1,6 @@
 // Hono
 import { Hono, type Context } from "hono";
 import { env } from "hono/adapter";
-import { validator } from "hono/validator";
 
 // Zod
 import { z } from "zod";
@@ -21,64 +20,61 @@ const audioModerationRequestSchema = z.object({
 	audio_url: z.string(),
 });
 
-audioModeration.post(
-	"/",
-	validator("json", (value, c) => {
-		const parsed = audioModerationRequestSchema.safeParse(value);
-		if (!parsed.success) {
-			return c.json(
-				{
-					message: "Invalid JSON in request body",
-					hint: "Make sure to send a valid JSON object.",
-					docs: "https://docs.kayle.ai",
-				},
-				400,
-			);
-		}
-		return parsed.data;
-	}),
-	async (c: Context) => {
-		const { AI_API_KEY, AI_BASE_URL, GROQ_API_KEY } = env<{
-			AI_API_KEY: string;
-			AI_BASE_URL: string;
-			GROQ_API_KEY: string;
-		}>(c);
+export async function moderateAudioRoute(c: Context) {
+	const body = await c.req.json();
 
-		const { audio_url } = await c.req.json();
+	const parsed = audioModerationRequestSchema.safeParse(body);
+	if (!parsed.success) {
+		return c.json(
+			{
+				message: "Invalid JSON in request body",
+				hint: "Make sure to send a valid JSON object.",
+				docs: "https://docs.kayle.ai",
+			},
+			400,
+		);
+	}
 
-		let audio_file: File;
+	const { AI_API_KEY, AI_BASE_URL, GROQ_API_KEY } = env<{
+		AI_API_KEY: string;
+		AI_BASE_URL: string;
+		GROQ_API_KEY: string;
+	}>(c);
 
-		try {
-			audio_file = await downloadAudioFromUrl(audio_url);
-		} catch (error) {
-			console.error(`[ERROR]: ${error}`);
-			return c.json(
-				{
-					message: "Failed to download audio from URL",
-					hint: "Make sure the URL is valid and points to an audio file.",
-					docs: "https://docs.kayle.ai",
-				},
-				400,
-			);
-		}
+	const { audio_url } = body;
 
-		try {
-			const text = await convertAudioToText(GROQ_API_KEY, audio_file);
+	let audio_file: File;
 
-			const moderation = await moderateText({ AI_API_KEY, AI_BASE_URL, text });
+	try {
+		audio_file = await downloadAudioFromUrl(audio_url);
+	} catch (error) {
+		console.error(`[ERROR]: ${error}`);
+		return c.json(
+			{
+				message: "Failed to download audio from URL",
+				hint: "Make sure the URL is valid and points to an audio file.",
+				docs: "https://docs.kayle.ai",
+			},
+			400,
+		);
+	}
 
-			return c.json(moderation);
-		} catch (error) {
-			console.error(`[ERROR]: ${error}`);
-			return c.json(
-				{
-					message:
-						"We were unable to moderate this content. This is likely an issue on our end.",
-					hint: "Please try again later or contact support.",
-					docs: "https://docs.kayle.ai",
-				},
-				500,
-			);
-		}
-	},
-);
+	try {
+		const text = await convertAudioToText(GROQ_API_KEY, audio_file);
+
+		const moderation = await moderateText({ AI_API_KEY, AI_BASE_URL, text });
+
+		return c.json(moderation);
+	} catch (error) {
+		console.error(`[ERROR]: ${error}`);
+		return c.json(
+			{
+				message:
+					"We were unable to moderate this content. This is likely an issue on our end.",
+				hint: "Please try again later or contact support.",
+				docs: "https://docs.kayle.ai",
+			},
+			500,
+		);
+	}
+}
