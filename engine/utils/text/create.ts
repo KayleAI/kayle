@@ -28,7 +28,7 @@ export async function createVector({
 		baseURL: AI_BASE_URL,
 	});
 
-	const vector = await ai.embeddings.create({ 
+	const vector = await ai.embeddings.create({
 		model: EMBEDDING_MODEL,
 		dimensions: 1536,
 		input: text,
