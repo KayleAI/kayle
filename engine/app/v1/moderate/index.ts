@@ -2,11 +2,8 @@
 import { Hono } from "hono";
 
 // Moderation Endpoints
-import { audioModeration, moderateAudioRoute } from "./audio";
-import { textModeration, moderateTextRoute } from "./text";
-
-// Zod
-import { z } from "zod";
+import { moderateAudioRoute } from "./audio";
+import { moderateTextRoute } from "./text";
 
 export const moderate = new Hono<{
 	Bindings: CloudflareBindings;
