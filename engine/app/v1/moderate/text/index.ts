@@ -105,7 +105,7 @@ export async function moderateTextRoute(c: Context) {
 			// Replace all occurrences of PII with "[REDACTED]"
 			const redactedText = text.replace(regex, "[REDACTED]");
 
-			console.log(`Redacted text: ${redactedText}`);
+			console.debug(`Redacted text: ${redactedText}`);
 		}
 
 		return c.json({ severity, violations });
