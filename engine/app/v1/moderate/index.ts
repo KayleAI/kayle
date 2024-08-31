@@ -16,25 +16,21 @@ export const moderate = new Hono<{
 }>();
 
 moderate.use("/:type?", async (c, next) => {
-	const { type = "" } = c.req.param();
-	c.set("type", type);
+	const { type: paramType = undefined } = c.req.param();
+	const { type: jsonType = undefined } = await c.req.json();
 
-	if (type === "") {
-		const { type: newType = "" } = await c.req.json();
-
-		if (newType === "") {
-			return c.json(
-				{
-					message: "Missing 'type' in request body",
-					hint: "Add the 'type' field to your request body and set it to the type of moderation you want to perform.",
-					docs: "https://docs.kayle.ai",
-				},
-				400,
-			);
-		}
-
-		c.set("type", newType);
+	if (!jsonType && !paramType) {
+		return c.json(
+			{
+				message: "Missing 'type' in request body",
+				hint: "Add the 'type' field to your request body and set it to the type of moderation you want to perform.",
+				docs: "https://docs.kayle.ai",
+			},
+			400,
+		);
 	}
+
+	c.set("type", paramType ?? jsonType);
 
 	await next();
 });
