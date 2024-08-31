@@ -11,7 +11,7 @@ Open-source content moderation at scale.
 To produce migrations for Supabase, run the following command:
 
 ```bash
-supabase db diff --schema auth,public,extensions --f <name_of_migration>
+supabase db diff --schema auth,public,extensions -f <name_of_migration>
 ```
 
 To produce schema for Drizzle, run the following command:
