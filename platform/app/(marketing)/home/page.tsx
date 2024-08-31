@@ -192,10 +192,10 @@ function HunterComponent() {
 					Happy Hunting!
 				</h2>
 				<p className="mt-2 text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl dark:text-zinc-100">
-					Hunt for words or phrases that violate Kayle's policy.
+					Hunt for words or phrases that violate Kayle’s policy.
 				</p>
 				<p className="mt-6 text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-					By using Kayle's Hunting Terminal, you provide us with valuable data
+					By using Kayle’s Hunting Terminal, you provide us with valuable data
 					that helps us improve our filters.
 				</p>
 			</div>
@@ -215,7 +215,7 @@ function HunterComponent() {
 						{/*<span className="text-amber-300">Current Score: <span id="total_score">0</span></span>*/}
 						<div className="pt-6 px-6">
 							<pre className="text-white">
-								Kayle's Hunting Terminal Kayle’s Hunting Terminal
+								Kayle’s Hunting Terminal
 								<br />
 								Here you can see whether a message will be flagged by Kayle’s
 								filters!
