@@ -64,8 +64,6 @@ export async function moderateTextRoute(c: Context) {
 	try {
 		const textToModerate = normaliseText(text);
 
-		// TODO: We should create the hash first and while we create the vector, we can
-		// check if the hash exists in the db. If it does, we can skip the moderation.
 		const hash = await hashText(textToModerate);
 
 		const [hashSearchResult, vector] = await Promise.all([
@@ -85,7 +83,6 @@ export async function moderateTextRoute(c: Context) {
 			return c.json({
 				severity: hashSearchResult.severity,
 				violations: hashSearchResult.violations,
-				similarity: hashSearchResult.similarity,
 			});
 		}
 
@@ -98,7 +95,6 @@ export async function moderateTextRoute(c: Context) {
 			return c.json({
 				severity: vectorSearchResult.severity,
 				violations: vectorSearchResult.violations,
-				similarity: vectorSearchResult.similarity,
 			});
 		}
 
