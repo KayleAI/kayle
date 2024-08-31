@@ -21,7 +21,9 @@ v1.use(
 			return c.req.header("Authorization")?.replace("Bearer ", "");
 		},
 		handleInvalidKey(c, result) {
-			console.warn(`Invalid API key: ${result?.keyId ?? "unknown key"}`);
+			console.warn(
+				`[WARN]: Invalid API key: ${result?.keyId ?? "unknown key"}`,
+			);
 			return c.json(
 				{
 					message: "You are not authorised to access this resource.",
@@ -32,7 +34,7 @@ v1.use(
 			);
 		},
 		onError(c, error) {
-			console.error(`Authentication Error: ${error.message}`);
+			console.error(`[ERROR]: Authentication Error: ${error.message}`);
 			return c.json(
 				{
 					message: "An error occurred while authenticating your request.",

@@ -15,3 +15,7 @@ GROQ_API_KEY=
 
 AI_API_KEY=
 AI_BASE_URL=
+
+# Encryption Key
+
+ENCRYPTION_KEY=

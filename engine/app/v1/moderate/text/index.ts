@@ -13,8 +13,15 @@ import { normaliseText } from "@/utils/text/normalise";
 
 // Vector
 import { createVector } from "@/utils/text/create";
+
+// Search
 import { search } from "@/utils/text/search";
+
+// Hash
 import { hashText } from "@/utils/text/hash";
+
+// Store
+import { storeTextModeration } from "@/utils/store/store-text-moderation";
 
 const textModerationRequestSchema = z.object({
 	text: z.string(),
@@ -42,12 +49,14 @@ export async function moderateTextRoute(c: Context) {
 		AI_MODEL = "gpt-4o-2024-08-06",
 		HYPERDRIVE,
 		EMBEDDING_MODEL = "text-embedding-3-large",
+		ENCRYPTION_KEY,
 	} = env<{
 		AI_API_KEY: string;
 		AI_BASE_URL: string;
 		AI_MODEL?: string;
 		HYPERDRIVE: Hyperdrive;
 		EMBEDDING_MODEL?: string;
+		ENCRYPTION_KEY: string;
 	}>(c);
 
 	const { text } = parsed.data;
@@ -72,7 +81,9 @@ export async function moderateTextRoute(c: Context) {
 
 		if (searchResult) {
 			return c.json({
-				message: "Content has been flagged.",
+				severity: searchResult.severity,
+				violations: searchResult.violations,
+				similarity: searchResult.similarity,
 			});
 		}
 
@@ -105,8 +116,25 @@ export async function moderateTextRoute(c: Context) {
 			// Replace all occurrences of PII with "[REDACTED]"
 			const redactedText = text.replace(regex, "[REDACTED]");
 
-			console.debug(`Redacted text: ${redactedText}`);
+			console.debug(`[DEBUG]: Redacted text: ${redactedText}`);
 		}
+
+		const result = {
+			severity,
+			violations,
+			pii,
+		};
+
+		c.executionCtx.waitUntil(
+			storeTextModeration({
+				hyperdrive: HYPERDRIVE,
+				vector,
+				hash,
+				result,
+				text: textToModerate,
+				ENCRYPTION_KEY,
+			}),
+		);
 
 		return c.json({ severity, violations });
 	} catch (error) {

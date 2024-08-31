@@ -20,7 +20,7 @@ app.notFound((c) => {
 });
 
 app.onError((err, c) => {
-	console.error(`Error: ${err.message}`);
+	console.error(`[ERROR]: ${err.message}`);
 	return c.json(
 		{
 			message: "An error occurred while processing your request.",

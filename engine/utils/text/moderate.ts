@@ -49,7 +49,7 @@ export async function moderateText({
 		});
 
 		if (!moderation.choices[0].message.content) {
-			console.error("[ERROR] Failed to moderate text: No content");
+			console.error("[ERROR]: Failed to moderate text: No content");
 			return {
 				data: null,
 				error: "Failed to moderate text: No content",
@@ -61,7 +61,7 @@ export async function moderateText({
 		);
 
 		if (!parsed.success) {
-			console.error(`[ERROR] Failed to moderate text: ${parsed.error}`);
+			console.error(`[ERROR]: Failed to moderate text: ${parsed.error}`);
 			return {
 				data: null,
 				error: "Failed to moderate text: Invalid response format",
@@ -73,7 +73,7 @@ export async function moderateText({
 			error: null,
 		};
 	} catch (error) {
-		console.error(`[ERROR] Failed to moderate text: ${error}`);
+		console.error(`[ERROR]: Failed to moderate text: ${error}`);
 		return {
 			data: null,
 			error: "Failed to moderate text: Internal server error",
