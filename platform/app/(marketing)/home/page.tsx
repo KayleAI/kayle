@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { Button } from "@repo/ui/button";
 import { Link } from "@repo/ui/link";
 import { useState } from "react";
@@ -136,14 +137,14 @@ function HunterComponent() {
 	);
 	const [isInputDisabled, setIsInputDisabled] = useState(false);
 
-	const handleSubmit = async () => {
+	const handleSubmit = React.useCallback(async () => {
 		if (terminalInput.trim() === "") {
 			return;
 		}
 
 		setIsInputDisabled(true);
 
-		setTerminalOutput(`Running test on “${terminalInput}”...\n\n\n\n`);
+		setTerminalOutput(`Running test on "${terminalInput}"...\n\n\n\n`);
 
 		const startTime = performance.now();
 
@@ -160,19 +161,29 @@ function HunterComponent() {
 
 		const timeTaken = Math.round(performance.now() - startTime);
 
-		const output = `Text moderation output for “${terminalInput}”:\nSeverity: ${data.severity || 0}\nViolations: ${data.violations.length > 0 ? data.violations.join(", ") : "None"}\nTime taken: ${timeTaken}ms\n`;
+		const output = `Text moderation output for "${terminalInput}":\nSeverity: ${data.severity || 0}\nViolations: ${data.violations.length > 0 ? data.violations.join(", ") : "None"}\nTime taken: ${timeTaken}ms\n`;
 		setTerminalOutput(output);
 
 		setTerminalInput("");
 
 		setIsInputDisabled(false);
-	};
+	}, [terminalInput]);
 
-	const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-		if (e.key === "Enter") {
-			handleSubmit();
-		}
-	};
+	const handleKeyPress = React.useCallback(
+		(e: React.KeyboardEvent<HTMLInputElement>) => {
+			if (e.key === "Enter") {
+				handleSubmit();
+			}
+		},
+		[handleSubmit],
+	);
+
+	const handleInputChange = React.useCallback(
+		(e: React.ChangeEvent<HTMLInputElement>) => {
+			setTerminalInput(e.target.value);
+		},
+		[],
+	);
 
 	return (
 		<div className="mx-auto py-24 px-6 sm:py-32 lg:px-8">
@@ -234,7 +245,7 @@ function HunterComponent() {
 									maxLength={70}
 									required
 									value={terminalInput}
-									onChange={(e) => setTerminalInput(e.target.value)}
+									onChange={handleInputChange}
 									placeholder="kayle@ai~$:"
 									className="border-none bg-transparent grow text-zinc-50 px-4"
 									onKeyDown={handleKeyPress}

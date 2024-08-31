@@ -13,7 +13,6 @@ import {
 import {
 	Navbar,
 	NavbarItem,
-	NavbarLabel,
 	NavbarSection,
 	NavbarSpacer,
 } from "@repo/ui/navbar";

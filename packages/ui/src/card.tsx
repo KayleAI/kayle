@@ -9,7 +9,6 @@ export function Card({
 	title = "",
 	description = "",
 	href = "",
-	cta = undefined,
 	children,
 	className = "",
 	...props
@@ -17,7 +16,6 @@ export function Card({
 	readonly title: string;
 	readonly description: string;
 	readonly href?: string;
-	readonly cta?: string;
 	readonly children?: React.ReactNode;
 	readonly className?: string;
 }): JSX.Element {

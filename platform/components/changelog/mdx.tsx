@@ -127,7 +127,8 @@ export const code = function Code({
 }: React.ComponentPropsWithoutRef<"code"> & { highlightedCode?: string }) {
 	if (highlightedCode) {
 		return (
-			<code {...props} dangerouslySetInnerHTML={{ __html: highlightedCode }} />
+			// biome-ignore lint/security/noDangerouslySetInnerHtml: safe to inject in this way
+			<code {...props} dangerouslySetInnerHTML={{ __html: highlightedCode }} /> // skipcq: JS-0440
 		);
 	}
 

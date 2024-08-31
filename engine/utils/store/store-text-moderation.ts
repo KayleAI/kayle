@@ -1,6 +1,5 @@
 // DB
 import { connect } from "@/db/connect";
-import { moderations } from "@/db/drizzle/schema";
 
 // Types
 import type { ModerationResult } from "@/types/moderation";

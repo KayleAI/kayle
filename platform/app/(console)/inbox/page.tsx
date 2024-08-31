@@ -1,6 +1,6 @@
 import { PageHeading } from "@repo/ui/page-heading";
 
-export default async function UserInbox() {
+export default function UserInbox() {
 	return (
 		<main>
 			<PageHeading title="Inbox" description="" />
