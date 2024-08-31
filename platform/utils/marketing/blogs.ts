@@ -30,5 +30,7 @@ export async function getAllBlogs() {
 
 	const blogs = await Promise.all(blogFilenames.map(importBlog));
 
-	return blogs.sort((a, z) => +new Date(z.date) - +new Date(a.date));
+	return blogs.sort(
+		(a, z) => Number(new Date(z.date)) - Number(new Date(a.date)),
+	);
 }

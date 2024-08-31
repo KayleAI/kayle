@@ -74,17 +74,17 @@ function Star({
 	readonly blurId: string;
 	readonly point: StarType;
 }) {
-	let groupRef = useRef<React.ElementRef<"g">>(null);
-	let ref = useRef<React.ElementRef<"circle">>(null);
+	const groupRef = useRef<React.ElementRef<"g">>(null);
+	const ref = useRef<React.ElementRef<"circle">>(null);
 
 	useEffect(() => {
 		if (!groupRef.current || !ref.current) {
 			return;
 		}
 
-		let delay = Math.random() * 2;
+		const delay = Math.random() * 2;
 
-		let animations = [
+		const animations = [
 			animate(groupRef.current, { opacity: 1 }, { duration: 4, delay }),
 			animate(
 				ref.current,
@@ -96,13 +96,13 @@ function Star({
 					delay,
 					duration: Math.random() * 2 + 2,
 					direction: "alternate",
-					repeat: Infinity,
+					repeat: Number.POSITIVE_INFINITY,
 				},
 			),
 		];
 
 		return () => {
-			for (let animation of animations) {
+			for (const animation of animations) {
 				animation.cancel();
 			}
 		};
@@ -133,19 +133,19 @@ function Constellation({
 	readonly points: Array<StarType>;
 	readonly blurId: string;
 }) {
-	let ref = useRef<React.ElementRef<"path">>(null);
-	let uniquePoints = points.filter(
+	const ref = useRef<React.ElementRef<"path">>(null);
+	const uniquePoints = points.filter(
 		(point, pointIndex) =>
 			points.findIndex((p) => String(p) === String(point)) === pointIndex,
 	);
-	let isFilled = uniquePoints.length !== points.length;
+	const isFilled = uniquePoints.length !== points.length;
 
 	useEffect(() => {
 		if (!ref.current) {
 			return;
 		}
 
-		let sequence: Array<TimelineSegment> = [
+		const sequence: Array<TimelineSegment> = [
 			[
 				ref.current,
 				{ strokeDashoffset: 0, visibility: "visible" },
@@ -161,7 +161,7 @@ function Constellation({
 			]);
 		}
 
-		let animation = timeline(sequence);
+		const animation = timeline(sequence);
 
 		return () => {
 			animation.cancel();
@@ -182,14 +182,15 @@ function Constellation({
 				className="invisible"
 			/>
 			{uniquePoints.map((point, pointIndex) => (
-				<Star key={pointIndex} point={point} blurId={blurId} /> // NOSONAR
+				// biome-ignore lint/suspicious/noArrayIndexKey: it's fine for now
+				<Star key={pointIndex} point={point} blurId={blurId} /> // skipcq: JS-0437
 			))}
 		</>
 	);
 }
 
 export function StarField({ className }: { readonly className?: string }) {
-	let blurId = useId();
+	const blurId = useId();
 
 	return (
 		<svg
@@ -208,13 +209,15 @@ export function StarField({ className }: { readonly className?: string }) {
 			</defs>
 			{constellations.map((points, constellationIndex) => (
 				<Constellation
-					key={constellationIndex} // NOSONAR
+					// biome-ignore lint/suspicious/noArrayIndexKey: it's fine for now
+					key={constellationIndex} // skipcq: JS-0437
 					points={points}
 					blurId={blurId}
 				/>
 			))}
 			{stars.map((point, pointIndex) => (
-				<Star key={pointIndex} point={point} blurId={blurId} /> // NOSONAR
+				// biome-ignore lint/suspicious/noArrayIndexKey: it's fine for now
+				<Star key={pointIndex} point={point} blurId={blurId} /> // skipcq: JS-0437
 			))}
 		</svg>
 	);

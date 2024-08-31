@@ -2,7 +2,7 @@
 
 import { Field, FieldGroup, Fieldset, Legend } from "@repo/ui/fieldset";
 import { Button } from "@repo/ui/button";
-import { Strong, Text, TextLink } from "@repo/ui/text";
+import { Strong, Text } from "@repo/ui/text";
 
 import { useState } from "react";
 import { useQueryState } from "nuqs";

@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { Button } from "@repo/ui/button";
 import { Link } from "@repo/ui/link";
 import { useState } from "react";
@@ -136,14 +137,14 @@ function HunterComponent() {
 	);
 	const [isInputDisabled, setIsInputDisabled] = useState(false);
 
-	const handleSubmit = async () => {
+	const handleSubmit = React.useCallback(async () => {
 		if (terminalInput.trim() === "") {
 			return;
 		}
 
 		setIsInputDisabled(true);
 
-		setTerminalOutput(`Running test on “${terminalInput}”...\n\n\n\n`);
+		setTerminalOutput(`Running test on "${terminalInput}"...\n\n\n\n`);
 
 		const startTime = performance.now();
 
@@ -160,19 +161,29 @@ function HunterComponent() {
 
 		const timeTaken = Math.round(performance.now() - startTime);
 
-		const output = `Text moderation output for “${terminalInput}”:\nSeverity: ${data.severity || 0}\nViolations: ${data.violations.length > 0 ? data.violations.join(", ") : "None"}\nTime taken: ${timeTaken}ms\n`;
+		const output = `Text moderation output for "${terminalInput}":\nSeverity: ${data.severity || 0}\nViolations: ${data.violations.length > 0 ? data.violations.join(", ") : "None"}\nTime taken: ${timeTaken}ms\n`;
 		setTerminalOutput(output);
 
 		setTerminalInput("");
 
 		setIsInputDisabled(false);
-	};
+	}, [terminalInput]);
 
-	const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-		if (e.key === "Enter") {
-			handleSubmit();
-		}
-	};
+	const handleKeyPress = React.useCallback(
+		(e: React.KeyboardEvent<HTMLInputElement>) => {
+			if (e.key === "Enter") {
+				handleSubmit();
+			}
+		},
+		[handleSubmit],
+	);
+
+	const handleInputChange = React.useCallback(
+		(e: React.ChangeEvent<HTMLInputElement>) => {
+			setTerminalInput(e.target.value);
+		},
+		[],
+	);
 
 	return (
 		<div className="mx-auto py-24 px-6 sm:py-32 lg:px-8">
@@ -181,10 +192,10 @@ function HunterComponent() {
 					Happy Hunting!
 				</h2>
 				<p className="mt-2 text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl dark:text-zinc-100">
-					Hunt for words or phrases that violate Kayle’s policy.
+					Hunt for words or phrases that violate Kayle's policy.
 				</p>
 				<p className="mt-6 text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-					By using Kayle’s Hunting Terminal, you provide us with valuable data
+					By using Kayle's Hunting Terminal, you provide us with valuable data
 					that helps us improve our filters.
 				</p>
 			</div>
@@ -204,7 +215,7 @@ function HunterComponent() {
 						{/*<span className="text-amber-300">Current Score: <span id="total_score">0</span></span>*/}
 						<div className="pt-6 px-6">
 							<pre className="text-white">
-								Kayle’s Hunting Terminal
+								Kayle's Hunting Terminal Kayle’s Hunting Terminal
 								<br />
 								Here you can see whether a message will be flagged by Kayle’s
 								filters!
@@ -234,7 +245,7 @@ function HunterComponent() {
 									maxLength={70}
 									required
 									value={terminalInput}
-									onChange={(e) => setTerminalInput(e.target.value)}
+									onChange={handleInputChange}
 									placeholder="kayle@ai~$:"
 									className="border-none bg-transparent grow text-zinc-50 px-4"
 									onKeyDown={handleKeyPress}

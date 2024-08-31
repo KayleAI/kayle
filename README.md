@@ -2,9 +2,11 @@
 
 Open-source content moderation at scale.
 
+## Development
 
+[Biome](https://biomejs.dev/) is recommended for linting.
 
-
+We use [Deepsource](https://deepsource.io/) for static analysis. Our link is [here](https://app.deepsource.com/gh/KayleAI/kayle).
 
 ### Database
 

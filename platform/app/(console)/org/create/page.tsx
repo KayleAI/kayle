@@ -64,7 +64,7 @@ export default function CreateNewOrganisation() {
 			<form
 				className="my-8"
 				ref={formRef}
-				onSubmit={async (e: React.FormEvent<HTMLFormElement>) => {
+				onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
 					e.preventDefault();
 
 					toast.promise(

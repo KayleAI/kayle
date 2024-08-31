@@ -8,7 +8,7 @@ export async function send({
 	subject,
 	react,
 	to = [email],
-	from = process.env.RESEND_EMAIL_FROM ?? `Kayle <noreply@hey.kayle.ai>`,
+	from = process.env.RESEND_EMAIL_FROM ?? "Kayle <noreply@hey.kayle.ai>",
 	preventThreading = true,
 }: {
 	email: string;
