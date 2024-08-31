@@ -56,17 +56,7 @@ moderate.use("/:type?", async (c, next) => {
 	await next();
 });
 
-moderate.get("/", (c) => {
-	console.log("Hello from Kayle's Moderation API!");
-	return c.json({
-		message: "Hello from Kayle's Moderation API!",
-		hint: "Check the docs to learn more about how to use this endpoint.",
-		docs: "https://docs.kayle.ai",
-	});
-});
-
 moderate.all("/:type?", async (c) => {
-	console.log("here");
 	const type = c.get("type") ?? "";
 
 	switch (type) {
