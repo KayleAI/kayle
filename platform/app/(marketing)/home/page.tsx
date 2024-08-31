@@ -241,6 +241,7 @@ function HunterComponent() {
 								</div>
 							</span>
 
+							{/* Input outline looks relatively ugly to the demo (curved, catalyst-like) */}
 							<div className="-mb-px flex text-s sm:text-sm font-medium leading-6 text-zinc-400 grow px-4 lg:px-0">
 								{/* previous placeholder: kayle@ai~$: */}
 								{/* IDEAL: Change to textarea with input properties so text can expand (e.g. large inputs) */}
