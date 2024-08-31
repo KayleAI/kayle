@@ -17,9 +17,30 @@ export const moderate = new Hono<{
 
 moderate.use("/:type?", async (c, next) => {
 	const { type: paramType = undefined } = c.req.param();
-	const { type: jsonType = undefined } = await c.req.json();
+	let bodyType = undefined;
 
-	if (!jsonType && !paramType) {
+	switch (c.req.header("Content-Type")) {
+		case "application/json":
+			try {
+				const body = await c.req.json();
+				bodyType = body.type;
+			} catch (error) {
+				return c.json(
+					{
+						message: "Invalid JSON body",
+					},
+					400,
+				);
+			}
+			break;
+		// TODO: We might potentially add support for other content types in the future
+		default:
+			break;
+	}
+
+	const type = bodyType ?? paramType;
+
+	if (!type) {
 		return c.json(
 			{
 				message: "Missing 'type' in request body",
@@ -30,12 +51,13 @@ moderate.use("/:type?", async (c, next) => {
 		);
 	}
 
-	c.set("type", paramType ?? jsonType);
+	c.set("type", type);
 
 	await next();
 });
 
 moderate.get("/", (c) => {
+	console.log("Hello from Kayle's Moderation API!");
 	return c.json({
 		message: "Hello from Kayle's Moderation API!",
 		hint: "Check the docs to learn more about how to use this endpoint.",
@@ -44,6 +66,7 @@ moderate.get("/", (c) => {
 });
 
 moderate.all("/:type?", async (c) => {
+	console.log("here");
 	const type = c.get("type") ?? "";
 
 	switch (type) {
