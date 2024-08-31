@@ -1,5 +1,5 @@
 // Hono
-import { Hono, type Context } from "hono";
+import type { Context } from "hono";
 import { env } from "hono/adapter";
 
 // Zod
@@ -15,10 +15,6 @@ import { normaliseText } from "@/utils/text/normalise";
 import { createVector } from "@/utils/text/create";
 import { search } from "@/utils/text/search";
 import { hashText } from "@/utils/text/hash";
-
-export const textModeration = new Hono<{
-	Bindings: CloudflareBindings;
-}>();
 
 const textModerationRequestSchema = z.object({
 	text: z.string(),
