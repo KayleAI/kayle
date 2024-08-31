@@ -15,7 +15,7 @@ import { normaliseText } from "@/utils/text/normalise";
 import { createVector } from "@/utils/text/create";
 
 // Search
-import { search } from "@/utils/text/search";
+import { searchVector, searchHash } from "@/utils/text/search";
 
 // Hash
 import { hashText } from "@/utils/text/hash";
@@ -64,26 +64,41 @@ export async function moderateTextRoute(c: Context) {
 	try {
 		const textToModerate = normaliseText(text);
 
-		const vector = await createVector({
-			AI_API_KEY,
-			AI_BASE_URL,
-			EMBEDDING_MODEL,
-			text: textToModerate,
-		});
-
+		// TODO: We should create the hash first and while we create the vector, we can
+		// check if the hash exists in the db. If it does, we can skip the moderation.
 		const hash = await hashText(textToModerate);
 
-		const searchResult = await search({
+		const [hashSearchResult, vector] = await Promise.all([
+			searchHash({
+				hyperdrive: HYPERDRIVE,
+				hash,
+			}),
+			createVector({
+				AI_API_KEY,
+				AI_BASE_URL,
+				EMBEDDING_MODEL,
+				text: textToModerate,
+			}),
+		]);
+
+		if (hashSearchResult) {
+			return c.json({
+				severity: hashSearchResult.severity,
+				violations: hashSearchResult.violations,
+				similarity: hashSearchResult.similarity,
+			});
+		}
+
+		const vectorSearchResult = await searchVector({
 			hyperdrive: HYPERDRIVE,
 			vector,
-			hash,
 		});
 
-		if (searchResult) {
+		if (vectorSearchResult) {
 			return c.json({
-				severity: searchResult.severity,
-				violations: searchResult.violations,
-				similarity: searchResult.similarity,
+				severity: vectorSearchResult.severity,
+				violations: vectorSearchResult.violations,
+				similarity: vectorSearchResult.similarity,
 			});
 		}
 
