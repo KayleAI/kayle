@@ -19,8 +19,9 @@ export async function search({
 
 	// select from the vector table the closest vector to the input vector
 	// use the cosine similarity metric
-
 	// or find a completely matching hash
+
+	
 
 	return undefined;
 }
