@@ -2,11 +2,8 @@
 import { Hono } from "hono";
 
 // Moderation Endpoints
-import { audioModeration, moderateAudioRoute } from "./audio";
-import { textModeration, moderateTextRoute } from "./text";
-
-// Zod
-import { z } from "zod";
+import { moderateAudioRoute } from "./audio";
+import { moderateTextRoute } from "./text";
 
 export const moderate = new Hono<{
 	Bindings: CloudflareBindings;
@@ -16,35 +13,44 @@ export const moderate = new Hono<{
 }>();
 
 moderate.use("/:type?", async (c, next) => {
-	const { type = "" } = c.req.param();
-	c.set("type", type);
+	const { type: paramType = undefined } = c.req.param();
+	let bodyType = undefined;
 
-	if (type === "") {
-		const { type: newType = "" } = await c.req.json();
-
-		if (newType === "") {
-			return c.json(
-				{
-					message: "Missing 'type' in request body",
-					hint: "Add the 'type' field to your request body and set it to the type of moderation you want to perform.",
-					docs: "https://docs.kayle.ai",
-				},
-				400,
-			);
-		}
-
-		c.set("type", newType);
+	switch (c.req.header("Content-Type")) {
+		case "application/json":
+			try {
+				const body = await c.req.json();
+				bodyType = body.type;
+			} catch (error) {
+				return c.json(
+					{
+						message: "Invalid JSON body",
+					},
+					400,
+				);
+			}
+			break;
+		// TODO: We might potentially add support for other content types in the future
+		default:
+			break;
 	}
 
-	await next();
-});
+	const type = bodyType ?? paramType;
 
-moderate.get("/", (c) => {
-	return c.json({
-		message: "Hello from Kayle's Moderation API!",
-		hint: "Check the docs to learn more about how to use this endpoint.",
-		docs: "https://docs.kayle.ai",
-	});
+	if (!type) {
+		return c.json(
+			{
+				message: "Missing 'type' in request body",
+				hint: "Add the 'type' field to your request body and set it to the type of moderation you want to perform.",
+				docs: "https://docs.kayle.ai",
+			},
+			400,
+		);
+	}
+
+	c.set("type", type);
+
+	await next();
 });
 
 moderate.all("/:type?", async (c) => {

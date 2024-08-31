@@ -1,5 +1,5 @@
 // Hono
-import { Hono, type Context } from "hono";
+import type { Context } from "hono";
 import { env } from "hono/adapter";
 
 // Zod
@@ -11,10 +11,6 @@ import { moderateText } from "@/utils/text/moderate";
 // Utils
 import { convertAudioToText } from "@/utils/conversion/convert-audio-to-text";
 import { downloadAudioFromUrl } from "@/utils/download/download-audio-from-url";
-
-export const audioModeration = new Hono<{
-	Bindings: CloudflareBindings;
-}>();
 
 const audioModerationRequestSchema = z.object({
 	audio_url: z.string(),

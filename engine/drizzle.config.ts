@@ -9,4 +9,5 @@ export default defineConfig({
 		// this should be identical to the production database.
 		url: "postgresql://postgres:postgres@127.0.0.1:54322/postgres",
 	},
+	schemaFilter: ["public", "storage", "auth"],
 });

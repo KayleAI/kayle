@@ -8,6 +8,13 @@
 			"when": 1724497355563,
 			"tag": "0000_third_leader",
 			"breakpoints": true
+		},
+		{
+			"idx": 1,
+			"version": "7",
+			"when": 1725026382886,
+			"tag": "0001_green_radioactive_man",
+			"breakpoints": true
 		}
 	]
 }

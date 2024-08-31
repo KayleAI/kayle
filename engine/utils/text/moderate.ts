@@ -19,10 +19,12 @@ import {
 export async function moderateText({
 	AI_API_KEY,
 	AI_BASE_URL,
+	AI_MODEL = "gpt-4o-2024-08-06",
 	text,
 }: {
 	AI_API_KEY: string;
 	AI_BASE_URL: string;
+	AI_MODEL?: string;
 	text: string;
 }) {
 	const ai = new OpenAI({
@@ -32,7 +34,7 @@ export async function moderateText({
 
 	try {
 		const moderation = await ai.chat.completions.create({
-			model: "gpt-4o-2024-08-06",
+			model: AI_MODEL,
 			messages: [
 				textModerationPrompt,
 				{
@@ -47,7 +49,7 @@ export async function moderateText({
 		});
 
 		if (!moderation.choices[0].message.content) {
-			console.error("[ERROR] Failed to moderate text: No content");
+			console.error("[ERROR]: Failed to moderate text: No content");
 			return {
 				data: null,
 				error: "Failed to moderate text: No content",
@@ -59,7 +61,7 @@ export async function moderateText({
 		);
 
 		if (!parsed.success) {
-			console.error(`[ERROR] Failed to moderate text: ${parsed.error}`);
+			console.error(`[ERROR]: Failed to moderate text: ${parsed.error}`);
 			return {
 				data: null,
 				error: "Failed to moderate text: Invalid response format",
@@ -71,7 +73,7 @@ export async function moderateText({
 			error: null,
 		};
 	} catch (error) {
-		console.error(`[ERROR] Failed to moderate text: ${error}`);
+		console.error(`[ERROR]: Failed to moderate text: ${error}`);
 		return {
 			data: null,
 			error: "Failed to moderate text: Internal server error",

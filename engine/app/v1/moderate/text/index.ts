@@ -1,5 +1,5 @@
 // Hono
-import { Hono, type Context } from "hono";
+import type { Context } from "hono";
 import { env } from "hono/adapter";
 
 // Zod
@@ -8,9 +8,20 @@ import { z } from "zod";
 // Moderation
 import { moderateText } from "@/utils/text/moderate";
 
-export const textModeration = new Hono<{
-	Bindings: CloudflareBindings;
-}>();
+// Normalisation
+import { normaliseText } from "@/utils/text/normalise";
+
+// Vector
+import { createVector } from "@/utils/text/create";
+
+// Search
+import { searchVector, searchHash } from "@/utils/text/search";
+
+// Hash
+import { hashText } from "@/utils/text/hash";
+
+// Store
+import { storeTextModeration } from "@/utils/store/store-text-moderation";
 
 const textModerationRequestSchema = z.object({
 	text: z.string(),
@@ -32,17 +43,65 @@ export async function moderateTextRoute(c: Context) {
 		);
 	}
 
-	const { AI_API_KEY, AI_BASE_URL } = env<{
+	const {
+		AI_API_KEY,
+		AI_BASE_URL,
+		AI_MODEL = "gpt-4o-2024-08-06",
+		HYPERDRIVE,
+		EMBEDDING_MODEL = "text-embedding-3-large",
+		ENCRYPTION_KEY,
+	} = env<{
 		AI_API_KEY: string;
 		AI_BASE_URL: string;
+		AI_MODEL?: string;
+		HYPERDRIVE: Hyperdrive;
+		EMBEDDING_MODEL?: string;
+		ENCRYPTION_KEY: string;
 	}>(c);
 
 	const { text } = parsed.data;
 
 	try {
+		const textToModerate = normaliseText(text);
+
+		const hash = await hashText(textToModerate);
+
+		const [hashSearchResult, vector] = await Promise.all([
+			searchHash({
+				hyperdrive: HYPERDRIVE,
+				hash,
+			}),
+			createVector({
+				AI_API_KEY,
+				AI_BASE_URL,
+				EMBEDDING_MODEL,
+				text: textToModerate,
+			}),
+		]);
+
+		if (hashSearchResult) {
+			return c.json({
+				severity: hashSearchResult.severity,
+				violations: hashSearchResult.violations,
+			});
+		}
+
+		const vectorSearchResult = await searchVector({
+			hyperdrive: HYPERDRIVE,
+			vector,
+		});
+
+		if (vectorSearchResult) {
+			return c.json({
+				severity: vectorSearchResult.severity,
+				violations: vectorSearchResult.violations,
+			});
+		}
+
 		const { data, error } = await moderateText({
 			AI_API_KEY,
 			AI_BASE_URL,
+			AI_MODEL,
 			text,
 		});
 
@@ -68,8 +127,25 @@ export async function moderateTextRoute(c: Context) {
 			// Replace all occurrences of PII with "[REDACTED]"
 			const redactedText = text.replace(regex, "[REDACTED]");
 
-			console.log(`Redacted text: ${redactedText}`);
+			console.debug(`[DEBUG]: Redacted text: ${redactedText}`);
 		}
+
+		const result = {
+			severity,
+			violations,
+			pii,
+		};
+
+		c.executionCtx.waitUntil(
+			storeTextModeration({
+				hyperdrive: HYPERDRIVE,
+				vector,
+				hash,
+				result,
+				text: textToModerate,
+				ENCRYPTION_KEY,
+			}),
+		);
 
 		return c.json({ severity, violations });
 	} catch (error) {
