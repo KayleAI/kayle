@@ -16,13 +16,19 @@ import {
 	type AutocompleteApi,
 	type AutocompleteCollection,
 	type AutocompleteState,
+	type BaseItem,
 	createAutocomplete,
 } from "@algolia/autocomplete-core";
 import { Dialog, DialogPanel, DialogBackdrop } from "@headlessui/react";
 import clsx from "clsx";
 
 import { navigation } from "@/components/docs/Navigation";
-import type { Result } from "@/mdx/search.mjs";
+
+export interface Result extends BaseItem {
+	url: string;
+	title: string;
+	pageTitle: string;
+}
 
 type EmptyObject = Record<string, never>;
 
@@ -75,6 +81,7 @@ function useAutocomplete({ close }: { close: () => void }) {
 				navigate,
 			},
 			getSources({ query }) {
+				// @ts-expect-error - dynamic import
 				return import("@/mdx/search.mjs").then(({ search }) => {
 					return [
 						{
@@ -208,6 +215,7 @@ function SearchResult({
 					className="mt-1 truncate whitespace-nowrap text-2xs text-zinc-500"
 				>
 					{hierarchy.map((item, itemIndex, items) => (
+						// biome-ignore lint/suspicious/noArrayIndexKey: it's fine for now
 						<Fragment key={itemIndex}>
 							<HighlightQuery text={item} query={query} />
 							<span
@@ -234,9 +242,9 @@ function SearchResults({
 }: {
 	autocomplete: Autocomplete;
 	query: string;
-	collection: AutocompleteCollection<Result>;
+	collection?: AutocompleteCollection<Result>;
 }) {
-	if (collection.items.length === 0) {
+	if (!collection || collection.items.length === 0) {
 		return (
 			<div className="p-6 text-center">
 				<NoResultsIcon className="mx-auto h-5 w-5 stroke-zinc-900 dark:stroke-zinc-600" />
@@ -335,6 +343,7 @@ function SearchDialog({
 	const pathname = usePathname();
 	const searchParams = useSearchParams();
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: this is okay.
 	useEffect(() => {
 		setOpen(false);
 	}, [pathname, searchParams, setOpen]);
