@@ -32,10 +32,10 @@ export const img = function Img(props: ImagePropsWithOptionalAlt) {
 };
 
 export const h2 = function H2(
-  props: Omit<React.ComponentPropsWithoutRef<typeof Heading>, 'level'>,
+	props: Omit<React.ComponentPropsWithoutRef<typeof Heading>, "level">,
 ) {
-  return <Heading level={2} {...props} />
-}
+	return <Heading level={2} {...props} />;
+};
 
 function ContentWrapper({
 	className,
@@ -174,14 +174,14 @@ export function Note({ children }: { children: React.ReactNode }) {
 }
 
 export function Warn({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="my-6 flex gap-2.5 rounded-2xl border border-amber-500/20 bg-amber-50/50 p-4 leading-6 text-amber-900 dark:border-amber-500/30 dark:bg-amber-500/5 dark:text-amber-200 dark:[--tw-prose-links-hover:theme(colors.amber.300)] dark:[--tw-prose-links:theme(colors.white)]">
-      <InfoIcon className="mt-1 h-4 w-4 flex-none fill-amber-500 stroke-white dark:fill-amber-200/20 dark:stroke-amber-200" />
-      <div className="[&>:first-child]:mt-0 [&>:last-child]:mb-0">
-        {children}
-      </div>
-    </div>
-  )
+	return (
+		<div className="my-6 flex gap-2.5 rounded-2xl border border-amber-500/20 bg-amber-50/50 p-4 leading-6 text-amber-900 dark:border-amber-500/30 dark:bg-amber-500/5 dark:text-amber-200 dark:[--tw-prose-links-hover:theme(colors.amber.300)] dark:[--tw-prose-links:theme(colors.white)]">
+			<InfoIcon className="mt-1 h-4 w-4 flex-none fill-amber-500 stroke-white dark:fill-amber-200/20 dark:stroke-amber-200" />
+			<div className="[&>:first-child]:mt-0 [&>:last-child]:mb-0">
+				{children}
+			</div>
+		</div>
+	);
 }
 
 export function Row({ children }: { children: React.ReactNode }) {
