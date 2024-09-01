@@ -3,6 +3,7 @@ import nextMDX from "@next/mdx";
 import { recmaPlugins } from "./mdx/recma.mjs";
 import { rehypePlugins } from "./mdx/rehype.mjs";
 import { remarkPlugins } from "./mdx/remark.mjs";
+import withSearch from "./mdx/search.mjs";
 
 const withMDX = nextMDX({
 	extension: /\.mdx?$/,
@@ -40,7 +41,10 @@ const nextConfig = {
 				},
 			},
 		},
+		outputFileTracingIncludes: {
+			"/**/*": ["./app/(docs)/docs/**/*.mdx"],
+		},
 	},
 };
 
-export default withMDX(nextConfig);
+export default withSearch(withMDX(nextConfig));

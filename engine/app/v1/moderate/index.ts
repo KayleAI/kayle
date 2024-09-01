@@ -42,7 +42,7 @@ moderate.use("/:type?", async (c, next) => {
 			{
 				message: "Missing 'type' in request body",
 				hint: "Add the 'type' field to your request body and set it to the type of moderation you want to perform.",
-				docs: "https://docs.kayle.ai",
+				docs: "https://kayle.ai/docs",
 			},
 			400,
 		);

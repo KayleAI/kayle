@@ -1,0 +1,36 @@
+export const metadata = {
+  title: 'Authentication',
+  description:
+    'In this guide, we’ll look at how to authenticate your requests to the Kayle API.',
+}
+
+# Authentication
+
+You'll need to authenticate your requests to access any of the endpoints in the Kayle API. In this guide, we'll look at how authentication works. {{ className: 'lead' }}
+
+## Using API keys
+
+To authenticate your requests, you need to include an API key in the header of your request.
+
+<Note>
+  You can find your API keys in [Developer Portal &raquo; API Keys](https://kayle.ai/developers/keys).
+</Note>
+
+```bash {{ title: 'cURL' }}
+curl -X POST https://api.kayle.ai/v1/moderate \
+  -H "Authorization: Bearer {token}" \
+  -H "Content-Type: application/json" \
+  -d '{"text": "I am a good person", "type": "text"}'
+```
+
+## Using an SDK
+
+<Warn>
+  SDKs are not yet available—documentation for authenticating with SDKs will be available when SDKs are ready.
+</Warn>
+
+<div className="not-prose">
+  <Button href="/docs/sdks" variant="text" arrow="right">
+    <>Check out our list of first-party SDKs</>
+  </Button>
+</div>

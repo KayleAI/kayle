@@ -10,7 +10,7 @@ submitReport.post("/", (c) => {
 		{
 			message: "We’re working on adding this soon!",
 			hint: "Check back soon!",
-			docs: "https://docs.kayle.ai",
+			docs: "https://kayle.ai/docs",
 		},
 		501,
 	);

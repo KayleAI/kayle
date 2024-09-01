@@ -1,4 +1,4 @@
-import "@repo/ui/styles/tailwind.css";
+import "@repo/ui/globals.css";
 
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -36,7 +36,7 @@ export default function RootLayout({
 		<html
 			lang="en"
 			className={clsx(
-				"h-full antialiased",
+				"h-full antialiased font-display",
 				"bg-white lg:bg-zinc-100 dark:bg-zinc-900 dark:lg:bg-zinc-950",
 				inter.variable,
 				monaSans.variable,

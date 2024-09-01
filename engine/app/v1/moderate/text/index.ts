@@ -37,7 +37,7 @@ export async function moderateTextRoute(c: Context) {
 			{
 				message: `${parsed.error.issues[0].message} for '${parsed.error.issues[0].path[0]}'`,
 				hint: "Resolve the issue and try again.",
-				docs: "https://docs.kayle.ai",
+				docs: "https://kayle.ai/docs",
 			},
 			400,
 		);
@@ -155,7 +155,7 @@ export async function moderateTextRoute(c: Context) {
 				message:
 					"We were unable to moderate this content. This is likely an issue on our end.",
 				hint: "Please try again or contact support.",
-				docs: "https://docs.kayle.ai",
+				docs: "https://kayle.ai/docs",
 			},
 			500,
 		);

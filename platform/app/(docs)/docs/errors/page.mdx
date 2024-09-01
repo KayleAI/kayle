@@ -1,0 +1,49 @@
+export const metadata = {
+  title: 'Errors',
+  description:
+    'In this guide, we will talk about what happens when something goes wrong while you work with the API.',
+}
+
+# Errors
+
+In this guide, we will talk about what happens when something goes wrong while you work with the API. Let's look at some status codes and error types you might encounter. {{ className: 'lead' }}
+
+You can tell if your request was successful by checking the status code when receiving an API response. If a response comes back unsuccessful, you can use the error message, hint, and documentation URL to figure out what has gone wrong and do some rudimentary debugging (before [contacting support](/help)).
+## Status codes
+
+Here is a list of the different categories of status codes returned by the Kayle API. Use these to understand if a request was successful.
+
+<Properties>
+  <Property name="2xx">
+    A 2xx status code indicates a successful response.
+  </Property>
+  <Property name="4xx">
+    A 4xx status code indicates a client error—this is a _you_ problem.
+  </Property>
+  <Property name="5xx">
+    A 5xx status code indicates a server error—this is a problem with us.
+  </Property>
+</Properties>
+
+## Error types
+
+<Row>
+  <Col>
+
+    Whenever a request is unsuccessful, the Kayle API will return an error response with a message, hint, and documentation URL.
+    
+    You can use this information to understand better what has gone wrong and how to fix it.
+
+  </Col>
+  <Col>
+
+    ```bash {{ title: "404 Error Response" }}
+    {
+      "hint": "This endpoint doesn’t exist.",
+      "message": "Check the URL and try again.",
+      "docs": "https://kayle.ai/docs"
+    }
+    ```
+
+  </Col>
+</Row>

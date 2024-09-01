@@ -28,7 +28,7 @@ v1.use(
 				{
 					message: "You are not authorised to access this resource.",
 					hint: "Check your API key or contact support.",
-					docs: "https://docs.kayle.ai",
+					docs: "https://kayle.ai/docs",
 				},
 				401,
 			);
