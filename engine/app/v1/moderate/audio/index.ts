@@ -25,7 +25,7 @@ export async function moderateAudioRoute(c: Context) {
 			{
 				message: "Invalid JSON in request body",
 				hint: "Make sure to send a valid JSON object.",
-				docs: "https://docs.kayle.ai",
+				docs: "https://kayle.ai/docs",
 			},
 			400,
 		);
@@ -49,7 +49,7 @@ export async function moderateAudioRoute(c: Context) {
 			{
 				message: "Failed to download audio from URL",
 				hint: "Make sure the URL is valid and points to an audio file.",
-				docs: "https://docs.kayle.ai",
+				docs: "https://kayle.ai/docs",
 			},
 			400,
 		);
@@ -68,7 +68,7 @@ export async function moderateAudioRoute(c: Context) {
 				message:
 					"We were unable to moderate this content. This is likely an issue on our end.",
 				hint: "Please try again later or contact support.",
-				docs: "https://docs.kayle.ai",
+				docs: "https://kayle.ai/docs",
 			},
 			500,
 		);

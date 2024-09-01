@@ -1,20 +1,6 @@
-// NOTE: I would really like the documentation to be on kayle.ai/docs
-// but for now, we can create a redirect from here to mintlify docs
-// and come back to this later
+import { Text, TextLink } from "@repo/ui/text";
 
-import { redirect } from "next/navigation";
-
-export default function DemoPage() {
-	redirect("https://docs.kayle.ai");
-
-	return (
-		<div>
-			<DocsSoonComponent />
-		</div>
-	);
-}
-
-function DocsSoonComponent() {
+export default function HelpPage() {
 	return (
 		<div className="relative isolate overflow-hidden bg-gradient-to-b from-emerald-100/20 dark:from-emerald-900/20">
 			<div className="mx-auto max-w-7xl pb-24 pt-10 sm:pb-32 lg:grid lg:grid-cols-2 lg:gap-x-8 lg:px-8 lg:py-40">
@@ -22,12 +8,14 @@ function DocsSoonComponent() {
 					<div className="mx-auto max-w-2xl">
 						<div className="max-w-lg">
 							<h1 className="mt-10 text-4xl font-bold tracking-tight text-zinc-950 dark:text-zinc-50 dark: sm:text-6xl">
-								Documentation coming soon!
+								Get help with Kayle.
 							</h1>
-							<p className="mt-6 text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-								We’re working on the documentation for Kayle— please check back
-								soon!
-							</p>
+							<Text className="mt-6">
+								We don’t have a support service yet, but you can check out our{" "}
+								<TextLink href="https://docs.kayle.ai">docs</TextLink> or
+								contact us directly at{" "}
+								<TextLink href="mailto:help@kayle.ai">help@kayle.ai</TextLink>.
+							</Text>
 						</div>
 					</div>
 				</div>

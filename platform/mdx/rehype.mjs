@@ -1,10 +1,25 @@
-import { toString } from "mdast-util-to-string";
+import { slugifyWithCounter } from "@sindresorhus/slugify";
+import { toString as toMdastString } from "mdast-util-to-string";
 import { mdxAnnotations } from "mdx-annotations";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeSlug from "rehype-slug";
 import { remarkRehypeWrap } from "remark-rehype-wrap";
 import shiki from "shiki";
 import { visit } from "unist-util-visit";
+import * as acorn from "acorn";
+
+function rehypeParseCodeBlocks() {
+	return (tree) => {
+		visit(tree, "element", (node, _nodeIndex, parentNode) => {
+			if (node.tagName === "code" && node.properties.className) {
+				parentNode.properties.language = node.properties.className[0]?.replace(
+					/^language-/,
+					"",
+				);
+			}
+		});
+	};
+}
 
 let highlighter;
 
@@ -13,40 +28,103 @@ function rehypeShiki() {
 		highlighter =
 			highlighter ?? (await shiki.getHighlighter({ theme: "css-variables" }));
 
-		visit(tree, "element", (node, _nodeIndex, parentNode) => {
-			if (node.tagName === "code" && parentNode.tagName === "pre") {
-				let language = node.properties.className?.[0]?.replace(
-					/^language-/,
-					"",
-				);
+		visit(tree, "element", (node) => {
+			if (node.tagName === "pre" && node.children[0]?.tagName === "code") {
+				const codeNode = node.children[0];
+				const textNode = codeNode.children[0];
 
-				if (!language) {
-					return;
+				node.properties.code = textNode.value;
+
+				if (node.properties.language) {
+					const tokens = highlighter.codeToThemedTokens(
+						textNode.value,
+						node.properties.language,
+					);
+
+					textNode.value = shiki.renderToHtml(tokens, {
+						elements: {
+							pre: ({ children }) => children,
+							code: ({ children }) => children,
+							line: ({ children }) => `<span>${children}</span>`,
+						},
+					});
 				}
-
-				let tokens = highlighter.codeToThemedTokens(
-					node.children[0].value,
-					language,
-				);
-
-				node.children = [];
-				node.properties.highlightedCode = shiki.renderToHtml(tokens, {
-					elements: {
-						pre: ({ children }) => children,
-						code: ({ children }) => children,
-						line: ({ children }) => `<span>${children}</span>`,
-					},
-				});
 			}
 		});
 	};
 }
 
+function rehypeSlugify() {
+	return (tree) => {
+		const slugify = slugifyWithCounter();
+		visit(tree, "element", (node) => {
+			if (node.tagName === "h2" && !node.properties.id) {
+				node.properties.id = slugify(toMdastString(node));
+			}
+		});
+	};
+}
+
+function rehypeAddMDXExports(getExports) {
+	return (tree) => {
+		const exports = Object.entries(getExports(tree));
+
+		for (const [name, value] of exports) {
+			for (const node of tree.children) {
+				if (
+					node.type === "mdxjsEsm" &&
+					new RegExp(`export\\s+const\\s+${name}\\s*=`).test(node.value)
+				) {
+					return;
+				}
+			}
+
+			const exportStr = `export const ${name} = ${value}`;
+
+			tree.children.push({
+				type: "mdxjsEsm",
+				value: exportStr,
+				data: {
+					estree: acorn.parse(exportStr, {
+						sourceType: "module",
+						ecmaVersion: "latest",
+					}),
+				},
+			});
+		}
+	};
+}
+
+function getSections(node) {
+	const sections = [];
+
+	for (const child of node.children ?? []) {
+		if (child.type === "element" && child.tagName === "h2") {
+			sections.push(`{
+        title: ${JSON.stringify(toMdastString(child))},
+        id: ${JSON.stringify(child.properties.id)},
+        ...${child.properties.annotation}
+      }`);
+		} else if (child.children) {
+			sections.push(...getSections(child));
+		}
+	}
+
+	return sections;
+}
+
 export const rehypePlugins = [
 	mdxAnnotations.rehype,
 	rehypeSlug,
-	[rehypeAutolinkHeadings, { behavior: "wrap", test: ["h2"] }],
+	rehypeParseCodeBlocks,
 	rehypeShiki,
+	rehypeSlugify,
+	[
+		rehypeAddMDXExports,
+		(tree) => ({
+			sections: `[${getSections(tree).join()}]`,
+		}),
+	],
 	[
 		remarkRehypeWrap,
 		{
@@ -54,12 +132,15 @@ export const rehypePlugins = [
 			start: "element[tagName=hr]",
 			transform: (article) => {
 				article.children.splice(0, 1);
-				let heading = article.children.find((n) => n.tagName === "h2");
+				const heading = article.children.find((n) => n.tagName === "h2");
+				const slugify = slugifyWithCounter();
 				article.properties = {
 					...heading.properties,
-					title: toString(heading),
+					title: toMdastString(heading),
 				};
-				heading.properties = {};
+				heading.properties = {
+					id: slugify(toMdastString(heading)),
+				};
 				return article;
 			},
 		},

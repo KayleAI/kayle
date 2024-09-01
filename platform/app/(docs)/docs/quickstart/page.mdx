@@ -1,0 +1,89 @@
+export const metadata = {
+  title: 'Quickstart',
+  description:
+    'This guide will get you all set up and ready to use the Kayle API. We’ll cover how to get started an API client and how to make your first API request.',
+}
+
+# Quickstart
+
+This guide will get you all set up and ready to use the Kayle API. We'll cover how to get started using one of our API clients and how to make your first API request. We'll also look at where to go next to find all the information you need to take full advantage of our powerful REST API. {{ className: 'lead' }}
+
+<Note>
+  Before you can make requests to the Kayle API, you will need to grab your
+  API key from your dashboard. You find it in [Developer Portal &raquo; API Keys](https://kayle.ai/developers/keys).
+</Note>
+
+## Choose your client
+
+Before making your first API request, you need to pick which API client you will use. In addition to good ol' cURL HTTP requests, Kayle offers clients for JavaScript, Python, and PHP. In the following example, you can see how to install each client.
+
+<CodeGroup>
+
+```bash {{ title: 'cURL' }}
+# cURL is most likely already installed on your machine
+curl --version
+```
+
+```bash {{ language: 'js' }}
+# Install the Kayle JavaScript SDK
+npm install @kayle/kayle-js --save
+```
+
+```bash {{ language: 'python' }}
+# Install the Kayle Python SDK
+pip install kayle_api
+```
+
+```bash {{ language: 'php' }}
+# Install the Kayle PHP SDK
+composer require kayle/sdk
+```
+
+</CodeGroup>
+
+<div className="not-prose">
+  <Button href="/sdks" variant="text" arrow="right">
+    <>Check out our list of first-party SDKs</>
+  </Button>
+</div>
+
+## Making your first API request
+
+After picking your preferred client, you are ready to make your first call to the Kayle API.
+
+<CodeGroup tag="POST" label="/v1/moderate">
+
+```bash {{ title: 'cURL' }}
+curl -X POST https://api.kayle.ai/v1/moderate \
+  -H "Authorization: Bearer {token}" \
+  -H "Content-Type: application/json" \
+  -d '{"text": "I am a good person", "type": "text"}'
+```
+
+```js
+// coming soon!
+```
+
+```python
+# coming soon!
+```
+
+```php
+// coming soon!
+```
+
+</CodeGroup>
+
+<div className="not-prose">
+  <Button href="/docs/moderate/text" variant="text" arrow="right">
+    <>Read the moderation docs</>
+  </Button>
+</div>
+
+## What's next?
+
+Great, you're now set up with an API client and have made your first request to the API. Here are a few links that might be handy as you venture further into the Kayle API:
+
+- [Grab your API key from the Kayle dashboard](https://kayle.ai/developers/keys)
+- [Check out the Conversations endpoint](/docs/moderate/text)
+- [Learn about the different error messages in Kayle](/docs/errors)
