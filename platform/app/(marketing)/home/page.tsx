@@ -204,7 +204,7 @@ function HunterComponent() {
 							</div>
 						</div>
 						{/*<span className="text-amber-300">Current Score: <span id="total_score">0</span></span>*/}
-						<div className="pt-6 px-6 text-s sm:text-sm overflow-hidden">
+						<div className="pt-6 px-6 text-xs sm:text-sm overflow-hidden">
 							<pre className="text-white whitespace-pre-wrap break-words"> 
 								Kayle’s Hunting Terminal
 								<br />
@@ -231,7 +231,7 @@ function HunterComponent() {
 							</span>
 
 							{/* Input outline looks relatively ugly to the demo (curved, catalyst-like) */}
-							<div className="-mb-px flex text-s sm:text-sm font-medium leading-6 text-zinc-400 grow px-4 lg:px-0">
+							<div className="-mb-px flex font-medium leading-6 text-zinc-400 grow px-4 lg:px-0">
 								{/* previous placeholder: kayle@ai~$: */}
 								{/* IDEAL: Change to textarea with input properties so text can expand (e.g. large inputs) */}
 								<input
@@ -243,7 +243,7 @@ function HunterComponent() {
 									value={terminalInput}
 									onChange={(e) => setTerminalInput(e.target.value)}
 									placeholder="Try type something you think Kayle won't detect..." 
-									className="border-none bg-transparent grow text-zinc-50 px-4"
+									className="border-none text-xs sm:text-sm bg-transparent grow text-zinc-50 px-4"
 									onKeyDown={handleKeyPress}
 									disabled={isInputDisabled}
 								/>
