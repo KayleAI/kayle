@@ -1,14 +1,15 @@
 import { Guides } from "@/components/docs/Guides";
 import { Resources } from "@/components/docs/Resources";
 import { HeroPattern } from "@/components/docs/HeroPattern";
+import { GenerateSEO } from "@/components/docs/GenerateSEO";
 
-export const metadata = {
-  title: 'Kayle API Reference',
-  description:
-    'Learn about the Kayle API and how to use it to integrate content moderation into your platform.',
-}
+export const metadata = GenerateSEO({
+	title: "Kayle API Reference",
+	description:
+		"Learn about the Kayle API and how to use it to integrate content moderation into your platform.",
+});
 
-export const sections = []
+export const sections = [];
 
 <HeroPattern />
 

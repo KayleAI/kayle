@@ -131,7 +131,7 @@ export function Footer({
 				)}
 			>
 				<div className="xl:grid xl:grid-cols-3 xl:gap-8">
-					<Link href="/">
+					<Link href="/" className="w-fit h-fit">
 						<Kayle className={"size-10"} />
 					</Link>
 					<div className="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
