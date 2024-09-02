@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 
-import { Footer } from "@/components/docs/Footer";
+import { DocsFooter } from "@/components/docs/Footer";
 import { Header } from "@/components/docs/Header";
 import { Logo } from "@/components/docs/Logo";
 import { Navigation } from "@/components/docs/Navigation";
@@ -41,7 +41,7 @@ export function Layout({
 				</motion.header>
 				<div className="relative flex h-full flex-col px-4 pt-14 sm:px-6 lg:px-8">
 					<main className="flex-auto">{children}</main>
-					<Footer />
+					<DocsFooter />
 				</div>
 			</div>
 		</SectionProvider>
