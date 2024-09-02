@@ -14,6 +14,10 @@
   [inert] ::-webkit-scrollbar {
     display: none;
   }
+
+  input[type='text']:focus {
+    box-shadow: none;
+  }
 }
 
 @tailwind base;
