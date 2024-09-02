@@ -7,8 +7,8 @@ import type { Twitter } from "next/dist/lib/metadata/types/twitter-types";
 const url = new URL(`https://${process.env.VERCEL_PROJECT_PRODUCTION_URL!}`);
 
 const site = {
-	title: "Kayle API Reference",
-	description: "Learn about the Kayle API and how to use it to integrate content moderation into your platform.",
+	title: "Kayle—Content Moderation made Simple.",
+	description: "An all-in-one, easy-to-use, and affordable content moderation platform built for startups and enterprises.",
 	url: url ?? new URL("https://kayle.ai"),
 	name: "Kayle",
 };
@@ -86,7 +86,7 @@ export function GenerateSEO({
 
 	const screenshot = {
 		// add any screenshot data here
-		url: `${metadata.metadataBase}seo/docs${screenshotData}`,
+		url: `${metadata.metadataBase}seo/marketing${screenshotData}`,
 		width: 1200,
 		height: 630,
 		alt: title,

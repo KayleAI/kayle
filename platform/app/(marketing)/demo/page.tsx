@@ -1,4 +1,11 @@
 import { DemoTerminal } from "@/components/marketing/demo/Terminal";
+import { GenerateSEO } from "@/components/marketing/GenerateSEO";
+
+export const metadata = GenerateSEO({
+	title: "Kayle Demo—See Kayle in Action",
+	description: "Try Kayle for free and see how it can help you moderate your content.",
+	url: "https://kayle.ai/demo",
+});
 
 export default function DemoPage() {
 	return (
