@@ -161,11 +161,11 @@ export function Footer({
 											<li key={item.name}>
 												<Link
 													href={item.href}
-													className="text-sm leading-6 text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-300 flex"
+													className="text-sm leading-6 text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-300 flex relative flex-row items-baseline"
 												>
-													{item.name}
+													<p className="w-fit inline-flex">{item.name}</p>
 													{item.ping && (
-														<span className="relative ml-1 mt-1 flex h-2 w-2">
+														<span className="relative ml-1.5 flex size-2.5">
 															<span
 																className={clsx(
 																	"absolute inline-flex h-full w-full animate-ping rounded-full opacity-75",
@@ -176,7 +176,7 @@ export function Footer({
 															/>
 															<span
 																className={clsx(
-																	"relative inline-flex h-2 w-2 rounded-full",
+																	"relative inline-flex size-2.5 rounded-full",
 																	kayleStatus === "okay" && "bg-emerald-500",
 																	kayleStatus === "degraded" && "bg-amber-500",
 																	kayleStatus === "down" && "bg-red-500",
