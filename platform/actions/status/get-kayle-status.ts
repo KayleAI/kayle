@@ -22,7 +22,7 @@ export async function getKayleStatus(): Promise<
 
 		const data = await response.json();
 
-		const state = data?.data?.attributes?.aggregate_state.toLowerCase();
+		const state = data?.data?.attributes?.aggregate_state?.toLowerCase() ?? "pending";
 
 		if (state === "operational") {
 			return "okay";
