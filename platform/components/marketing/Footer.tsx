@@ -161,11 +161,11 @@ export function Footer({
 											<li key={item.name}>
 												<Link
 													href={item.href}
-													className="text-sm leading-6 text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-300 flex items-center gap-x-2"
+													className="text-sm leading-6 text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-300 flex"
 												>
 													{item.name}
 													{item.ping && (
-														<span className="relative -mr-2 flex h-2 w-2">
+														<span className="relative ml-1 mt-1 flex h-2 w-2">
 															<span
 																className={clsx(
 																	"absolute inline-flex h-full w-full animate-ping rounded-full opacity-75",
