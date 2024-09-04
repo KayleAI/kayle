@@ -7,8 +7,9 @@ import type { Twitter } from "next/dist/lib/metadata/types/twitter-types";
 const url = new URL(`https://${process.env.VERCEL_PROJECT_PRODUCTION_URL!}`);
 
 const site = {
-	title: "Kayle—Content Moderation made Simple.",
-	description: "An all-in-one, easy-to-use, and affordable content moderation platform built for startups and enterprises.",
+	title: "Content moderation made simple.",
+	description:
+		"An all-in-one, easy-to-use, and affordable content moderation platform built for startups and enterprises.",
 	url: url ?? new URL("https://kayle.ai"),
 	name: "Kayle",
 };

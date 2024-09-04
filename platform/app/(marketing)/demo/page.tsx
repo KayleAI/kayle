@@ -3,7 +3,8 @@ import { GenerateSEO } from "@/components/marketing/GenerateSEO";
 
 export const metadata = GenerateSEO({
 	title: "Try our demo for free",
-	description: "Try Kayle for free and see how it can help you moderate your content.",
+	description:
+		"Try Kayle for free and see how it can help you moderate your content.",
 	url: "https://kayle.ai/demo",
 });
 
@@ -23,12 +24,12 @@ function DemoHeroComponent() {
 				<div className="px-6 lg:px-0 lg:pt-4">
 					<div className="mx-auto max-w-2xl">
 						<div className="max-w-lg">
-							<h1 className="mt-10 text-4xl font-bold tracking-tight text-zinc-950 dark:text-zinc-50 dark: sm:text-6xl">
+							<h1 className="mt-10 text-4xl font-bold tracking-tight text-zinc-950 dark:text-zinc-50 sm:text-5xl">
 								Moderation made simple—try it!
 							</h1>
-							<p className="mt-6 text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-								Type a message, upload an image, or record some audio and see
-								how Kayle handles it.
+							<p className="mt-6 text-md text-zinc-600 dark:text-zinc-400">
+								Type a message, upload an image, or record some audio and
+								observe how we handle it.
 							</p>
 						</div>
 					</div>
