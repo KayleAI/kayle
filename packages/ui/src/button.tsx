@@ -178,7 +178,7 @@ export const Button = function Button({
 	children,
 	...props
 }: ButtonProps & {
-	ref: React.RefObject<HTMLElement>;
+	ref?: React.RefObject<HTMLElement>;
 }) {
 	const classes = clsx(
 		className,

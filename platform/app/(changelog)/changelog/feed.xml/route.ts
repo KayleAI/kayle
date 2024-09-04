@@ -3,10 +3,10 @@ import * as cheerio from "cheerio";
 import { Feed } from "feed";
 
 export async function GET(req: Request) {
-	const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://kayle.ai";
+	const siteUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL ?? "https://kayle.ai";
 
 	if (!siteUrl) {
-		throw new Error("Missing NEXT_PUBLIC_SITE_URL environment variable");
+		throw new Error("Missing VERCEL_PROJECT_PRODUCTION_URL environment variable");
 	}
 
 	const author = {
