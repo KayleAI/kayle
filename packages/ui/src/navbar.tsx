@@ -3,7 +3,7 @@
 import * as Headless from "@headlessui/react";
 import clsx from "clsx";
 import { LayoutGroup, motion } from "framer-motion";
-import { type default as React, forwardRef, useId } from "react";
+import { type default as React, useId } from "react";
 import { TouchTarget } from "./button";
 import { Link } from "./link";
 
@@ -58,18 +58,21 @@ export function NavbarSpacer({
 	);
 }
 
-export const NavbarItem = forwardRef(function NavbarItem(
-	{
-		current,
-		className,
-		children,
-		...props
-	}: { current?: boolean; className?: string; children: React.ReactNode } & (
-		| Omit<Headless.ButtonProps, "as" | "className">
-		| Omit<React.ComponentPropsWithoutRef<typeof Link>, "className">
-	),
-	ref: React.ForwardedRef<HTMLAnchorElement | HTMLButtonElement>,
-) {
+export const NavbarItem = function NavbarItem({
+	ref,
+	current,
+	className,
+	children,
+	...props
+}: {
+	ref?: React.Ref<HTMLButtonElement | HTMLAnchorElement>;
+	current?: boolean;
+	className?: string;
+	children: React.ReactNode;
+} & (
+	| Omit<Headless.ButtonProps, "as" | "className">
+	| Omit<React.ComponentPropsWithoutRef<typeof Link>, "className">
+)) {
 	const classes = clsx(
 		// Base
 		"relative flex min-w-0 items-center gap-3 rounded-lg p-2 text-left text-base/6 font-medium text-zinc-950 sm:text-sm/5",
@@ -118,7 +121,7 @@ export const NavbarItem = forwardRef(function NavbarItem(
 			)}
 		</span>
 	);
-});
+};
 
 export function NavbarLabel({
 	className,

@@ -3,12 +3,14 @@
 import { useRouter } from "next/navigation";
 import * as Headless from "@headlessui/react";
 import NextLink, { type LinkProps } from "next/link";
-import { type default as React, forwardRef } from "react";
 
-export const Link = forwardRef(function Link(
-	props: LinkProps & React.ComponentPropsWithoutRef<"a">,
-	ref: React.ForwardedRef<HTMLAnchorElement>,
-) {
+export const Link = function Link({
+	ref,
+	...props
+}: LinkProps &
+	React.ComponentPropsWithoutRef<"a"> & {
+		ref?: React.Ref<HTMLAnchorElement>;
+	}) {
 	const router = useRouter();
 
 	return (
@@ -26,4 +28,4 @@ export const Link = forwardRef(function Link(
 			/>
 		</Headless.DataInteractive>
 	);
-});
+};

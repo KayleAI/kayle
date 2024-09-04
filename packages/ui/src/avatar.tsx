@@ -2,7 +2,7 @@
 
 import * as Headless from "@headlessui/react";
 import clsx from "clsx";
-import { type default as React, forwardRef } from "react";
+import type { default as React } from "react";
 import { TouchTarget } from "./button";
 import { Link } from "./link";
 
@@ -61,21 +61,23 @@ export function Avatar({
 	);
 }
 
-export const AvatarButton = forwardRef(function AvatarButton(
-	{
-		src,
-		square = false,
-		initials,
-		alt,
-		className,
-		...props
-	}: AvatarProps &
-		(
-			| Omit<Headless.ButtonProps, "as" | "className">
-			| Omit<React.ComponentPropsWithoutRef<typeof Link>, "className">
-		),
-	ref: React.ForwardedRef<HTMLElement>,
-) {
+export const AvatarButton = function AvatarButton({
+	ref,
+	src,
+	square = false,
+	initials,
+	alt,
+	className,
+	...props
+}: AvatarProps &
+	(
+		| (Omit<Headless.ButtonProps, "as" | "className"> & {
+				ref?: React.Ref<HTMLButtonElement>;
+		  })
+		| (Omit<React.ComponentPropsWithoutRef<typeof Link>, "className"> & {
+				ref?: React.Ref<HTMLAnchorElement>;
+		  })
+	)) {
 	const classes = clsx(
 		className,
 		square ? "rounded-[20%]" : "rounded-full",
@@ -99,4 +101,4 @@ export const AvatarButton = forwardRef(function AvatarButton(
 			</TouchTarget>
 		</Headless.Button>
 	);
-});
+};
