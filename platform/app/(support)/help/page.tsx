@@ -12,7 +12,7 @@ export default function HelpPage() {
 							</h1>
 							<Text className="mt-6">
 								We don’t have a support service yet, but you can check out our{" "}
-								<TextLink href="https://docs.kayle.ai">docs</TextLink> or
+								<TextLink href="https://kayle.ai/docs">docs</TextLink> or
 								contact us directly at{" "}
 								<TextLink href="mailto:help@kayle.ai">help@kayle.ai</TextLink>.
 							</Text>
