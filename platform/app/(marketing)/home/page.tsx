@@ -65,7 +65,7 @@ function HeroComponent() {
 								Content Moderation made simple.
 							</h1>
 							<p className="mt-6 text-md leading-8 text-zinc-600 dark:text-zinc-400">
-								With support for over 150 languages, all content types, and
+								With support for over 150 languages, every content type, and
 								usage-based billing we make it easy to automate your moderation
 								needs.
 							</p>
