@@ -9,6 +9,83 @@ export const metadata = GenerateSEO({
 
 # Text Moderation
 
-<Warn>
-  Documentation for this feature is coming soon.
-</Warn>
+Text moderation is crucial for any application that deals with user-generated content. Kayle helps you automate this process with our text moderation API. {{ className: 'lead' }}
+
+For text moderation, we offer two API methods. One which allows you to receive an immediate decision, and another which sends a webhook to your application when the moderation is complete. 
+
+<hr />
+
+## Request Text Moderation {{ tag: 'POST', label: '/v1/moderate/text' }}
+
+<Row>
+  <Col>
+
+    This endpoint allows you to moderate text.
+
+		### Required attributes
+
+		<Properties>
+			<Property name="text" type="string">
+				The text to moderate.
+			</Property>
+			<Property name="type" type="string">
+				If you haven't specified a type via the URL (i.e. you've used `/v1/moderate` instead of `/v1/moderate/text`), you must specify the type of content you are moderating here. For text moderation, this must be set to `text`.
+			</Property>
+		</Properties>
+
+    ### Optional attributes
+
+    <Properties>
+      <Property name="immediate" type="boolean" defaultValue="true">
+        If set to true, the API will return a decision immediately.
+      </Property>
+    </Properties>
+
+		### Webhooks
+
+		If you've set `immediate` to `false`, we'll send you a webhook when the moderation is complete.
+
+		See the [webhooks guide](/docs/webhooks) for more information on how webhooks work.
+
+  </Col>
+  <Col sticky>
+
+    <CodeGroup title="Request" tag="POST" label="/v1/moderate">
+
+			```bash {{ title: 'Text Moderation via Immediate Decision' }}
+			curl -X POST https://api.kayle.ai/v1/moderate \
+				-H "Authorization: Bearer {token}" \
+				-H "Content-Type: application/json" \
+				-d '{"text": "{text_to_moderate}", "type": "text" }'
+			```
+
+    </CodeGroup>
+
+    ```json {{ title: 'Text Moderation Response' }}
+    {
+      "is_safe": false,
+      "violations": [
+		"hate",
+		"self-harm"
+      ],
+	  "severity": 9
+    }
+    ```
+
+		```json {{ title: 'Text Moderation Webhook' }}
+    {
+			"id": "WAz8eIbvDR60rouK",
+			"type": "text.moderation",
+			"payload": {
+				"is_safe": false,
+				"violations": [
+					"hate",
+					"self-harm"
+				],
+				"severity": 9
+			}
+    }
+    ```
+
+  </Col>
+</Row>

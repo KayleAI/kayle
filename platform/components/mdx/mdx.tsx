@@ -225,10 +225,12 @@ export function Property({
 	name,
 	children,
 	type,
+	defaultValue,
 }: {
 	name: string;
 	children: React.ReactNode;
 	type?: string;
+	defaultValue?: string;
 }) {
 	return (
 		<li className="m-0 px-0 py-4 first:pt-0 last:pb-0">
@@ -242,6 +244,14 @@ export function Property({
 						<dt className="sr-only">Type</dt>
 						<dd className="font-mono text-xs text-zinc-400 dark:text-zinc-500">
 							{type}
+						</dd>
+					</>
+				)}
+				{defaultValue && (
+					<>
+						<dt className="sr-only">Default</dt>
+						<dd className="font-mono text-xs text-zinc-400 dark:text-zinc-500">
+							default: {defaultValue}
 						</dd>
 					</>
 				)}

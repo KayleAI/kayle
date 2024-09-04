@@ -1,0 +1,97 @@
+import { GenerateSEO } from "@/components/docs/GenerateSEO";
+
+export const metadata = GenerateSEO({
+	title: "Audio Moderation",
+	description:
+		"Analyse audio data for inappropriate language and other violations with Kayle.",
+  url: "https://kayle.ai/docs/moderate/audio",
+});
+
+# Audio Moderation
+
+Audio messages are a common way for users to communicate with each other, and they can contain a variety of content that may be inappropriate or harmful. Audio moderation helps you ensure that your platform is a safe and respectful environment for all users. {{ className: 'lead' }}
+
+<hr />
+
+## Request Audio Moderation {{ tag: 'POST', label: '/v1/moderate/audio' }}
+
+<Row>
+  <Col>
+
+    This endpoint allows you to moderate audio.
+
+		### Required attributes
+
+		<Properties>
+			<Property name="audio_url" type="string">
+				The URL to the audio file to moderate.
+			</Property>
+			<Property name="type" type="string">
+				If you haven't specified a type via the URL (i.e. you've used `/v1/moderate` instead of `/v1/moderate/audio`), you must specify the type of content you are moderating here. For audio moderation, this must be set to `audio`.
+			</Property>
+		</Properties>
+
+		<Warn>
+			The audio file must be hosted on a public URL that can be accessed without authentication.
+		</Warn>
+
+    ### Optional attributes
+
+    <Properties>
+      <Property name="immediate" type="boolean" defaultValue="true">
+        If set to true, the API will return a decision immediately.
+      </Property>
+    </Properties>
+
+		### Webhooks
+
+		If you've set `immediate` to `false`, we'll send you a webhook when the moderation is complete.
+
+		See the [webhooks guide](/docs/webhooks) for more information on how webhooks work.
+
+		<Note>
+			We may soon add support for returning a transcription of the audio file to you.
+		</Note>
+
+  </Col>
+  <Col sticky>
+
+    <CodeGroup title="Request" tag="POST" label="/v1/moderate">
+
+			```bash {{ title: 'Audio Moderation via Immediate Decision' }}
+			curl -X POST https://api.kayle.ai/v1/moderate \
+				-H "Authorization: Bearer {token}" \
+				-H "Content-Type: application/json" \
+				-d '{"audio_url": "{audio_url}", "type": "audio" }'
+			```
+
+    </CodeGroup>
+
+    ```json {{ title: 'Audio Moderation Response' }}
+    {
+      "is_safe": false,
+      "violations": [
+		"hate",
+		"self-harm"
+      ],
+	  "severity": 9
+    }
+    ```
+
+		```json {{ title: 'Audio Moderation Webhook' }}
+    {
+			"id": "WAz8eIbvDR60rouK",
+			"type": "audio.moderation",
+			"payload": {
+				"is_safe": false,
+				"violations": [
+					"hate",
+					"self-harm"
+				],
+				"severity": 9
+			}
+    }
+    ```
+
+  </Col>
+</Row>

@@ -13,11 +13,28 @@ Content moderation is the process of monitoring and filtering content to ensure 
 
 ## Key Features
 
-- **Text Moderation**: Detect and classify inappropriate content such as hate speech, self-harm, and more.
-- **Audio Moderation**: Analyse audio data for inappropriate language and other violations.
-- **Image Moderation**: Identify and filter out explicit images and other inappropriate content.
-- **Video Moderation**: Scan video content for objectionable material and ensure compliance with community guidelines.
+- [**Text Moderation**](/docs/moderate/text): Detect and classify inappropriate content such as hate speech, self-harm, and more.
+- [**Audio Moderation**](/docs/moderate/audio): Analyse audio data for inappropriate language and other violations.
+- [**Image Moderation**](/docs/moderate/image): Identify and filter out explicit images and other inappropriate content.
+- [**Video Moderation**](/docs/moderate/video): Scan video content for objectionable material and ensure compliance with community guidelines.
+
+## Immediate decision
+
+By default, when calling any API endpoint, you will receive an immediate decision. This grants you the ability to make a decision on the content as it comes in, rather than waiting for a webhook.
+
+The immediate decision method is useful when you have one of the following needs:
+
+- You need to moderate content before it's published.
+
+## Webhook decision
+
+Sometimes, using webhooks is better for User Experience (UX). This is because sometimes, it takes longer to moderate certain types of content and you may not want to block the user from continuing until the moderation is complete.
+
+The webhook method is useful when you have one of the following needs:
+
+- You need to batch moderate content (for example, moderate previous messages in a chat application).
+- You need to send a moderation request without handling the moderation immediately.
 
 <Warn>
-  Documentation is coming soon.
+	Webhooks are not yet generally available—if you're interested in using webhooks, please get in touch with us.
 </Warn>
