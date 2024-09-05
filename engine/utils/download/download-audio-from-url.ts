@@ -26,7 +26,9 @@ export async function downloadAudioFromUrl(url: string): Promise<File> {
 			throw new Error("File size exceeds the maximum limit of 100MB");
 		}
 
-		const fileName = getFileNameFromResponse(response.headers as unknown as Headers) ?? "audio.mp3";
+		const fileName =
+			getFileNameFromResponse(response.headers as unknown as Headers) ??
+			"audio.mp3";
 		return new File([buffer], fileName, { type: contentType });
 	} catch (error) {
 		throw new Error(`Failed to download file: ${error}`);

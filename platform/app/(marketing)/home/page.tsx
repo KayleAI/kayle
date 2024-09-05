@@ -70,10 +70,7 @@ function HeroComponent() {
 								needs.
 							</p>
 							<div className="mt-10 flex items-center gap-x-2">
-								<Button
-									href={"https://go.kayle.ai/waitlist"}
-									color="emerald"
-								>
+								<Button href={"https://go.kayle.ai/waitlist"} color="emerald">
 									Join the waitlist
 								</Button>
 								<Button href="/docs" plain>

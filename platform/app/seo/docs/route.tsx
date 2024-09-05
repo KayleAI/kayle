@@ -30,10 +30,7 @@ export async function GET() {
 			tw="flex flex-col items-center justify-center w-full h-full bg-zinc-50 text-zinc-900 p-4 text-[90px]"
 			style={{ fontFamily: "Mona Sans Regular" }}
 		>
-			<div
-				tw=""
-				style={{ fontFamily: "Mona Sans SemiBold" }}
-			>
+			<div tw="" style={{ fontFamily: "Mona Sans SemiBold" }}>
 				Kayle
 			</div>
 			<div tw="mt-4 text-[32px] text-zinc-700 text-center">

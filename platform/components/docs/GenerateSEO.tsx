@@ -8,7 +8,8 @@ const url = new URL(`https://${process.env.VERCEL_PROJECT_PRODUCTION_URL!}`);
 
 const site = {
 	title: "Kayle API Reference",
-	description: "Learn about the Kayle API and how to use it to integrate content moderation into your platform.",
+	description:
+		"Learn about the Kayle API and how to use it to integrate content moderation into your platform.",
 	url: url ?? new URL("https://kayle.ai"),
 	name: "Kayle",
 };
