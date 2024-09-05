@@ -8,15 +8,19 @@ import { z } from "zod";
 // Moderation
 import { moderateText } from "@/utils/text/moderate";
 
+// DB
+import { connect } from "@/db/connect";
+import { createClient } from "@/db/supabase";
+
+// Store
+import { storeContent } from "@/utils/store/store-content";
+import { storeModeration } from "@/utils/store/store-moderation";
+
 // Utils
+import { searchHash } from "@/utils/search";
+import { hashAnyFile } from "@/utils/conversion/hash-any-file";
 import { convertAudioToText } from "@/utils/conversion/convert-audio-to-text";
 import { downloadAudioFromUrl } from "@/utils/download/download-audio-from-url";
-import { createClient } from "@/db/supabase";
-import { hashAnyFile } from "@/utils/conversion/hash-any-file";
-import { searchHash } from "@/utils/search";
-import { storeContent } from "@/utils/store/store-content";
-import { connect } from "@/db/connect";
-import { storeModeration } from "@/utils/store/store-moderation";
 
 const audioModerationRequestSchema = z.object({
 	audio_url: z.string(),
