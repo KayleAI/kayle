@@ -20,7 +20,7 @@ import { storeModeration } from "@/utils/store/store-moderation";
 import { searchHash } from "@/utils/search";
 import { hashAnyFile } from "@/utils/conversion/hash-any-file";
 import { convertAudioToText } from "@/utils/conversion/convert-audio-to-text";
-import { downloadAudioFromUrl } from "@/utils/download/download-audio-from-url";
+import { downloadFromUrl } from "@/utils/download/download-from-url";
 
 const audioModerationRequestSchema = z.object({
 	audio_url: z.string(),
@@ -57,7 +57,7 @@ export async function moderateAudioRoute(c: Context) {
 	let audio_file: File;
 
 	try {
-		audio_file = await downloadAudioFromUrl(audio_url);
+		audio_file = await downloadFromUrl(audio_url, 25, "audio");
 	} catch (error) {
 		console.error(`[ERROR]: ${error}`);
 		return c.json(

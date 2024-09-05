@@ -19,7 +19,7 @@ import { storeModeration } from "@/utils/store/store-moderation";
 // Utils
 import { searchHash } from "@/utils/search";
 import { hashAnyFile } from "@/utils/conversion/hash-any-file";
-import { downloadImageFromUrl } from "@/utils/download/download-image-from-url";
+import { downloadFromUrl } from "@/utils/download/download-from-url";
 
 const imageModerationRequestSchema = z.object({
 	image_url: z.string(),
@@ -56,7 +56,7 @@ export async function moderateImageRoute(c: Context) {
 	let image_file: File;
 
 	try {
-		image_file = await downloadImageFromUrl(image_url);
+		image_file = await downloadFromUrl(image_url, 20, "image");
 	} catch (error) {
 		console.error(`[ERROR]: ${error}`);
 		return c.json(
