@@ -13,6 +13,7 @@ import {
  *
  * @param AI_API_KEY - OpenAI API key (or alternative)
  * @param AI_BASE_URL - OpenAI base URL (or alternative)
+ * @param AI_MODEL - OpenAI model (or alternative)
  * @param text - Text to moderate
  * @returns Moderation result
  */
@@ -29,7 +30,7 @@ export async function moderateText({
 }) {
 	const ai = new OpenAI({
 		apiKey: env.AI_API_KEY,
-		baseURL: env.AI_BASE_URL,
+		baseURL: env.AI_BASE_URL ?? "https://api.openai.com/v1",
 	});
 
 	try {
