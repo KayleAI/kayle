@@ -18,7 +18,7 @@ import { createVector } from "@/utils/text/create";
 import { searchVector, searchHash } from "@/utils/search";
 
 // Hash
-import { hashText } from "@/utils/text/hash";
+import { hash } from "@/utils/security/hash";
 
 // Store
 import { storeContentModeration } from "@/utils/store/store-content-moderation";
@@ -58,11 +58,11 @@ export async function moderateTextRoute(c: Context) {
 	try {
 		const textToModerate = normaliseText(text);
 
-		const hash = await hashText(textToModerate);
+		const textHash = await hash(textToModerate);
 
 		const [hashSearchResult, vector] = await Promise.all([
 			searchHash({
-				hash,
+				hash: textHash,
 				env,
 			}),
 			createVector({
@@ -130,7 +130,7 @@ export async function moderateTextRoute(c: Context) {
 			storeContentModeration({
 				env,
 				vector,
-				hash,
+				hash: textHash,
 				result,
 				type: "text",
 				content: textToModerate,

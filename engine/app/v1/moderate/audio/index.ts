@@ -18,7 +18,7 @@ import { storeModeration } from "@/utils/store/store-moderation";
 
 // Utils
 import { searchHash } from "@/utils/search";
-import { hashAnyFile } from "@/utils/conversion/hash-any-file";
+import { hash } from "@/utils/security/hash";
 import { convertAudioToText } from "@/utils/conversion/convert-audio-to-text";
 import { downloadFromUrl } from "@/utils/download/download-from-url";
 
@@ -71,7 +71,7 @@ export async function moderateAudioRoute(c: Context) {
 	}
 
 	try {
-		const audioHash = await hashAnyFile(audio_file);
+		const audioHash = await hash(audio_file);
 
 		const hashResult = await searchHash({
 			env,

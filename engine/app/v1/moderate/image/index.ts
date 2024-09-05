@@ -18,7 +18,7 @@ import { storeModeration } from "@/utils/store/store-moderation";
 
 // Utils
 import { searchHash } from "@/utils/search";
-import { hashAnyFile } from "@/utils/conversion/hash-any-file";
+import { hash } from "@/utils/security/hash";
 import { downloadFromUrl } from "@/utils/download/download-from-url";
 
 const imageModerationRequestSchema = z.object({
@@ -70,7 +70,7 @@ export async function moderateImageRoute(c: Context) {
 	}
 
 	try {
-		const imageHash = await hashAnyFile(image_file);
+		const imageHash = await hash(image_file);
 
 		const hashResult = await searchHash({
 			env,
