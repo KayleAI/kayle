@@ -26,15 +26,15 @@ export async function downloadAudioFromUrl(url: string): Promise<File> {
 			throw new Error("File size exceeds the maximum limit of 100MB");
 		}
 
-		const fileName = getFileNameFromResponse(response) ?? "audio.mp3";
+		const fileName = getFileNameFromResponse(response.headers as unknown as Headers) ?? "audio.mp3";
 		return new File([buffer], fileName, { type: contentType });
 	} catch (error) {
 		throw new Error(`Failed to download file: ${error}`);
 	}
 }
 
-function getFileNameFromResponse(response: Response): string | null {
-	const contentDisposition = response.headers.get("content-disposition");
+function getFileNameFromResponse(headers: Headers): string | null {
+	const contentDisposition = headers.get("content-disposition");
 	if (contentDisposition) {
 		const fileNameMatch = contentDisposition.match(/filename="?(.+)"?/i);
 		if (fileNameMatch) {
