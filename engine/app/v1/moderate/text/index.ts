@@ -6,7 +6,7 @@ import { env as getEnv } from "hono/adapter";
 import { z } from "zod";
 
 // Moderation
-import { moderateText } from "@/utils/text/moderate";
+import { moderateText } from "@/utils/moderate/text";
 
 // Normalisation
 import { normaliseText } from "@/utils/text/normalise";

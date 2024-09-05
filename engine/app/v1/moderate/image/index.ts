@@ -6,7 +6,7 @@ import { env as getEnv } from "hono/adapter";
 import { z } from "zod";
 
 // Moderation
-import { moderateText } from "@/utils/moderate/text";
+import { moderateImage } from "@/utils/moderate/image";
 
 // DB
 import { connect } from "@/db/connect";
@@ -19,17 +19,16 @@ import { storeModeration } from "@/utils/store/store-moderation";
 // Utils
 import { searchHash } from "@/utils/search";
 import { hashAnyFile } from "@/utils/conversion/hash-any-file";
-import { convertAudioToText } from "@/utils/conversion/convert-audio-to-text";
-import { downloadAudioFromUrl } from "@/utils/download/download-audio-from-url";
+import { downloadImageFromUrl } from "@/utils/download/download-image-from-url";
 
-const audioModerationRequestSchema = z.object({
-	audio_url: z.string(),
+const imageModerationRequestSchema = z.object({
+	image_url: z.string(),
 });
 
-export async function moderateAudioRoute(c: Context) {
+export async function moderateImageRoute(c: Context) {
 	const body = await c.req.json();
 
-	const parsed = audioModerationRequestSchema.safeParse(body);
+	const parsed = imageModerationRequestSchema.safeParse(body);
 	if (!parsed.success) {
 		return c.json(
 			{
@@ -52,12 +51,12 @@ export async function moderateAudioRoute(c: Context) {
 
 	const db = await connect(env);
 
-	const { audio_url } = body;
+	const { image_url } = body;
 
-	let audio_file: File;
+	let image_file: File;
 
 	try {
-		audio_file = await downloadAudioFromUrl(audio_url);
+		image_file = await downloadImageFromUrl(image_url);
 	} catch (error) {
 		console.error(`[ERROR]: ${error}`);
 		return c.json(
@@ -71,11 +70,11 @@ export async function moderateAudioRoute(c: Context) {
 	}
 
 	try {
-		const audioHash = await hashAnyFile(audio_file);
+		const imageHash = await hashAnyFile(image_file);
 
 		const hashResult = await searchHash({
 			env,
-			hash: audioHash,
+			hash: imageHash,
 		});
 
 		if (hashResult) {
@@ -87,12 +86,14 @@ export async function moderateAudioRoute(c: Context) {
 
 		const supabase = createClient(env);
 
+		const filename = `${imageHash}.${image_file.type.split("/")[1]}`;
+
 		// since we don't have the file in our database, we are going to upload it
 		const { data, error } = await supabase.storage
 			.from("files")
-			.upload(`${audioHash}.${audio_file.type.split("/")[1]}`, audio_file, {
+			.upload(filename, image_file, {
 				cacheControl: "3600",
-				contentType: audio_file.type,
+				contentType: image_file.type,
 				upsert: false,
 			});
 
@@ -111,27 +112,39 @@ export async function moderateAudioRoute(c: Context) {
 		// store the content in the database
 		const contentId = await storeContent({
 			db,
-			type: "audio",
+			type: "image",
 			objectId,
 		});
 
-		const text = await convertAudioToText(env?.GROQ_API_KEY, audio_file);
+		const { data: signedUrlData, error: signedUrlError } =
+			await supabase.storage.from("files").createSignedUrl(filename, 60);
 
-		// TODO: After this point, we need to give the text back to the
-		// /text endpoint instead of potentially wasting resources here
+		if (signedUrlError) {
+			console.error(signedUrlError);
+			throw new Error("Failed to create signed URL");
+		}
 
-		const moderation = await moderateText({
+		if (!signedUrlData) {
+			console.error(signedUrlData);
+			throw new Error("Failed to create signed URL - no data");
+		}
+
+		const moderation = await moderateImage({
 			env,
-			text,
+			imageUrl: signedUrlData?.signedUrl?.startsWith("https")
+				? signedUrlData.signedUrl
+				: `data:image/jpeg;base64,${Buffer.from(
+						await image_file.arrayBuffer(),
+					).toString("base64")}`,
 		});
 
 		if (!moderation?.data) {
-			throw new Error("Failed to moderate text");
+			throw new Error("Failed to moderate image");
 		}
 
 		await storeModeration({
 			db,
-			hash: audioHash,
+			hash: imageHash,
 			result: moderation.data,
 			contentId,
 		});

@@ -3,6 +3,7 @@ import { Hono } from "hono";
 
 // Moderation Endpoints
 import { moderateAudioRoute } from "./audio";
+import { moderateImageRoute } from "./image";
 import { moderateTextRoute } from "./text";
 
 export const moderate = new Hono<{
@@ -61,6 +62,8 @@ moderate.all("/:type?", async (c) => {
 			return await moderateTextRoute(c);
 		case "audio":
 			return await moderateAudioRoute(c);
+		case "image":
+			return await moderateImageRoute(c);
 		default:
 			return c.json(
 				{

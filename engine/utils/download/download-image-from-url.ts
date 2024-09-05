@@ -1,6 +1,6 @@
 import { getFileNameFromResponse } from "./utils";
 
-export async function downloadAudioFromUrl(url: string): Promise<File> {
+export async function downloadImageFromUrl(url: string): Promise<File> {
 	// Validate URL format
 	const urlPattern = /^https?:\/\/.+/i;
 	if (!url || !urlPattern.test(url)) {
@@ -17,20 +17,20 @@ export async function downloadAudioFromUrl(url: string): Promise<File> {
 
 		// Validate content type
 		const contentType = response.headers.get("content-type");
-		if (!contentType || !contentType.includes("audio")) {
-			throw new Error("URL does not point to an audio file");
+		if (!contentType || !contentType.includes("image")) {
+			throw new Error("URL does not point to an image file");
 		}
 
 		const buffer = await response.arrayBuffer();
 
-		const maxSize = 25 * 1024 * 1024;
+		const maxSize = 20 * 1024 * 1024;
 		if (buffer.byteLength > maxSize) {
-			throw new Error("File size exceeds the maximum limit of 25MB");
+			throw new Error("File size exceeds the maximum limit of 20MB");
 		}
 
 		const fileName =
 			getFileNameFromResponse(response.headers as unknown as Headers) ??
-			"audio.mp3";
+			"image.png";
 		return new File([buffer], fileName, { type: contentType });
 	} catch (error) {
 		throw new Error(`Failed to download file: ${error}`);
