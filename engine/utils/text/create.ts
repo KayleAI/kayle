@@ -13,23 +13,23 @@ import OpenAI from "openai";
  * @returns Vector
  */
 export async function createVector({
-	AI_API_KEY,
-	AI_BASE_URL,
-	EMBEDDING_MODEL = "text-embedding-3-large",
+	env,
 	text,
 }: {
-	AI_API_KEY: string;
-	AI_BASE_URL: string;
-	EMBEDDING_MODEL?: string;
+	env: {
+		AI_API_KEY: string;
+		AI_BASE_URL: string;
+		EMBEDDING_MODEL?: string;
+	};
 	text: string;
 }) {
 	const ai = new OpenAI({
-		apiKey: AI_API_KEY,
-		baseURL: AI_BASE_URL,
+		apiKey: env.AI_API_KEY,
+		baseURL: env.AI_BASE_URL,
 	});
 
 	const vector = await ai.embeddings.create({
-		model: EMBEDDING_MODEL,
+		model: env.EMBEDDING_MODEL ?? "text-embedding-3-large",
 		dimensions: 1536,
 		input: text,
 	});

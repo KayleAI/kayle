@@ -21,3 +21,8 @@ EMBEDDING_MODEL=
 # Encryption Key
 
 ENCRYPTION_KEY=
+
+# Supabase (for Storage Access)
+
+SUPABASE_URL=
+SUPABASE_SERVICE_ROLE_KEY=

@@ -1,6 +1,6 @@
 // Hono
 import type { Context } from "hono";
-import { env } from "hono/adapter";
+import { env as getEnv } from "hono/adapter";
 
 // Zod
 import { z } from "zod";
@@ -15,13 +15,13 @@ import { normaliseText } from "@/utils/text/normalise";
 import { createVector } from "@/utils/text/create";
 
 // Search
-import { searchVector, searchHash } from "@/utils/text/search";
+import { searchVector, searchHash } from "@/utils/search";
 
 // Hash
 import { hashText } from "@/utils/text/hash";
 
 // Store
-import { storeTextModeration } from "@/utils/store/store-text-moderation";
+import { storeContentModeration } from "@/utils/store/store-content-moderation";
 
 const textModerationRequestSchema = z.object({
 	text: z.string(),
@@ -43,20 +43,14 @@ export async function moderateTextRoute(c: Context) {
 		);
 	}
 
-	const {
-		AI_API_KEY,
-		AI_BASE_URL,
-		AI_MODEL = "gpt-4o-2024-08-06",
-		HYPERDRIVE,
-		EMBEDDING_MODEL = "text-embedding-3-large",
-		ENCRYPTION_KEY,
-	} = env<{
+	const env = getEnv<{
 		AI_API_KEY: string;
 		AI_BASE_URL: string;
 		AI_MODEL?: string;
 		HYPERDRIVE: Hyperdrive;
-		EMBEDDING_MODEL?: string;
 		ENCRYPTION_KEY: string;
+		EMBEDDING_MODEL?: string;
+		VECTOR_SIMILARITY_THRESHOLD?: number;
 	}>(c);
 
 	const { text } = parsed.data;
@@ -68,40 +62,36 @@ export async function moderateTextRoute(c: Context) {
 
 		const [hashSearchResult, vector] = await Promise.all([
 			searchHash({
-				hyperdrive: HYPERDRIVE,
 				hash,
+				env,
 			}),
 			createVector({
-				AI_API_KEY,
-				AI_BASE_URL,
-				EMBEDDING_MODEL,
 				text: textToModerate,
+				env,
 			}),
 		]);
 
 		if (hashSearchResult) {
 			return c.json({
-				severity: hashSearchResult.severity,
-				violations: hashSearchResult.violations,
+				data: hashSearchResult,
+				error: null,
 			});
 		}
 
 		const vectorSearchResult = await searchVector({
-			hyperdrive: HYPERDRIVE,
+			env,
 			vector,
 		});
 
 		if (vectorSearchResult) {
 			return c.json({
-				severity: vectorSearchResult.severity,
-				violations: vectorSearchResult.violations,
+				data: vectorSearchResult,
+				error: null,
 			});
 		}
 
 		const { data, error } = await moderateText({
-			AI_API_KEY,
-			AI_BASE_URL,
-			AI_MODEL,
+			env,
 			text,
 		});
 
@@ -137,17 +127,20 @@ export async function moderateTextRoute(c: Context) {
 		};
 
 		c.executionCtx.waitUntil(
-			storeTextModeration({
-				hyperdrive: HYPERDRIVE,
+			storeContentModeration({
+				env,
 				vector,
 				hash,
 				result,
-				text: textToModerate,
-				ENCRYPTION_KEY,
+				type: "text",
+				content: textToModerate,
 			}),
 		);
 
-		return c.json({ severity, violations });
+		return c.json({
+			data: result,
+			error: null,
+		});
 	} catch (error) {
 		console.error(`[ERROR]: ${error}`);
 		return c.json(

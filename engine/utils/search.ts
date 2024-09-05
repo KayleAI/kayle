@@ -5,22 +5,19 @@ import { cosineDistance, desc, eq, gt, sql } from "drizzle-orm";
 
 // Types
 import type { ModerationResult } from "@/types/moderation";
-
-export interface SearchResult {
-	severity: number;
-	violations: string[];
-	pii: string[];
-	similarity: number;
-}
+import type { SearchResult } from "@/types/search";
 
 export async function searchVector({
-	hyperdrive,
+	env,
 	vector,
 }: {
-	hyperdrive: Hyperdrive;
+	env: {
+		HYPERDRIVE: Hyperdrive;
+		VECTOR_SIMILARITY_THRESHOLD?: number;
+	};
 	vector: number[];
-}): Promise<undefined | SearchResult> {
-	const db = await connect(hyperdrive);
+}): Promise<SearchResult | undefined> {
+	const db = await connect(env);
 
 	const similarity = sql<number>`1 - (${cosineDistance(moderations.vector, vector)})`;
 
@@ -32,7 +29,7 @@ export async function searchVector({
 			similarity,
 		})
 		.from(moderations)
-		.where(gt(similarity, 0.9)) // FIXME: We should probably use a higher threshold here or at least make it configurable
+		.where(gt(similarity, env?.VECTOR_SIMILARITY_THRESHOLD ?? 0.9))
 		.orderBy((t) => desc(t.similarity))
 		.limit(1);
 
@@ -44,18 +41,19 @@ export async function searchVector({
 		severity: (result[0].result as ModerationResult).severity ?? 0,
 		violations: (result[0].result as ModerationResult).violations ?? [],
 		pii: (result[0].result as ModerationResult).pii ?? [],
-		similarity: result[0].similarity,
 	};
 }
 
 export async function searchHash({
-	hyperdrive,
+	env,
 	hash,
 }: {
-	hyperdrive: Hyperdrive;
 	hash: string;
-}): Promise<undefined | SearchResult> {
-	const db = await connect(hyperdrive);
+	env: {
+		HYPERDRIVE: Hyperdrive;
+	};
+}): Promise<SearchResult | undefined> {
+	const db = await connect(env);
 
 	const result = await db
 		.select({
@@ -75,6 +73,5 @@ export async function searchHash({
 		severity: (result[0].result as ModerationResult).severity ?? 0,
 		violations: (result[0].result as ModerationResult).violations ?? [],
 		pii: (result[0].result as ModerationResult).pii ?? [],
-		similarity: 1,
 	};
 }
