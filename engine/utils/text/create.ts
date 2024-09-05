@@ -5,7 +5,7 @@ import OpenAI from "openai";
  *
  * If you’re using OpenAI, we recommend `text-embedding-3-large`
  * as it has better performance against the MIRACL.
- * 
+ *
  * Another good option is `nomic-embed-text-v1.5` available
  * via the Groq API.
  *
