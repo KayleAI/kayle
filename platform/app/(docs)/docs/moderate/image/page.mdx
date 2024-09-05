@@ -12,5 +12,84 @@ export const metadata = GenerateSEO({
 Image moderation is crucial for any application that deals with user-generated content. Kayle helps you automate this process with our image moderation API. {{ className: 'lead' }}
 
 <Warn>
-	Image moderation is not yet generally available—if you're interested in using image moderation, please get in touch with us.
+	We don't yet support directly uploading images to Kayle.
 </Warn>
+
+<hr />
+
+## Request Image Moderation {{ tag: 'POST', label: '/v1/moderate/image' }}
+
+<Row>
+  <Col>
+
+    This endpoint allows you to moderate images.
+
+		### Required attributes
+
+		<Properties>
+			<Property name="image_url" type="string">
+				The URL to the image file to moderate.
+			</Property>
+			<Property name="type" type="string">
+				If you haven't specified a type via the URL (i.e. you've used `/v1/moderate` instead of `/v1/moderate/image`), you must specify the type of content you are moderating here. For image moderation, this must be set to `image`.
+			</Property>
+		</Properties>
+
+		<Note>
+			For now, the image must be hosted on a public URL that can be accessed without authentication.
+		</Note>
+
+    ### Optional attributes
+
+    <Properties>
+      <Property name="immediate" type="boolean" defaultValue="true">
+        If set to true, the API will return a decision immediately.
+      </Property>
+    </Properties>
+
+		### Webhooks
+
+		If you've set `immediate` to `false`, we'll send you a webhook when the moderation is complete.
+
+		See the [webhooks guide](/docs/webhooks) for more information on how webhooks work.
+
+  </Col>
+  <Col sticky>
+
+    <CodeGroup title="Request" tag="POST" label="/v1/moderate">
+
+			```bash {{ title: 'Image Moderation via Immediate Decision' }}
+			curl -X POST https://api.kayle.ai/v1/moderate \
+				-H "Authorization: Bearer {token}" \
+				-H "Content-Type: application/json" \
+				-d '{"image_url": "{image_url}", "type": "image" }'
+			```
+
+    </CodeGroup>
+
+    ```json {{ title: 'Image Moderation Response' }}
+    {
+      "is_safe": false,
+      "violations": [
+		"nudity"
+      ],
+	  "severity": 6
+    }
+    ```
+
+		```json {{ title: 'Image Moderation Webhook' }}
+    {
+			"id": "WAz8eIbvDR60rouK",
+			"type": "image.moderation",
+			"payload": {
+				"is_safe": false,
+				"violations": [
+					"nudity"
+				],
+				"severity": 6
+			}
+    }
+    ```
+
+  </Col>
+</Row>
