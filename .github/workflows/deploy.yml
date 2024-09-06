@@ -10,6 +10,8 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     name: Deploy to Cloudflare
+    environment: production
+    concurrency: production
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
@@ -29,7 +31,6 @@ jobs:
             EMBEDDING_MODEL
             AI_MODEL
             SUPABASE_URL
-            CLOUDFLARE_ACCOUNT_ID
         env:
           AI_API_KEY: ${{ secrets.AI_API_KEY }}
           ENCRYPTION_KEY: ${{ secrets.ENCRYPTION_KEY }}
@@ -39,5 +40,4 @@ jobs:
           EMBEDDING_MODEL: ${{ vars.EMBEDDING_MODEL }}
           AI_MODEL: ${{ vars.AI_MODEL }}
           SUPABASE_URL: ${{ vars.SUPABASE_URL }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
           
