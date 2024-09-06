@@ -14,6 +14,7 @@ mode = "smart"
 ## Baselime
 tail_consumers = [{service = "kayle-engine-tail"}]
 
+## Hyperdrive
 [[hyperdrive]]
 binding = "HYPERDRIVE"
 id = "f609a275589c46db9b01b84a2c63c468"

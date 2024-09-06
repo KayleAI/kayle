@@ -19,3 +19,25 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           workingDirectory: "engine"
+          secrets: |
+            AI_API_KEY
+            ENCRYPTION_KEY
+            GROQ_API_KEY
+            SUPABASE_SERVICE_ROLE_KEY
+          vars: |
+            AI_BASE_URL
+            EMBEDDING_MODEL
+            AI_MODEL
+            SUPABASE_URL
+            CLOUDFLARE_ACCOUNT_ID
+        env:
+          AI_API_KEY: ${{ secrets.AI_API_KEY }}
+          ENCRYPTION_KEY: ${{ secrets.ENCRYPTION_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          AI_BASE_URL: ${{ vars.AI_BASE_URL }}
+          EMBEDDING_MODEL: ${{ vars.EMBEDDING_MODEL }}
+          AI_MODEL: ${{ vars.AI_MODEL }}
+          SUPABASE_URL: ${{ vars.SUPABASE_URL }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          
