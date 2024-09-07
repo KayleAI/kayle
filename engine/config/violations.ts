@@ -41,6 +41,7 @@ export const deceptive = [
 ];
 
 export const illegal = [
+	"illegal",
 	"illegal-drugs",
 	"illegal-weapons",
 	"illegal-gambling",
