@@ -196,9 +196,13 @@ function HunterComponent() {
 			</div>
 			{/* terminal division */}
 			{/* I removed some max-w-* configs as they caused bugs or didn't serve a purpose. Refactor if I'm wrong. */}
-			<div className="relative isolate overflow-hidden max-w-5xl bg-zinc-900 shadow-2xl rounded-3xl lg:flex lg:pt-0 mt-8 mx-auto"> 
-				<div className="flex-1 md:mx-0 md:max-w-none"> {/* max-w-2xl mx-auto  */}
-					<div className="w-auto rounded-tl-xl bg-zinc-900"> {/* removed over-flow visible as it interfered with grandchild div's p-x-6 */}
+			<div className="relative isolate overflow-hidden max-w-5xl bg-zinc-900 shadow-2xl rounded-3xl lg:flex lg:pt-0 mt-8 mx-auto">
+				<div className="flex-1 md:mx-0 md:max-w-none">
+					{" "}
+					{/* max-w-2xl mx-auto  */}
+					<div className="w-auto rounded-tl-xl bg-zinc-900">
+						{" "}
+						{/* removed over-flow visible as it interfered with grandchild div's p-x-6 */}
 						<div className="flex-1 min-w-3xl bg-zinc-800/40 ring-1 ring-white/5">
 							<div className="-mb-px flex text-s sm:text-sm font-medium leading-6 text-zinc-400">
 								<div className="border-b border-r border-b-white/10 border-r-white/10 bg-zinc-50/5 dark:bg-zinc-950/5 py-2 px-4 text-white">
@@ -211,7 +215,7 @@ function HunterComponent() {
 						</div>
 						{/*<span className="text-amber-300">Current Score: <span id="total_score">0</span></span>*/}
 						<div className="pt-6 px-6 text-xs sm:text-sm overflow-hidden">
-							<pre className="text-white whitespace-pre-wrap break-words"> 
+							<pre className="text-white whitespace-pre-wrap break-words">
 								Kayle’s Hunting Terminal
 								<br />
 								Here, you can see whether a message will be flagged by Kayle’s
@@ -224,10 +228,11 @@ function HunterComponent() {
 								<br />
 							</pre>
 						</div>
-
 						{/* TODO: Once we're fully multi-modal, we'll make the input bar similar to DMs in social media */}
 						{/* This span will be the '+' button at the left side of Whatsapp*/}
-						<div className="lg:flex bg-zinc-800/40 ring-1 ring-white/5 grow"> {/* max-w-5xl */}
+						<div className="lg:flex bg-zinc-800/40 ring-1 ring-white/5 grow">
+							{" "}
+							{/* max-w-5xl */}
 							<span>
 								<div className="-mb-px flex text-sm font-medium leading-6 text-zinc-400">
 									<div className="hidden lg:block border-b border-r border-b-white/20 border-r-white/10 bg-zinc-50/5 dark:bg-zinc-950/5 py-2 px-4 text-white">
@@ -235,7 +240,6 @@ function HunterComponent() {
 									</div>
 								</div>
 							</span>
-
 							{/* Input outline looks relatively ugly to the demo (curved, catalyst-like) */}
 							<div className="-mb-px flex font-medium leading-6 text-zinc-400 grow px-4 lg:px-0">
 								{/* previous placeholder: kayle@ai~$: */}
@@ -248,13 +252,12 @@ function HunterComponent() {
 									required
 									value={terminalInput}
 									onChange={(e) => setTerminalInput(e.target.value)}
-									placeholder="Try type something you think Kayle won't detect..." 
+									placeholder="Try type something you think Kayle won't detect..."
 									className="border-none text-xs sm:text-sm bg-transparent grow text-zinc-50 px-4"
 									onKeyDown={handleKeyPress}
 									disabled={isInputDisabled}
 								/>
 							</div>
-
 							<button id="terminal_button" onClick={handleSubmit} type="button">
 								<div className="hidden lg:block -mb-px text-sm font-medium leading-6 text-zinc-400">
 									<div className="border-b border-l border-b-white/20 border-l-white/10 bg-zinc-50/5 dark:bg-zinc-950/5 py-2 px-4 text-white">
@@ -269,5 +272,3 @@ function HunterComponent() {
 		</div>
 	);
 }
-
-
