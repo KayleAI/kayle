@@ -19,7 +19,7 @@ export async function GET(req: Request) {
 
 	const feed = new Feed({
 		title: "Kayle",
-		description: "Open-source realtime content moderation.",
+		description: "Content moderation made simple.",
 		author,
 		id: siteUrl,
 		link: siteUrl,
