@@ -240,6 +240,7 @@ export const navigation: Array<NavGroup> = [
 			{ title: "SDKs", href: "/docs/sdks" },
 			{ title: "Authentication", href: "/docs/authentication" },
 			{ title: "Errors", href: "/docs/errors" },
+			{ title: "Violations", href: "/docs/violations" },
 			{ title: "Webhooks", href: "/docs/webhooks" },
 		],
 	},
