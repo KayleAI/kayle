@@ -35,6 +35,9 @@
 		},
 		"cf-typegen": {
 			"dependsOn": ["^cf-typegen"]
+		},
+		"serve": {
+			"dependsOn": ["^serve"]
 		}
 	}
 }

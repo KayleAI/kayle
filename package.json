@@ -8,6 +8,7 @@
 		"lint": "turbo lint",
 		"deploy": "turbo deploy",
 		"cf-typegen": "turbo cf-typegen",
+		"serve": "turbo serve",
 		"format": "prettier --write \"**/*.{ts,tsx,md}\""
 	},
 	"devDependencies": {
