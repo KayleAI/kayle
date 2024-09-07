@@ -105,17 +105,26 @@ export async function moderateTextRoute(c: Context) {
 		const { severity, violations, pii } = data;
 
 		if (pii && pii.length > 0) {
-			// Escape any special characters in the PII strings for use in a regular expression
+			// Escape any special characters in the PII string(s) to avoid bugs in the 'redactedText' regular expression (Regex).
+			// Common confusion: '\' labels the following str value as literal. e.g. '\\' is necessary to add '\' in Regex. '\]' to add ']' without closing the Regex container early
+			// ['@', '-', ',', '–'] have no special meaning in Regex
 			const escapedPii = pii.map((str) =>
-				str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
+				str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), 
 			);
 
 			// Create a single regular expression to match any of the PII strings
+			// Therefore, we join each PII string with '|', which is an OR logical
+			// e.g. const regex = /1234-5678-9012-3456|123-45-6789|john@example.com|/g;
 			const regex = new RegExp(escapedPii.join("|"), "g");
 
 			// Replace all occurrences of PII with "[REDACTED]"
 			const redactedText = text.replace(regex, "[REDACTED]");
-
+			/** example output: 
+			 * "My name is John Doe, my child needs life-saving surgery!
+			 * Good people, please send money to account number: [REDACTED]
+			 * and my SSN is [REDACTED]. 
+			 * You can contact me at [REDACTED]."
+			**/
 			console.debug(`[DEBUG]: Redacted text: ${redactedText}`);
 		}
 
