@@ -21,13 +21,12 @@ const options = [
 		id: "audio",
 		name: "Moderate Audio",
 		placeholder: "Upload an audio file",
-		disabled: true,
 	},
 	{
 		id: "image",
 		name: "Moderate an Image",
 		placeholder: "Upload an image",
-		disabled: true,
+		disabled: false,
 	},
 ];
 
@@ -112,7 +111,16 @@ export function ModerateDemo({
 	const [status, setStatus] = useState<
 		"idle" | "loading" | "success" | "error"
 	>("idle");
-	const [input, setInput] = useState("");
+	const [input, setInput] = useState<string | File>("");
+
+	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (type === "text") {
+			setInput(e.target.value);
+		} else if (e?.target?.files?.[0]) {
+			setInput(e.target.files[0]);
+		}
+	};
+
 	const [lastModerationTime, setLastModerationTime] = useState<number | null>(
 		null,
 	);
@@ -125,13 +133,13 @@ export function ModerateDemo({
 		if (status !== "idle") return;
 
 		if (type === "text") {
-			if (input.length === 0) return;
+			if ((input as string).length === 0) return;
 		}
 
 		try {
 			setStatus("loading");
 			const start = performance.now();
-			const result = await getDemoResponse({ input, type: "text" });
+			const result = await getDemoResponse({ input, type });
 			if (result?.error) {
 				throw new Error(result.error);
 			}
@@ -157,14 +165,21 @@ export function ModerateDemo({
 				<Input
 					autoComplete="off"
 					type={type === "text" ? "text" : "file"}
-					value={input}
+					value={type === "text" ? (input as string) : undefined}
 					placeholder={placeholder}
-					onChange={(e) => setInput(e.target.value)}
+					onChange={handleInputChange}
 					onKeyDown={(e) => {
-						if (e.key === "Enter") {
+						if (e.key === "Enter" && type === "text") {
 							handleSubmit();
 						}
 					}}
+					accept={
+						type === "audio"
+							? "audio/*"
+							: type === "image"
+								? "image/*"
+								: undefined
+					}
 				/>
 				<Button
 					color="amber"
@@ -203,9 +218,15 @@ async function getDemoResponse({
 	readonly type: "text" | "audio" | "image";
 }) {
 	try {
-		// if is instance of file, convert to base64
 		if (input instanceof File) {
-			input = await input.text();
+			const buffer = await input.arrayBuffer();
+			const base64 = btoa(
+				new Uint8Array(buffer).reduce(
+					(data, byte) => data + String.fromCharCode(byte),
+					"",
+				),
+			);
+			input = `data:${input.type};base64,${base64}`;
 		}
 
 		const response = await fetch("/api/demo", {
@@ -218,7 +239,7 @@ async function getDemoResponse({
 			error: null,
 		};
 	} catch (error) {
-		console.error(error);
+		console.error("Error in getDemoResponse:", error);
 		return {
 			error: "An error occurred while calling the Kayle API",
 			data: null,
