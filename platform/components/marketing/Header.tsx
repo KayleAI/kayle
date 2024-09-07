@@ -19,10 +19,9 @@ import { Container } from "@/components/marketing/Container";
 
 const navigation = [
 	//{ name: 'About', href: '/about' },
-	//{ name: 'Blog', href: '/blog' },
-	{ name: "GitHub", href: "https://github.com/KayleAI", newTab: true },
-	{ name: "Docs", href: "/docs" },
-	{ name: "Demo", href: "/demo" },
+	{ name: "Blog", href: "/blog", newTab: false },
+	{ name: "Docs", href: "/docs", newTab: false },
+	{ name: "Demo", href: "/demo", newTab: false },
 	//{ name: 'Pricing', href: '/pricing' },
 	//{ name: 'Investors', href: '/investors' },
 ];

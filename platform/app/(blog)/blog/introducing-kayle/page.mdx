@@ -1,0 +1,79 @@
+import { ArticleLayout } from '@/components/blog/ArticleLayout'
+import { GenerateSEO } from "@/components/marketing/GenerateSEO";
+
+import NewDocs from "@/images/changelog/new-docs.png"
+
+export const article = {
+  author: 'arsenstorm',
+  date: '2024-09-07',
+  title: 'Introducing Kayle',
+  description: 'Kayle is a complete content moderation solution—from APIs to dashboards, and everything in between.',
+  image: NewDocs?.src
+}
+
+export const metadata = GenerateSEO({
+  title: article.title,
+  description: article.description,
+	url: "https://kayle.ai/blog/introducing-kayle",
+});
+
+export default (props) => <ArticleLayout article={article} {...props} />
+
+Kayle started as a school project back in February of 2023; since then, we’ve experimented with different approaches to content moderation, 
+we’ve spoken to stakeholders of all sizes and iterated to reach the degree of understanding that a content moderation platform needs to have.
+
+## Our mission
+
+When we were children, the Internet exposed us to material that is still too difficult to describe and that we should never have seen.
+
+As time goes on, we continue to observe some of the *worst in humanity*—things that no one should have to see.
+
+This has to stop.
+
+So we’re building Kayle to prevent harmful content from being easily accessible and to protect everyone, **especially children**.
+
+## What we’ve learnt
+
+In the past year and a half, we’ve learned that several factors can make or break a content moderation service.
+
+The biggest factor? **Cost**.
+
+From speaking with those who need moderation, we continue to see that the most significant reason they opt out of using **any** form of moderation is the cost of implementing it.
+
+**A good content moderation service is <ins>cheap</ins>—even at much higher usage levels.**
+
+A commonly overlooked factor is **user experience**, which refers to several different types of users.
+1. A platform’s users
+2. The moderators
+3. The business leaders
+
+Here’s why:
+1. A platform’s users don’t want poor moderation to affect them, whether reports go unaddressed or their content is inaccurately removed.
+2. The moderators want an easy-to-use platform to manage reports, moderate content, or suspend users—they **need** the platform to be clear from day one, not after weeks of use.
+3. The business leaders need a service that can give them peace of mind, knowing their platform is safe.
+
+Another commonly overlooked factor is **developer experience**.
+
+Excellent developer experience (DX) is crucial for any software-based company, and a content moderation platform is no exception.
+
+## What we’re doing
+
+We’re building Kayle to be the **greatest** content moderation platform in the world.
+
+And we’re building Kayle in public with our entire codebase open-source for several reasons:
+- Anyone should be able to contribute to Kayle.
+- Everyone needing content moderation should be able to access the service without using our cloud platform (i.e., anyone should be able to self-host Kayle).
+
+## Our plans
+
+Over the coming months, we’ll be rolling out the necessities for a content moderation platform.
+
+So far, we’ve released the Moderation API for text, audio, and images, with video, document, and URL moderation coming soon.
+
+We’ll soon be adding more cool things:
+- Kayle Predator—a tool to catch child predators **before** they hurt any child.
+- Kayle Shield—a tool to identify individuals vulnerable to radicalisation and support them before they cause harm.
+- Kayle Hunter—a tool that allows the community to find and report unflagged content.
+- Kayle Apps—multiple apps for various services such as Discord and Reddit that help automatically moderate communities.
+
+We’ll soon start onboarding beta testers from [our waitlist](https://go.kayle.ai/waitlist)—join if you haven’t already!
