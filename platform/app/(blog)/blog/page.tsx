@@ -26,15 +26,16 @@ function Article({ article }: { article: ArticleWithSlug }) {
 	return (
 		<Link href={`/blog/${article.slug}`} className="group w-full">
 			<article className="flex flex-1 flex-col gap-2 group-hover:bg-zinc-100 dark:group-hover:bg-zinc-800 rounded-lg p-4 transition-colors duration-300 w-full h-full">
-				{article.image ? (
-					<Image
-						src={article.image}
-						alt={article.title}
-						width={1920}
-						height={1080}
-						className="rounded-md w-full h-auto ring-1 ring-zinc-100 dark:ring-zinc-700"
-					/>
-				) : null // TODO: It would be nice to have a default image here
+				{
+					article.image ? (
+						<Image
+							src={article.image}
+							alt={article.title}
+							width={1920}
+							height={1080}
+							className="rounded-md w-full h-auto ring-1 ring-zinc-100 dark:ring-zinc-700"
+						/>
+					) : null // TODO: It would be nice to have a default image here
 				}
 				<div className="flex flex-row gap-x-2 mt-auto">
 					<Subheading level={3}>{article.title}</Subheading>
