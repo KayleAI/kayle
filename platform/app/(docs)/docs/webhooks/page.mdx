@@ -1,0 +1,83 @@
+import { GenerateSEO } from "@/components/docs/GenerateSEO";
+
+export const metadata = GenerateSEO({
+	title: "Webhooks",
+	description:
+		"In this guide, we will look at how to register and consume webhooks to integrate your app with Kayle.",
+  url: "https://kayle.ai/docs/webhooks",
+});
+
+# Webhooks
+
+In this guide, we will look at how to register and consume webhooks to integrate your app with Kayle. {{ className: 'lead' }}
+
+<Warn>
+  Webhooks are not generally available yet.
+</Warn>
+
+<hr />
+
+## Registering a webhook
+
+To register a webhook, head over to the [developer settings](https://kayle.ai/developers) and click on the "Webhooks" tab. 
+Here, you can register a webhook by providing the URL that Kayle should send the webhook to and the events that should trigger the webhook.
+You'll receive a secret key when you register a webhook, which you can use to verify the authenticity of the webhook.
+
+<hr />
+
+## Consuming a webhook
+
+<Note>
+  While we work on getting webhooks ready, we've not yet enabled the webhook functionality.
+</Note>
+
+<hr />
+
+## Security
+
+To know for sure that a webhook was, in fact, sent by Kayle instead of a malicious actor, you can verify the request signature. 
+Each webhook request contains a header named `x-kayle-signature`, and you can verify this signature by using your secret webhook key. 
+The signature is an HMAC hash of the request payload hashed using your secret key. 
+Here is an example of how to verify the signature in your app:
+
+<CodeGroup title="Verifying a request">
+
+```js
+const signature = req.headers['x-kayle-signature']
+const hash = crypto.createHmac('sha256', secret).update(payload).digest('hex')
+
+if (hash === signature) {
+  // Request is verified
+} else {
+  // Request could not be verified
+}
+```
+
+```python
+from flask import request
+import hashlib
+import hmac
+
+signature = request.headers.get("x-kayle-signature")
+hash = hmac.new(bytes(secret, "ascii"), bytes(payload, "ascii"), hashlib.sha256)
+
+if hash.hexdigest() == signature:
+    # Request is verified
+else:
+    # Request could not be verified
+```
+
+```php
+$signature = $request['headers']['x-kayle-signature'];
+$hash = hash_hmac('sha256', $payload, $secret);
+
+if (hash_equals($hash, $signature)) {
+  // Request is verified
+} else {
+  // Request could not be verified
+}
+```
+
+</CodeGroup>
+
+If your generated signature matches the `x-kayle-signature` header, you can be sure that the request was truly coming from Kayle. It's essential to keep your secret webhook key safe—otherwise, you can no longer be sure that a given webhook was sent by Kayle. Don't commit your secret webhook key to GitHub!

@@ -56,10 +56,6 @@ export async function POST(req: NextRequest) {
 	switch (type) {
 		case "text":
 			try {
-				if (input instanceof File) {
-					throw new Error("Input must be a string");
-				}
-
 				if (typeof input !== "string") {
 					throw new Error("Input must be a string");
 				}
@@ -68,20 +64,18 @@ export async function POST(req: NextRequest) {
 
 				return NextResponse.json(response);
 			} catch (error) {
+				console.error("Error in getDemoResponse:", error);
 				return NextResponse.json({
 					error: "An error occurred while calling the Kayle API",
 				});
 			}
 		case "image":
 			try {
-				if (!(input instanceof File)) {
-					throw new Error("Input must be a file");
-				}
-
 				const response = await callKayleAPI({ input, type });
 
-				return response;
+				return NextResponse.json(response);
 			} catch (error) {
+				console.error("Error in getDemoResponse:", error);
 				return NextResponse.json({
 					error: "An error occurred while calling the Kayle API",
 				});
@@ -89,14 +83,11 @@ export async function POST(req: NextRequest) {
 
 		case "audio":
 			try {
-				if (!(input instanceof File)) {
-					throw new Error("Input must be a file");
-				}
-
 				const response = await callKayleAPI({ input, type });
 
-				return response;
+				return NextResponse.json(response);
 			} catch (error) {
+				console.error("Error in getDemoResponse:", error);
 				return NextResponse.json({
 					error: "An error occurred while calling the Kayle API",
 				});
@@ -124,7 +115,7 @@ async function callKayleAPI({
 	const url = new URL(
 		process.env.NODE_ENV === "production"
 			? "https://api.kayle.ai"
-			: "http://localhost:8787",
+			: "http://127.0.0.1:8787",
 	);
 
 	let body = {};
@@ -136,11 +127,11 @@ async function callKayleAPI({
 			break;
 		case "image":
 			url.pathname = "/v1/moderate/image";
-			body = { image: input };
+			body = { image_url: input };
 			break;
 		case "audio":
 			url.pathname = "/v1/moderate/audio";
-			body = { audio: input };
+			body = { audio_url: input };
 			break;
 	}
 
@@ -153,5 +144,5 @@ async function callKayleAPI({
 		body: JSON.stringify(body),
 	});
 
-	return response.json();
+	return await response.json();
 }

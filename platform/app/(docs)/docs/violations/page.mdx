@@ -1,0 +1,430 @@
+import { GenerateSEO } from "@/components/docs/GenerateSEO";
+
+export const metadata = GenerateSEO({
+	title: "Violations",
+	description:
+		"In this guide, we’ll look at how Kayle classifies violations.",
+  url: "https://kayle.ai/docs/violations",
+});
+
+# Violations
+
+If a violation is detected, it’s classified into one of the categories outlined in this guide. {{ className: 'lead' }}
+
+<hr />
+
+## Hate
+
+Hate is classified into one of the following categories:
+
+<Row>
+  <Col>
+    <Properties>
+      <Property name="hate">
+        Any violation related to hate.
+      </Property>
+      <Property name="hate-racism">
+        Any violation related to racism.
+      </Property>
+      <Property name="hate-sexism">
+        Any violation related to sexism.
+      </Property>
+      <Property name="hate-religion">
+        Any violation related to religion.
+      </Property>
+    </Properties>
+  </Col>
+  <Col sticky>
+    ```json {{ 'title': 'Example Response' }}
+    {
+      "data": {
+        "severity": 7,
+        "violations": [
+          "hate",
+          "profanity-slurs"
+        ],
+        "pii": []
+      },
+      "error": null
+    }
+    ```
+  </Col>
+</Row>
+
+<hr />
+
+## Violent content
+
+Violent content is classified into one of the following categories:
+
+<Row>
+  <Col>
+    <Properties>
+      <Property name="violence">
+        Anything violent.
+      </Property>
+      <Property name="violence-threats">
+        Any threats of violence.
+      </Property>
+      <Property name="violence-extreme">
+        Any extreme violence.
+      </Property>
+      <Property name="extremism">
+        Any extremism-related content.
+      </Property>
+      <Property name="terrorism">
+        Any terrorism-related content.
+      </Property>
+    </Properties>
+  </Col>
+  <Col sticky>
+    ```json {{ 'title': 'Example Response' }}
+    {
+      "data": {
+        "severity": 8,
+        "violations": [
+          "violence-threats"
+        ],
+        "pii": []
+      },
+      "error": null
+    }
+    ```
+    <Note>
+      We investigate extremist and terrorist content with the help of the authorities to keep the world a safer place.
+
+      We may also ask you to share information about users who have produced such content.
+    </Note>
+  </Col>
+</Row>
+
+<hr />
+
+## Suicide & Self-harm
+
+Suicide-related content is classified into one of the following categories:
+
+<Row>
+  <Col>
+    <Properties>
+      <Property name="suicide">
+        Any content related to suicide.
+      </Property>
+      <Property name="self-harm">
+        Any content related to self-harm.
+      </Property>
+      <Property name="self-harm-glorification">
+        Any content that glorifies self-harm or suicide.
+      </Property>
+    </Properties>
+  </Col>
+  <Col sticky>
+    ```json {{ 'title': 'Example Response' }}
+    {
+      "data": {
+        "severity": 8,
+        "violations": [
+          "self-harm",
+          "suicide"
+        ],
+        "pii": []
+      },
+      "error": null
+    }
+    ```
+  </Col>
+</Row>
+
+<hr />
+
+## PII
+
+PII is classified into one of the following categories:
+
+<Row>
+  <Col>
+    <Properties>
+      <Property name="pii-sensitive">
+        Any content that contains sensitive information.
+      </Property>
+      <Property name="pii-financial">
+        Any content that contains financial information.
+      </Property>
+      <Property name="pii-health">
+        Any content that contains health information.
+      </Property>
+      <Property name="pii-contact">
+        Any content that contains contact information.
+      </Property>
+      <Property name="pii-location">
+        Any content that contains location information.
+      </Property>
+    </Properties>
+  </Col>
+  <Col sticky>
+    ```json {{ 'title': 'Example Response' }}
+    {
+      "data": {
+        "severity": 3,
+        "violations": [
+          "pii-contact",
+          "pii-location"
+        ],
+        "pii": [
+          "[ADDRESS REDACTED]", // this will not be redacted 
+          "[PHONE NUMBER REDACTED]" // in the response
+        ]
+      },
+      "error": null
+    }
+    ```
+  </Col>
+</Row>
+
+<hr />
+
+## Profanity
+
+Profanity is classified into one of the following categories:
+
+<Row>
+  <Col>
+    <Properties>
+      <Property name="profanity">
+        Any content that contains profane language.
+      </Property>
+      <Property name="profanity-slurs">
+        Any content that contains slurs.
+      </Property>
+    </Properties>
+  </Col>
+  <Col sticky>
+    ```json {{ 'title': 'Example Response' }}
+    {
+      "data": {
+        "severity": 7,
+        "violations": [
+          "hate",
+          "profanity-slurs"
+        ],
+        "pii": []
+      },
+      "error": null
+    }
+    ```
+  </Col>
+</Row>
+
+<hr />
+
+## Sexual content
+
+Sexual content is classified into one of the following categories:
+
+<Row>
+  <Col>
+    <Properties>
+      <Property name="sexual">
+        Any content that contains sexual content.
+      </Property>
+      <Property name="sexual-nudity">
+        Any content that contains nudity.
+      </Property>
+      <Property name="sexual-explicit">
+        Any content that contains explicit sexual content.
+      </Property>
+      <Property name="sexual-violence">
+        Any content that contains violence in a sexual context.
+      </Property>
+      <Property name="sexual-suggestive">
+        Any content that contains suggestive sexual content.
+      </Property>
+      <Property name="child-exploitation">
+        Any content that contains child exploitation.
+      </Property>
+      <Property name="csam">
+        Any content that contains child sexual abuse material.
+      </Property>
+      <Warn>
+        Kayle is required by law to investigate and report findings of CSAM. 
+        Under our terms of service, you are required to comply with requests from Kayle and
+        law enforcement.
+
+        You can read more about this [here](#).
+      </Warn>
+    </Properties>
+  </Col>
+  <Col sticky>
+    ```json {{ 'title': 'Example Response' }}
+    {
+      "data": {
+        "severity": 8,
+        "violations": [
+          "sexual-explicit"
+        ],
+        "pii": []
+      },
+      "error": null
+    }
+    ```
+  </Col>
+</Row>
+
+<hr />
+
+## Harmful content
+
+Harmful content is classified into one of the following categories:
+
+<Row>
+  <Col>
+    <Properties>
+      <Property name="bullying">
+        Anything that is considered bullying.
+      </Property>
+      <Property name="harassment">
+        Anything that is considered harassment.
+      </Property>
+      <Property name="stalking">
+        Anything that is considered stalking.
+      </Property>
+      <Property name="doxxing">
+        Anything that is considered doxxing.
+      </Property>
+    </Properties>
+  </Col>
+  <Col sticky>
+    ```json {{ 'title': 'Example Response' }}
+    {
+      "data": {
+        "severity": 8,
+        "violations": [
+          "doxxing"
+        ],
+        "pii": [
+          "[ADDRESS REDACTED]"
+        ]
+      },
+      "error": null
+    }
+    ```
+  </Col>
+</Row>
+
+<hr />
+
+## Deceptive content
+
+Deceptive content is classified into one of the following categories:
+
+<Row>
+  <Col>
+    <Properties>
+      <Property name="misinformation-health">
+        Any content that contains misinformation related to health.
+      </Property>
+      <Property name="misinformation-political">
+        Any content that contains misinformation related to politics.
+      </Property>
+      <Property name="misinformation-science">
+        Any content that contains misinformation related to science.
+      </Property>
+      <Property name="fraud">
+        Any content that contains fraud.
+      </Property>
+      <Property name="scams">
+        Any content that contains scams.
+      </Property>
+    </Properties>
+  </Col>
+  <Col sticky>
+    ```json {{ 'title': 'Example Response' }}
+    {
+      "data": {
+        "severity": 8,
+        "violations": [
+          "misinformation-health"
+        ],
+        "pii": []
+      },
+      "error": null
+    }
+    ```
+  </Col>
+</Row>
+
+<hr />
+
+## Illegal content
+
+Illegal content is classified into one of the following categories:
+
+<Row>
+  <Col>
+    <Properties>
+      <Property name="illegal">
+        Anything that is considered illegal.
+      </Property>
+      <Property name="illegal-drugs">
+        Any content that relates to illegal drugs.
+      </Property>
+      <Property name="illegal-weapons">
+        Any content that relates to illegal weapons.
+      </Property>
+      <Property name="illegal-gambling">
+        Any content that relates to illegal gambling.
+      </Property>
+      <Property name="trafficking">
+        Any content that relates to trafficking.
+      </Property>
+      <Property name="piracy">
+        Any content that relates to piracy.
+      </Property>
+    </Properties>
+  </Col>
+  <Col sticky>
+    ```json {{ 'title': 'Example Response' }}
+    {
+      "data": {
+        "severity": 8,
+        "violations": [
+          "illegal"
+        ],
+        "pii": []
+      },
+      "error": null
+    }
+    ```
+  </Col>
+</Row>
+
+<hr />
+
+## Other
+
+<Row>
+  <Col>
+    <Properties>
+      <Property name="spam">
+        Anything that can be considered spam.
+      </Property>
+      <Property name="impersonation">
+        Anything that can be considered impersonation.
+      </Property>
+    </Properties>
+  </Col>
+  <Col sticky>
+    ```json {{ 'title': 'Example Response' }}
+    {
+      "data": {
+        "severity": 6,
+        "violations": [
+          "spam"
+        ],
+        "pii": []
+      },
+      "error": null
+    }
+    ```
+  </Col>
+</Row>

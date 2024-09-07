@@ -7,12 +7,12 @@ export default function HelpPage() {
 				<div className="px-6 lg:px-0 lg:pt-4">
 					<div className="mx-auto max-w-2xl">
 						<div className="max-w-lg">
-							<h1 className="mt-10 text-4xl font-bold tracking-tight text-zinc-950 dark:text-zinc-50 dark: sm:text-6xl">
+							<h1 className="mt-10 text-4xl font-bold tracking-tight text-zinc-950 dark:text-zinc-50 sm:text-5xl">
 								Get help with Kayle.
 							</h1>
 							<Text className="mt-6">
 								We don’t have a support service yet, but you can check out our{" "}
-								<TextLink href="https://docs.kayle.ai">docs</TextLink> or
+								<TextLink href="https://kayle.ai/docs">docs</TextLink> or
 								contact us directly at{" "}
 								<TextLink href="mailto:help@kayle.ai">help@kayle.ai</TextLink>.
 							</Text>

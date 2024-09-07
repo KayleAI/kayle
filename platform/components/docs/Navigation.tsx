@@ -238,7 +238,10 @@ export const navigation: Array<NavGroup> = [
 			{ title: "Introduction", href: "/docs" },
 			{ title: "Quickstart", href: "/docs/quickstart" },
 			{ title: "SDKs", href: "/docs/sdks" },
+			{ title: "Authentication", href: "/docs/authentication" },
 			{ title: "Errors", href: "/docs/errors" },
+			{ title: "Violations", href: "/docs/violations" },
+			{ title: "Webhooks", href: "/docs/webhooks" },
 		],
 	},
 	/*{
@@ -250,6 +253,9 @@ export const navigation: Array<NavGroup> = [
 		links: [
 			{ title: "Introduction", href: "/docs/moderate" },
 			{ title: "Text Moderation", href: "/docs/moderate/text" },
+			{ title: "Audio Moderation", href: "/docs/moderate/audio" },
+			{ title: "Image Moderation", href: "/docs/moderate/image" },
+			{ title: "Video Moderation", href: "/docs/moderate/video" },
 		],
 	},
 ];

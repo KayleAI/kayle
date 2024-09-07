@@ -1,8 +1,11 @@
-export const metadata = {
-  title: 'Authentication',
-  description:
-    'In this guide, we’ll look at how to authenticate your requests to the Kayle API.',
-}
+import { GenerateSEO } from "@/components/docs/GenerateSEO";
+
+export const metadata = GenerateSEO({
+	title: "Authentication",
+	description:
+		"In this guide, we’ll look at how to authenticate your requests to the Kayle API.",
+  url: "https://kayle.ai/docs/authentication",
+});
 
 # Authentication
 
@@ -13,7 +16,7 @@ You'll need to authenticate your requests to access any of the endpoints in the 
 To authenticate your requests, you need to include an API key in the header of your request.
 
 <Note>
-  You can find your API keys in [Developer Portal &raquo; API Keys](https://kayle.ai/developers/keys).
+  You can find your API keys in [Developer Portal &raquo; API Keys](/developers/keys).
 </Note>
 
 ```bash {{ title: 'cURL' }}

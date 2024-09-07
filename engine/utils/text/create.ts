@@ -6,6 +6,9 @@ import OpenAI from "openai";
  * If you’re using OpenAI, we recommend `text-embedding-3-large`
  * as it has better performance against the MIRACL.
  *
+ * Another good option is `nomic-embed-text-v1.5` available
+ * via the Groq API.
+ *
  * @param AI_API_KEY - OpenAI API key (or alternative)
  * @param AI_BASE_URL - OpenAI base URL (or alternative)
  * @param EMBEDDING_MODEL - Embedding model to use
@@ -13,23 +16,23 @@ import OpenAI from "openai";
  * @returns Vector
  */
 export async function createVector({
-	AI_API_KEY,
-	AI_BASE_URL,
-	EMBEDDING_MODEL = "text-embedding-3-large",
+	env,
 	text,
 }: {
-	AI_API_KEY: string;
-	AI_BASE_URL: string;
-	EMBEDDING_MODEL?: string;
+	env: {
+		AI_API_KEY: string;
+		AI_BASE_URL: string;
+		EMBEDDING_MODEL?: string;
+	};
 	text: string;
 }) {
 	const ai = new OpenAI({
-		apiKey: AI_API_KEY,
-		baseURL: AI_BASE_URL,
+		apiKey: env.AI_API_KEY,
+		baseURL: env.AI_BASE_URL ?? "https://api.openai.com/v1",
 	});
 
 	const vector = await ai.embeddings.create({
-		model: EMBEDDING_MODEL,
+		model: env.EMBEDDING_MODEL ?? "text-embedding-3-large",
 		dimensions: 1536,
 		input: text,
 	});

@@ -1,8 +1,11 @@
-export const metadata = {
-  title: 'Quickstart',
-  description:
-    'This guide will get you all set up and ready to use the Kayle API. We’ll cover how to get started an API client and how to make your first API request.',
-}
+import { GenerateSEO } from "@/components/docs/GenerateSEO";
+
+export const metadata = GenerateSEO({
+	title: "Quickstart",
+	description:
+		"This guide will get you all set up and ready to use the Kayle API. We’ll cover how to get started an API client and how to make your first API request.",
+  url: "https://kayle.ai/docs/quickstart",
+});
 
 # Quickstart
 
@@ -10,7 +13,7 @@ This guide will get you all set up and ready to use the Kayle API. We'll cover h
 
 <Note>
   Before you can make requests to the Kayle API, you will need to grab your
-  API key from your dashboard. You can find it in [Developer Portal &raquo; API Keys](https://kayle.ai/developers/keys).
+  API key from your dashboard. You can find it in [Developer Portal &raquo; API Keys](/developers/keys).
 </Note>
 
 ## Choose your client
@@ -84,6 +87,6 @@ curl -X POST https://api.kayle.ai/v1/moderate \
 
 Great, you're now set up with an API client and have made your first request to the API. Here are a few links that might be handy as you venture further into the Kayle API:
 
-- [Grab your API key from the Kayle dashboard](https://kayle.ai/developers/keys)
-- [Check out the Conversations endpoint](/docs/moderate/text)
+- [Grab your API key from the Kayle dashboard](/developers/keys)
+- [Check out the Text Moderation endpoint](/docs/moderate/text)
 - [Learn about the different error messages in Kayle](/docs/errors)

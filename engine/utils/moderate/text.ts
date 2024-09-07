@@ -13,28 +13,29 @@ import {
  *
  * @param AI_API_KEY - OpenAI API key (or alternative)
  * @param AI_BASE_URL - OpenAI base URL (or alternative)
+ * @param AI_MODEL - OpenAI model (or alternative)
  * @param text - Text to moderate
  * @returns Moderation result
  */
 export async function moderateText({
-	AI_API_KEY,
-	AI_BASE_URL,
-	AI_MODEL = "gpt-4o-2024-08-06",
+	env,
 	text,
 }: {
-	AI_API_KEY: string;
-	AI_BASE_URL: string;
-	AI_MODEL?: string;
+	env: {
+		AI_API_KEY: string;
+		AI_BASE_URL: string;
+		AI_MODEL?: string;
+	};
 	text: string;
 }) {
 	const ai = new OpenAI({
-		apiKey: AI_API_KEY,
-		baseURL: AI_BASE_URL,
+		apiKey: env.AI_API_KEY,
+		baseURL: env.AI_BASE_URL ?? "https://api.openai.com/v1",
 	});
 
 	try {
 		const moderation = await ai.chat.completions.create({
-			model: AI_MODEL,
+			model: env.AI_MODEL ?? "gpt-4o-2024-08-06",
 			messages: [
 				textModerationPrompt,
 				{

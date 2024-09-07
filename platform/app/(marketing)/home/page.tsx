@@ -47,35 +47,30 @@ function HeroComponent() {
 						<div className="max-w-lg">
 							<div className="mt-24 sm:mt-32 lg:mt-16">
 								<Link
-									href="https://go.kayle.ai/waitlist"
+									href="/docs/moderate/text"
 									className="inline-flex space-x-6"
 								>
 									<span className="rounded-full bg-emerald-600/10 px-3 py-1 text-sm font-semibold leading-6 text-emerald-600 ring-1 ring-inset ring-emerald-600/10">
 										What’s new
 									</span>
 									<span className="inline-flex items-center space-x-2 text-sm font-medium leading-6 text-zinc-600 dark:text-zinc-400">
-										<span>Join our waitlist</span>
+										<span>Text Moderation API</span>
 										<span className="" aria-hidden="true">
 											&rarr;
 										</span>
 									</span>
 								</Link>
 							</div>
-							<h1 className="mt-10 text-4xl font-bold tracking-tight text-zinc-950 dark:text-zinc-50 dark: sm:text-6xl">
+							<h1 className="mt-10 text-4xl font-bold tracking-tight text-zinc-950 dark:text-zinc-50 sm:text-5xl">
 								Content Moderation made simple.
 							</h1>
-							<p className="mt-6 text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-								Content moderation that you know is worth paying for: All
-								content types, 150+ languages, and only pay for what you use.
-								{/* Later: Give each point their own hero section. */}
-								{/* 100% Open-sourced: Know the quality that you're paying for. */}
+							<p className="mt-6 text-md leading-8 text-zinc-600 dark:text-zinc-400">
+								With support for over 150 languages, every content type, and
+								usage-based billing we make it easy to automate your moderation
+								needs.
 							</p>
 							<div className="mt-10 flex items-center gap-x-2">
-								<Button
-									//href={"https://console.kayle.ai"} // Get started
-									href={"https://go.kayle.ai/waitlist"}
-									color="emerald"
-								>
+								<Button href={"https://go.kayle.ai/waitlist"} color="emerald">
 									Join the waitlist
 								</Button>
 								<Button href="/docs" plain>

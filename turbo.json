@@ -2,6 +2,7 @@
 	"$schema": "https://turbo.build/schema.json",
 	"ui": "tui",
 	"globalEnv": [
+		"VERCEL_PROJECT_PRODUCTION_URL",
 		"NEXT_PUBLIC_SITE_URL",
 		"NODE_ENV",
 		"ARCJET_KEY",
@@ -34,6 +35,9 @@
 		},
 		"cf-typegen": {
 			"dependsOn": ["^cf-typegen"]
+		},
+		"serve": {
+			"dependsOn": ["^serve"]
 		}
 	}
 }

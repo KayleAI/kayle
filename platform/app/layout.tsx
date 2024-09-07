@@ -5,6 +5,7 @@ import { Inter } from "next/font/google";
 import localFont from "next/font/local";
 import { Providers } from "./providers";
 import clsx from "clsx";
+import { GenerateSEO } from "@/components/marketing/GenerateSEO";
 
 const inter = Inter({
 	subsets: ["latin"],
@@ -13,19 +14,17 @@ const inter = Inter({
 });
 
 const monaSans = localFont({
-	src: "../fonts/Mona-Sans.var.woff2",
+	src: "../fonts/Mona-Sans.woff2",
 	display: "swap",
 	variable: "--font-mona-sans",
 	weight: "200 900",
 });
 
-export const metadata: Metadata = {
-	title: {
-		default: "Kayle",
-		template: "%s - Kayle",
-	},
-	description: "",
-};
+export const metadata: Metadata = GenerateSEO({
+	title: "Kayle",
+	description: "Content moderation made simple.",
+	url: "https://kayle.ai",
+});
 
 export default function RootLayout({
 	children,
