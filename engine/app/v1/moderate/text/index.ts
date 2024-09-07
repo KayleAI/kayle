@@ -60,16 +60,10 @@ export async function moderateTextRoute(c: Context) {
 
 		const textHash = await hash(textToModerate);
 
-		const [hashSearchResult, vector] = await Promise.all([
-			searchHash({
-				hash: textHash,
-				env,
-			}),
-			createVector({
-				text: textToModerate,
-				env,
-			}),
-		]);
+		const hashSearchResult = await searchHash({
+			hash: textHash,
+			env,
+		});
 
 		if (hashSearchResult) {
 			return c.json({
@@ -77,6 +71,11 @@ export async function moderateTextRoute(c: Context) {
 				error: null,
 			});
 		}
+
+		const vector = await createVector({
+			text: textToModerate,
+			env,
+		});
 
 		const vectorSearchResult = await searchVector({
 			env,
