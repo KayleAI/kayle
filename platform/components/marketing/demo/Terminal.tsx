@@ -26,7 +26,24 @@ const options = [
 		id: "image",
 		name: "Moderate an Image",
 		placeholder: "Upload an image",
-		disabled: false,
+	},
+	{
+		id: "video",
+		name: "Moderate a Video",
+		placeholder: "Upload a video",
+		disabled: true,
+	},
+	{
+		id: "document",
+		name: "Moderate a Document",
+		placeholder: "Upload a document",
+		disabled: true,
+	},
+	{
+		id: "url",
+		name: "Moderate a URL",
+		placeholder: "Enter a URL",
+		disabled: true,
 	},
 ];
 
