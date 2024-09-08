@@ -1,6 +1,6 @@
 {
 	"name": "kayle",
-	"version": "0.3.0",
+	"version": "0.2.0",
 	"private": true,
 	"scripts": {
 		"build": "turbo build",
@@ -8,7 +8,6 @@
 		"lint": "turbo lint",
 		"deploy": "turbo deploy",
 		"cf-typegen": "turbo cf-typegen",
-		"serve": "turbo serve",
 		"format": "prettier --write \"**/*.{ts,tsx,md}\""
 	},
 	"devDependencies": {
