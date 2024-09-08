@@ -175,6 +175,12 @@ export function ModerateDemo({
 		}, 2500);
 	};
 
+	const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+		if (e.key === "Enter" && type === "text") {
+			handleSubmit();
+		}
+	};
+
 	return (
 		<div>
 			<ModerateResult result={response} />
@@ -184,12 +190,8 @@ export function ModerateDemo({
 					type={type === "text" ? "text" : "file"}
 					value={type === "text" ? (input as string) : undefined}
 					placeholder={placeholder}
-					onChange={handleInputChange}
-					onKeyDown={(e) => {
-						if (e.key === "Enter" && type === "text") {
-							handleSubmit();
-						}
-					}}
+					onChange={handleInputChange} // deepsource-ignore-line: react-perf/jsx-no-new-function-as-prop
+					onKeyDown={handleKeyDown}
 					accept={
 						type === "audio"
 							? "audio/*"
@@ -200,7 +202,7 @@ export function ModerateDemo({
 				/>
 				<Button
 					color="amber"
-					onClick={handleSubmit}
+					onClick={handleSubmit} // deepsource-ignore-line: react-perf/jsx-no-new-function-as-prop
 					disabled={status !== "idle"}
 				>
 					Moderate
