@@ -20,10 +20,10 @@ export async function send({
 }) {
 	try {
 		await resend.emails.send({
-			from: from,
-			to: to,
-			subject: subject,
-			react: react,
+			from,
+			to,
+			subject,
+			react,
 			headers: {
 				...(preventThreading ? { "X-Entity-Ref-ID": uuid() } : {}),
 			},

@@ -26,17 +26,24 @@ const getMonaSansSemiBold = async () => {
  */
 export async function GET() {
 	return new ImageResponse(
-		<div
+		<div // NOSONAR
 			tw="flex flex-col items-center justify-center w-full h-full bg-zinc-50 text-zinc-900 p-4 text-[90px]"
 			style={{ fontFamily: "Mona Sans Regular" }}
 		>
-			<div tw="" style={{ fontFamily: "Mona Sans SemiBold" }}>
+			<div // NOSONAR
+				tw=""
+				style={{ fontFamily: "Mona Sans SemiBold" }}
+			>
 				Kayle
 			</div>
-			<div tw="mt-4 text-[32px] text-zinc-700 text-center">
+			<div // NOSONAR
+				tw="mt-4 text-[32px] text-zinc-700 text-center"
+			>
 				Content Moderation made Simple.
 			</div>
-			<div tw="mt-8 bg-emerald-400 rounded-full px-20 py-8 text-[40px] text-black shadow-2xl border-[4px] border-emerald-500 text-black/90">
+			<div // NOSONAR
+				tw="mt-8 bg-emerald-400 rounded-full px-20 py-8 text-[40px] text-black shadow-2xl border-[4px] border-emerald-500 text-black/90"
+			>
 				Get started now &rarr;
 			</div>
 		</div>,

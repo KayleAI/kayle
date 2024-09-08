@@ -26,7 +26,7 @@ export async function deleteApiKey(keyId: string, orgId: string) {
 	}
 
 	const { error: deleteError } = await unkey.keys.delete({
-		keyId: keyId,
+		keyId,
 	});
 
 	if (deleteError) {
