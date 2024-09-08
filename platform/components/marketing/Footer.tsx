@@ -115,6 +115,37 @@ export function Footer({
 		});
 	};
 
+	const handleClick = async () =>
+		toast.promise(
+			new Promise((resolve, reject) => {
+				setSubmissionState("loading");
+				setTimeout(async () => {
+					if (!email?.includes("@")) {
+						setSubmissionState("email-error");
+						return reject(new Error("Invalid email address."));
+					}
+
+					const success = await join({
+						email: email,
+						audienceId: "b23a5d3b-c8de-4d2e-b73b-b726b8f20ec4",
+					});
+
+					if (!success) {
+						setSubmissionState("error");
+						return reject(new Error("Something went wrong."));
+					}
+
+					setSubmissionState("success"); // wait a lil’ so it feels like it’s doing something
+					return resolve(true);
+				}, 300);
+			}),
+			{
+				loading: "Signing you up...",
+				success: "You’re all set! 🎉",
+				error: "Something went wrong. Please try again.",
+			},
+		)
+
 	useEffect(() => {
 		getKayleStatus().then((status) => setKayleStatus(status));
 	}, []);
@@ -263,37 +294,7 @@ export function Footer({
 							<Button
 								className="w-full sm:w-auto !cursor-pointer"
 								color="emerald"
-								onClick={async () =>
-									toast.promise(
-										new Promise((resolve, reject) => {
-											setSubmissionState("loading");
-											setTimeout(async () => {
-												if (!email?.includes("@")) {
-													setSubmissionState("email-error");
-													return reject(new Error("Invalid email address."));
-												}
-
-												const success = await join({
-													email: email,
-													audienceId: "b23a5d3b-c8de-4d2e-b73b-b726b8f20ec4",
-												});
-
-												if (!success) {
-													setSubmissionState("error");
-													return reject(new Error("Something went wrong."));
-												}
-
-												setSubmissionState("success"); // wait a lil’ so it feels like it’s doing something
-												return resolve(true);
-											}, 300);
-										}),
-										{
-											loading: "Signing you up...",
-											success: "You’re all set! 🎉",
-											error: "Something went wrong. Please try again.",
-										},
-									)
-								}
+								onClick={handleClick}
 								disabled={submissionState === "loading"}
 							>
 								Join
