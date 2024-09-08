@@ -1,6 +1,6 @@
 "use client";
 
-import * as Headless from "@headlessui/react";
+import * as Headless from "@headlessui/react"; // skipcq: JS-C1003
 import clsx from "clsx";
 import { Fragment } from "react";
 
@@ -186,7 +186,7 @@ export function ListboxOption<T>({
 export function ListboxLabel({
 	className,
 	...props
-}: React.ComponentPropsWithoutRef<"span">) {
+}: Readonly<React.ComponentPropsWithoutRef<"span">>) {
 	return (
 		<span
 			{...props}
@@ -202,7 +202,7 @@ export function ListboxDescription({
 	className,
 	children,
 	...props
-}: React.ComponentPropsWithoutRef<"span">) {
+}: Readonly<React.ComponentPropsWithoutRef<"span">>) {
 	return (
 		<span
 			{...props}
