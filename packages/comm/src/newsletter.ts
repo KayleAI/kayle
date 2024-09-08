@@ -2,7 +2,11 @@
 
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY! ?? "");
+if (!process.env.RESEND_API_KEY) {
+	throw new Error("RESEND_API_KEY is not set");
+}
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function join({
 	email,
@@ -17,11 +21,11 @@ export async function join({
 }): Promise<boolean> {
 	try {
 		await resend.contacts.create({
-			email: email,
-			...(firstName ? { firstName: firstName } : {}),
-			...(lastName ? { lastName: lastName } : {}),
+			email,
+			...(firstName ? { firstName } : {}),
+			...(lastName ? { lastName } : {}),
 			unsubscribed: false,
-			audienceId: audienceId,
+			audienceId,
 		});
 
 		return true;
@@ -40,8 +44,8 @@ export async function remove({
 }): Promise<boolean> {
 	try {
 		await resend.contacts.remove({
-			email: email,
-			audienceId: audienceId,
+			email,
+			audienceId,
 		});
 
 		return true;

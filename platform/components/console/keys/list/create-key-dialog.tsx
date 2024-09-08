@@ -22,7 +22,7 @@ import clsx from "clsx";
 
 // State
 import { useQueryState, parseAsBoolean } from "nuqs";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 // Router
 import { useRouter } from "next/navigation";
@@ -33,6 +33,67 @@ import { createApiKey } from "@/actions/keys/create-api-key";
 import { useClipboard } from "@mantine/hooks";
 import { toast } from "sonner";
 import { CopyIcon } from "@repo/icons/ui/index";
+
+const KeyNameField = ({
+	keyName,
+	changeKeyName,
+}: { keyName: string; changeKeyName: (e: any) => void }) => (
+	<Field>
+		<Label htmlFor="key_name">Key Name</Label>
+		<Description>Use a descriptive name to identify this key.</Description>
+		<Input
+			name="key_name"
+			id="key_name"
+			value={keyName}
+			onChange={changeKeyName}
+		/>
+	</Field>
+);
+
+const EnvironmentField = ({
+	testMode,
+	changeTestMode,
+}: { testMode: string; changeTestMode: (e: any) => void }) => (
+	<Field>
+		<Label htmlFor="environment">Key Environment</Label>
+		<Description>
+			Note that you will be charged for usage in production mode.
+		</Description>
+		<Listbox
+			name="environment"
+			defaultValue={testMode}
+			onChange={changeTestMode}
+		>
+			<ListboxOption value="live">
+				<ListboxLabel>Production Mode</ListboxLabel>
+			</ListboxOption>
+			<ListboxOption value="test">
+				<ListboxLabel>Test Mode</ListboxLabel>
+			</ListboxOption>
+		</Listbox>
+	</Field>
+);
+
+function CreateKeyForm({
+	keyName,
+	testMode,
+	changeKeyName,
+	changeTestMode,
+}: {
+	readonly keyName: string;
+	readonly testMode: string;
+	readonly changeKeyName: (e: any) => void;
+	readonly changeTestMode: (e: any) => void;
+}) {
+	return (
+		<Fieldset>
+			<FieldGroup>
+				<KeyNameField keyName={keyName} changeKeyName={changeKeyName} />
+				<EnvironmentField testMode={testMode} changeTestMode={changeTestMode} />
+			</FieldGroup>
+		</Fieldset>
+	);
+}
 
 export default function CreateKeyDialog() {
 	const orgs = useOrg();
@@ -58,9 +119,9 @@ export default function CreateKeyDialog() {
 
 	const [isKeyRevealed, setIsKeyRevealed] = useState(false);
 
-	const toggleKeyVisibility = () => {
+	const toggleKeyVisibility = useCallback(() => {
 		setIsKeyRevealed(!isKeyRevealed);
-	};
+	}, [isKeyRevealed]);
 
 	useEffect(() => {
 		if (keyCreatedSecret !== "false") {
@@ -70,31 +131,80 @@ export default function CreateKeyDialog() {
 
 	const router = useRouter();
 
-	const handleClose = () => {
+	const copyToClipboard = useCallback(() => {
+		clipboard.copy(keyCreatedSecret);
+		toast.info("Copied to clipboard");
+	}, [clipboard, keyCreatedSecret]);
+
+	const copyEnvToClipboard = useCallback(() => {
+		envClipboard.copy(`KAYLE_API_KEY=${keyCreatedSecret}`);
+		toast.info("Copied to clipboard");
+	}, [envClipboard, keyCreatedSecret]);
+
+	const openCreateKeyDialog = useCallback(() => setIsOpen(true), [setIsOpen]);
+
+	const handleCreateKeyClose = useCallback(() => {
 		setIsOpen(null);
 		setTimeout(() => {
 			setKeyName("my-new-api-key");
 			setTestMode("test");
 			setKeyCreatedSecret("false");
 		}, 200);
-	};
+	}, [setIsOpen, setKeyName, setTestMode]);
 
-	const copyToClipboard = () => {
-		clipboard.copy(keyCreatedSecret);
-		toast.info("Copied to clipboard");
-	};
+	const changeKeyName = useCallback(
+		(e: any) => setKeyName(e.target.value),
+		[setKeyName],
+	);
 
-	const copyEnvToClipboard = () => {
-		envClipboard.copy(`KAYLE_API_KEY=${keyCreatedSecret}`);
-		toast.info("Copied to clipboard");
-	};
+	const changeTestMode = useCallback(
+		(e: any) => setTestMode(e.target.value),
+		[setTestMode],
+	);
+
+	const handleCreateKey = useCallback(async () => {
+		if (keyCreatedSecret === "false") {
+			if (!org_id) {
+				toast.error("No organisation selected.");
+				return;
+			}
+
+			const { data: keyData, error: keyError } = await createApiKey({
+				name: keyName,
+				testMode: testMode === "test",
+				orgId: org_id,
+			});
+
+			if (keyError) {
+				toast.error(keyError);
+				return;
+			}
+
+			if (keyData?.keys) {
+				setKeyCreatedSecret(keyData.keys.key);
+				router.refresh();
+			} else {
+				toast.error("We couldn’t create your key. Please try again.");
+			}
+
+			return;
+		}
+		handleCreateKeyClose();
+	}, [
+		keyCreatedSecret,
+		org_id,
+		router,
+		testMode,
+		keyName,
+		handleCreateKeyClose,
+	]);
 
 	return (
 		<>
-			<Button type="button" onClick={() => setIsOpen(true)}>
+			<Button type="button" onClick={openCreateKeyDialog}>
 				Create API Key
 			</Button>
-			<Dialog open={isOpen} onClose={handleClose} size="2xl">
+			<Dialog open={isOpen} onClose={handleCreateKeyClose} size="2xl">
 				<DialogTitle>
 					{keyCreatedSecret === "false" ? "Create API Key" : "API Key Created!"}
 				</DialogTitle>
@@ -105,44 +215,12 @@ export default function CreateKeyDialog() {
 				</DialogDescription>
 				<DialogBody>
 					{keyCreatedSecret === "false" ? (
-						<Fieldset>
-							<FieldGroup>
-								<Field>
-									<Label htmlFor="key_name">Key Name</Label>
-									<Description>
-										Use a descriptive name to identify this key.
-									</Description>
-									<Input
-										name="key_name"
-										id="key_name"
-										value={keyName}
-										onChange={(e) => {
-											setKeyName(e.target.value);
-										}}
-									/>
-								</Field>
-								<Field>
-									<Label htmlFor="environment">Key Environment</Label>
-									<Description>
-										Note that you will be charged for usage in production mode.
-									</Description>
-									<Listbox
-										name="environment"
-										defaultValue={testMode}
-										onChange={(e) => {
-											setTestMode(e);
-										}}
-									>
-										<ListboxOption value="live">
-											<ListboxLabel>Production Mode</ListboxLabel>
-										</ListboxOption>
-										<ListboxOption value="test">
-											<ListboxLabel>Test Mode</ListboxLabel>
-										</ListboxOption>
-									</Listbox>
-								</Field>
-							</FieldGroup>
-						</Fieldset>
+						<CreateKeyForm
+							keyName={keyName}
+							testMode={testMode}
+							changeKeyName={changeKeyName}
+							changeTestMode={changeTestMode}
+						/>
 					) : (
 						<FieldGroup>
 							<Field>
@@ -211,41 +289,11 @@ export default function CreateKeyDialog() {
 				</DialogBody>
 				<DialogActions>
 					{keyCreatedSecret === "false" && (
-						<Button plain onClick={handleClose}>
+						<Button plain onClick={handleCreateKeyClose}>
 							Cancel
 						</Button>
 					)}
-					<Button
-						onClick={async () => {
-							if (keyCreatedSecret === "false") {
-								if (!org_id) {
-									toast.error("No organisation selected.");
-									return;
-								}
-
-								const { data: keyData, error: keyError } = await createApiKey({
-									name: keyName,
-									testMode: testMode === "test",
-									orgId: org_id,
-								});
-
-								if (keyError) {
-									toast.error(keyError);
-									return;
-								}
-
-								if (keyData?.keys) {
-									setKeyCreatedSecret(keyData.keys.key);
-									router.refresh();
-								} else {
-									toast.error("We couldn’t create your key. Please try again.");
-								}
-
-								return;
-							}
-							handleClose();
-						}}
-					>
+					<Button onClick={handleCreateKey}>
 						{keyCreatedSecret === "false"
 							? "Create Key"
 							: "I’ve saved my secret key!"}

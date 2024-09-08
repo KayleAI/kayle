@@ -158,5 +158,10 @@ export function SectionProvider({
 
 export function useSectionStore<T>(selector: (state: SectionState) => T) {
 	const store = useContext(SectionStoreContext);
-	return useStore(store!, selector);
+
+	if (!store) {
+		return null;
+	}
+
+	return useStore(store, selector);
 }

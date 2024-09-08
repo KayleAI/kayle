@@ -215,8 +215,7 @@ function SearchResult({
 					className="mt-1 truncate whitespace-nowrap text-2xs text-zinc-500"
 				>
 					{hierarchy.map((item, itemIndex, items) => (
-						// biome-ignore lint/suspicious/noArrayIndexKey: it's fine for now
-						<Fragment key={itemIndex}>
+						<Fragment key={item}>
 							<HighlightQuery text={item} query={query} />
 							<span
 								className={
@@ -285,6 +284,32 @@ const SearchInput = forwardRef<
 >(function SearchInput({ autocomplete, autocompleteState, onClose }, inputRef) {
 	const inputProps = autocomplete.getInputProps({ inputElement: null });
 
+	const handleKeyDown = useCallback(
+		(event: React.KeyboardEvent<HTMLInputElement>) => {
+			if (
+				event.key === "Escape" &&
+				!autocompleteState.isOpen &&
+				autocompleteState.query === ""
+			) {
+				// In Safari, closing the dialog with the escape key can sometimes cause the scroll position to jump to the
+				// bottom of the page. This is a workaround for that until we can figure out a proper fix in Headless UI.
+				if (document.activeElement instanceof HTMLElement) {
+					document.activeElement.blur();
+				}
+
+				onClose();
+			} else {
+				inputProps.onKeyDown(event);
+			}
+		},
+		[
+			autocompleteState.isOpen,
+			autocompleteState.query,
+			onClose,
+			inputProps.onKeyDown,
+		],
+	);
+
 	return (
 		<div className="group relative flex h-12">
 			<SearchIcon className="pointer-events-none absolute left-3 top-0 h-full w-5 stroke-zinc-500" />
@@ -296,23 +321,7 @@ const SearchInput = forwardRef<
 					autocompleteState.status === "stalled" ? "pr-11" : "pr-4",
 				)}
 				{...inputProps}
-				onKeyDown={(event) => {
-					if (
-						event.key === "Escape" &&
-						!autocompleteState.isOpen &&
-						autocompleteState.query === ""
-					) {
-						// In Safari, closing the dialog with the escape key can sometimes cause the scroll position to jump to the
-						// bottom of the page. This is a workaround for that until we can figure out a proper fix in Headless UI.
-						if (document.activeElement instanceof HTMLElement) {
-							document.activeElement.blur();
-						}
-
-						onClose();
-					} else {
-						inputProps.onKeyDown(event);
-					}
-				}}
+				onKeyDown={handleKeyDown}
 			/>
 			{autocompleteState.status === "stalled" && (
 				<div className="absolute inset-y-0 right-3 flex items-center">
@@ -322,6 +331,65 @@ const SearchInput = forwardRef<
 		</div>
 	);
 });
+
+const SearchResultsPanel = ({
+	panelRef,
+	autocomplete,
+	autocompleteState,
+}: {
+	readonly panelRef: React.RefObject<HTMLDivElement>;
+	readonly autocomplete: Autocomplete;
+	readonly autocompleteState: AutocompleteState<Result> | EmptyObject;
+}) => (
+	<div
+		ref={panelRef}
+		className="border-t border-zinc-200 bg-white empty:hidden dark:border-zinc-100/5 dark:bg-white/2.5"
+		{...autocomplete.getPanelProps({})}
+	>
+		{autocompleteState.isOpen && (
+			<SearchResults
+				autocomplete={autocomplete}
+				query={autocompleteState.query}
+				collection={autocompleteState.collections[0]}
+			/>
+		)}
+	</div>
+);
+
+const SearchDialogContent = ({
+	formRef,
+	inputRef,
+	panelRef,
+	autocomplete,
+	autocompleteState,
+	onClose,
+}: {
+	readonly formRef: React.RefObject<HTMLFormElement>;
+	readonly inputRef: React.RefObject<HTMLInputElement>;
+	readonly panelRef: React.RefObject<HTMLDivElement>;
+	readonly autocomplete: Autocomplete;
+	readonly autocompleteState: AutocompleteState<Result> | EmptyObject;
+	readonly onClose: () => void;
+}) => (
+	<div {...autocomplete.getRootProps({})}>
+		<form
+			ref={formRef}
+			{...autocomplete.getFormProps({ inputElement: inputRef.current })}
+		>
+			<SearchInput
+				ref={inputRef}
+				autocomplete={autocomplete}
+				autocompleteState={autocompleteState}
+				onClose={onClose}
+			/>
+			<SearchResultsPanel
+				panelRef={panelRef}
+				autocomplete={autocomplete}
+				autocompleteState={autocompleteState}
+			/>
+		</form>
+	</div>
+);
 
 function SearchDialog({
 	open,
@@ -362,18 +430,26 @@ function SearchDialog({
 
 		window.addEventListener("keydown", onKeyDown);
 
+		// skipcq: JS-0045
 		return () => {
 			window.removeEventListener("keydown", onKeyDown);
 		};
 	}, [open, setOpen]);
 
+	const handleDialogClose = useCallback(() => {
+		setOpen(false);
+		autocomplete.setQuery("");
+	}, [setOpen, autocomplete]);
+
+	const handleSearchClose = useCallback(() => {
+		setOpen(false);
+		autocomplete.setQuery("");
+	}, [setOpen, autocomplete]);
+
 	return (
 		<Dialog
 			open={open}
-			onClose={() => {
-				setOpen(false);
-				autocomplete.setQuery("");
-			}}
+			onClose={handleDialogClose}
 			className={clsx("fixed inset-0 z-50", className)}
 		>
 			<DialogBackdrop
@@ -386,34 +462,14 @@ function SearchDialog({
 					transition
 					className="mx-auto transform-gpu overflow-hidden rounded-lg bg-zinc-50 shadow-xl ring-1 ring-zinc-900/7.5 data-[closed]:scale-95 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in sm:max-w-xl dark:bg-zinc-900 dark:ring-zinc-800"
 				>
-					<div {...autocomplete.getRootProps({})}>
-						<form
-							ref={formRef}
-							{...autocomplete.getFormProps({
-								inputElement: inputRef.current,
-							})}
-						>
-							<SearchInput
-								ref={inputRef}
-								autocomplete={autocomplete}
-								autocompleteState={autocompleteState}
-								onClose={() => setOpen(false)}
-							/>
-							<div
-								ref={panelRef}
-								className="border-t border-zinc-200 bg-white empty:hidden dark:border-zinc-100/5 dark:bg-white/2.5"
-								{...autocomplete.getPanelProps({})}
-							>
-								{autocompleteState.isOpen && (
-									<SearchResults
-										autocomplete={autocomplete}
-										query={autocompleteState.query}
-										collection={autocompleteState.collections[0]}
-									/>
-								)}
-							</div>
-						</form>
-					</div>
+					<SearchDialogContent
+						formRef={formRef}
+						inputRef={inputRef}
+						panelRef={panelRef}
+						autocomplete={autocomplete}
+						autocompleteState={autocompleteState}
+						onClose={handleSearchClose}
+					/>
 				</DialogPanel>
 			</div>
 		</Dialog>
