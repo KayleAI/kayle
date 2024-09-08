@@ -42,7 +42,7 @@ export function ManageKey({
 					<Button
 						disabled={buttonsDisabled}
 						color={keyData?.enabled ? "amber" : "emerald"}
-						onClick={async () => {
+						onClick={() => {
 							toast.promise(
 								new Promise((resolve, reject) => {
 									setButtonsDisabled(true);
@@ -99,7 +99,7 @@ export function ManageKey({
 					<Button
 						disabled={buttonsDisabled}
 						color="red"
-						onClick={async () => {
+						onClick={() => {
 							toast.promise(
 								new Promise((resolve, reject) => {
 									setButtonsDisabled(true);

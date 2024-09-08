@@ -1,6 +1,6 @@
 "use client";
 
-import * as Headless from "@headlessui/react";
+import * as Headless from "@headlessui/react"; // skipcq: JS-C1003
 import clsx from "clsx";
 import { LayoutGroup, motion } from "framer-motion";
 import { type default as React, useId } from "react";
@@ -10,7 +10,7 @@ import { Link } from "./link";
 export function Navbar({
 	className,
 	...props
-}: React.ComponentPropsWithoutRef<"nav">) {
+}: Readonly<React.ComponentPropsWithoutRef<"nav">>) {
 	return (
 		<nav
 			{...props}
@@ -22,7 +22,7 @@ export function Navbar({
 export function NavbarDivider({
 	className,
 	...props
-}: React.ComponentPropsWithoutRef<"div">) {
+}: Readonly<React.ComponentPropsWithoutRef<"div">>) {
 	return (
 		<div
 			aria-hidden="true"
@@ -35,7 +35,7 @@ export function NavbarDivider({
 export function NavbarSection({
 	className,
 	...props
-}: React.ComponentPropsWithoutRef<"div">) {
+}: Readonly<React.ComponentPropsWithoutRef<"div">>) {
 	const id = useId();
 
 	return (
@@ -48,7 +48,7 @@ export function NavbarSection({
 export function NavbarSpacer({
 	className,
 	...props
-}: React.ComponentPropsWithoutRef<"div">) {
+}: Readonly<React.ComponentPropsWithoutRef<"div">>) {
 	return (
 		<div
 			aria-hidden="true"
@@ -64,14 +64,14 @@ export const NavbarItem = function NavbarItem({
 	className,
 	children,
 	...props
-}: {
+}: Readonly<{
 	ref?: React.Ref<HTMLButtonElement | HTMLAnchorElement>;
 	current?: boolean;
 	className?: string;
 	children: React.ReactNode;
-} & (
-	| Omit<Headless.ButtonProps, "as" | "className">
-	| Omit<React.ComponentPropsWithoutRef<typeof Link>, "className">
+}> & (
+	| Readonly<Omit<Headless.ButtonProps, "as" | "className">>
+	| Readonly<Omit<React.ComponentPropsWithoutRef<typeof Link>, "className">>
 )) {
 	const classes = clsx(
 		// Base

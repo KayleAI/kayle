@@ -12,9 +12,9 @@ function PageLink({
 	page,
 	previous = false,
 }: {
-	label: string;
-	page: { href: string; title: string };
-	previous?: boolean;
+	readonly label: string;
+	readonly page: { href: string; title: string };
+	readonly previous?: boolean;
 }) {
 	return (
 		<>

@@ -1,14 +1,15 @@
 import { slugifyWithCounter } from "@sindresorhus/slugify";
 import glob from "fast-glob";
-import * as fs from "node:fs";
 import { toString as toMdastString } from "mdast-util-to-string";
-import * as path from "node:path";
 import { remark } from "remark";
 import remarkMdx from "remark-mdx";
 import { createLoader } from "simple-functional-loader";
 import { filter } from "unist-util-filter";
 import { SKIP, visit } from "unist-util-visit";
-import * as url from "node:url";
+
+import * as path from "node:path"; // skipcq: JS-C1003
+import * as url from "node:url"; // skipcq: JS-C1003
+import * as fs from "node:fs"; // skipcq: JS-C1003
 
 const __filename = url.fileURLToPath(import.meta.url);
 const processor = remark().use(remarkMdx).use(extractSections);
@@ -40,6 +41,8 @@ function extractSections() {
 				}
 				return SKIP;
 			}
+
+			return undefined;
 		});
 	};
 }
@@ -56,9 +59,9 @@ export default function Search(nextConfig = {}) {
 						const appDir = path.resolve("./app/(docs)/docs");
 						this.addContextDependency(appDir);
 
-						const files = glob.sync("**/*.mdx", { cwd: appDir });
+						const files = glob.sync("**/*.mdx", { cwd: appDir }); // skipcq: JS-P1003
 						const data = files.map((file) => {
-							const url = `/docs/${file.replace(/(^|\/)page\.mdx$/, "")}`;
+							const doc_url = `/docs/${file.replace(/(^|\/)page\.mdx$/, "")}`;
 							const mdx = fs.readFileSync(path.join(appDir, file), "utf8");
 
 							let sections = [];
@@ -71,7 +74,7 @@ export default function Search(nextConfig = {}) {
 								cache.set(file, [mdx, sections]);
 							}
 
-							return { url, sections };
+							return { url: doc_url, sections };
 						});
 
 						// When this file is imported within the application

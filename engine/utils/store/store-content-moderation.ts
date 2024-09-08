@@ -9,7 +9,7 @@ import { storeModeration } from "@/utils/store/store-moderation";
 import { encrypt } from "@/utils/security/encrypt";
 
 // Types
-import type { ModerationResult, ModerationType } from "@/types/moderation";
+import type { ModerationResult, ModerationType } from "@repo/types/moderation";
 
 /**
  * Store a moderation result for a given content

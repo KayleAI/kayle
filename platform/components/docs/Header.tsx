@@ -8,18 +8,18 @@ import { Logo } from "@/components/docs/Logo";
 import {
 	MobileNavigation,
 	useIsInsideMobileNavigation,
+	useMobileNavigationStore,
 } from "@/components/docs/MobileNavigation";
-import { useMobileNavigationStore } from "@/components/docs/MobileNavigation";
 import { MobileSearch, Search } from "@/components/docs/Search";
-import { ThemeToggle } from "@/components/docs/ThemeToggle";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { useAuth } from "@/utils/auth/AuthProvider";
 
 function TopLevelNavItem({
 	href,
 	children,
 }: {
-	href: string;
-	children: React.ReactNode;
+	readonly href: string;
+	readonly children: React.ReactNode;
 }) {
 	return (
 		<li>
@@ -33,11 +33,37 @@ function TopLevelNavItem({
 	);
 }
 
+function HeaderContent() {
+	const { session } = useAuth();
+
+	return (
+		<div className="flex items-center gap-5">
+			<nav className="hidden md:block">
+				<ul className="flex items-center gap-8">
+					<TopLevelNavItem href="/docs">Documentation</TopLevelNavItem>
+					<TopLevelNavItem href="/help">Support</TopLevelNavItem>
+				</ul>
+			</nav>
+			<div className="hidden md:block md:h-5 md:w-px md:bg-zinc-900/10 md:dark:bg-white/15" />
+			<div className="flex gap-4">
+				<MobileSearch />
+				<ThemeToggle />
+			</div>
+			<div className="hidden min-[416px]:contents">
+				{session ? (
+					<Button href="/dashboard">Dashboard</Button>
+				) : (
+					<Button href="/sign-in">Sign in</Button>
+				)}
+			</div>
+		</div>
+	);
+}
+
 export const Header = forwardRef<
 	React.ElementRef<"div">,
 	React.ComponentPropsWithoutRef<typeof motion.div>
 >(function Header({ className, ...props }, ref) {
-	const { session } = useAuth();
 	const { isOpen: mobileNavIsOpen } = useMobileNavigationStore();
 	const isInsideMobileNavigation = useIsInsideMobileNavigation();
 
@@ -73,33 +99,14 @@ export const Header = forwardRef<
 						"backdrop-blur-md",
 				)}
 			/>
-			<Search />
 			<div className="flex items-center gap-5 lg:hidden">
 				<MobileNavigation />
 				<Link href="/" aria-label="Home">
 					<Logo className="h-6" />
 				</Link>
 			</div>
-			<div className="flex items-center gap-5">
-				<nav className="hidden md:block">
-					<ul className="flex items-center gap-8">
-						<TopLevelNavItem href="/docs">Documentation</TopLevelNavItem>
-						<TopLevelNavItem href="/help">Support</TopLevelNavItem>
-					</ul>
-				</nav>
-				<div className="hidden md:block md:h-5 md:w-px md:bg-zinc-900/10 md:dark:bg-white/15" />
-				<div className="flex gap-4">
-					<MobileSearch />
-					<ThemeToggle />
-				</div>
-				<div className="hidden min-[416px]:contents">
-					{session ? (
-						<Button href="/dashboard">Dashboard</Button>
-					) : (
-						<Button href="/sign-in">Sign in</Button>
-					)}
-				</div>
-			</div>
+			<Search />
+			<HeaderContent />
 		</motion.div>
 	);
 });

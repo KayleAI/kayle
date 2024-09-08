@@ -14,6 +14,7 @@ import { ChatBubbleIcon } from "@/components/docs/icons/ChatBubbleIcon";
 import { EnvelopeIcon } from "@/components/docs/icons/EnvelopeIcon";
 import { UserIcon } from "@/components/docs/icons/UserIcon";
 import { UsersIcon } from "@/components/docs/icons/UsersIcon";
+import { useCallback } from "react";
 
 interface Resource {
 	href: string;
@@ -82,7 +83,7 @@ const resources: Array<Resource> = [
 	},
 ];
 
-function ResourceIcon({ icon: Icon }: { icon: Resource["icon"] }) {
+function ResourceIcon({ icon: Icon }: { readonly icon: Resource["icon"] }) {
 	return (
 		<div className="flex h-7 w-7 items-center justify-center rounded-full bg-zinc-900/5 ring-1 ring-zinc-900/25 backdrop-blur-[2px] transition duration-300 group-hover:bg-white/50 group-hover:ring-zinc-900/25 dark:bg-white/7.5 dark:ring-white/15 dark:group-hover:bg-emerald-300/10 dark:group-hover:ring-emerald-400">
 			<Icon className="h-5 w-5 fill-zinc-700/10 stroke-zinc-700 transition-colors duration-300 group-hover:stroke-zinc-900 dark:fill-white/10 dark:stroke-zinc-400 dark:group-hover:fill-emerald-300/10 dark:group-hover:stroke-emerald-400" />
@@ -132,22 +133,22 @@ function ResourcePattern({
 	);
 }
 
-function Resource({ resource }: { resource: Resource }) {
+function Resource({ resource }: { readonly resource: Resource }) {
 	const mouseX = useMotionValue(0);
 	const mouseY = useMotionValue(0);
 
-	function onMouseMove({
-		currentTarget,
-		clientX,
-		clientY,
-	}: React.MouseEvent<HTMLDivElement>) {
-		const { left, top } = currentTarget.getBoundingClientRect();
-		mouseX.set(clientX - left);
-		mouseY.set(clientY - top);
-	}
+	const onMouseMove = useCallback(
+		({ currentTarget, clientX, clientY }: React.MouseEvent<HTMLDivElement>) => {
+			const { left, top } = currentTarget.getBoundingClientRect();
+			mouseX.set(clientX - left);
+			mouseY.set(clientY - top);
+		},
+		[mouseX, mouseY],
+	);
 
 	return (
-		<div
+		<div // NOSONAR
+			role="presentation"
 			key={resource.href}
 			onMouseMove={onMouseMove}
 			className="group relative flex rounded-2xl bg-zinc-50 transition-shadow hover:shadow-md hover:shadow-zinc-900/5 dark:bg-white/2.5 dark:hover:shadow-black/5"

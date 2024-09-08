@@ -7,6 +7,7 @@ import {
 	useLayoutEffect,
 	useState,
 } from "react";
+// skipcq: JS-W1029
 import { type StoreApi, createStore, useStore } from "zustand";
 
 import { remToPx } from "@/utils/remToPx";
@@ -35,6 +36,17 @@ interface SectionState {
 }
 
 function createSectionStore(sections: Array<Section>) {
+	function updateSection(
+		sections: Array<Section>,
+		id: string,
+		ref: React.RefObject<HTMLHeadingElement>,
+		offsetRem: number,
+	) {
+		return sections.map((section) =>
+			section.id === id ? { ...section, headingRef: ref, offsetRem } : section,
+		);
+	}
+
 	return createStore<SectionState>()((set) => ({
 		sections,
 		visibleSections: [],
@@ -45,74 +57,64 @@ function createSectionStore(sections: Array<Section>) {
 					: { visibleSections },
 			),
 		registerHeading: ({ id, ref, offsetRem }) =>
-			set((state) => {
-				return {
-					sections: state.sections.map((section) => {
-						if (section.id === id) {
-							return {
-								...section,
-								headingRef: ref,
-								offsetRem,
-							};
-						}
-						return section;
-					}),
-				};
-			}),
+			set((state) => ({
+				sections: updateSection(state.sections, id, ref, offsetRem),
+			})),
 	}));
 }
 
 function useVisibleSections(sectionStore: StoreApi<SectionState>) {
+	// skipcq: JS-W1029
 	const setVisibleSections = useStore(
 		sectionStore,
 		(s) => s.setVisibleSections,
 	);
+	// skipcq: JS-W1029
 	const sections = useStore(sectionStore, (s) => s.sections);
 
 	useEffect(() => {
+		function isVisible(
+			top: number,
+			bottom: number,
+			scrollY: number,
+			innerHeight: number,
+		) {
+			return (
+				(top > scrollY && top < scrollY + innerHeight) ||
+				(bottom > scrollY && bottom < scrollY + innerHeight) ||
+				(top <= scrollY && bottom >= scrollY + innerHeight)
+			);
+		}
+
 		function checkVisibleSections() {
 			const { innerHeight, scrollY } = window;
-			const newVisibleSections = [];
+			const newVisibleSections: string[] = [];
 
-			for (
-				let sectionIndex = 0;
-				sectionIndex < sections.length;
-				sectionIndex++
-			) {
-				const section = sections[sectionIndex];
-
-				if (!section) {
-					continue;
-				}
+			sections.forEach((section, index) => {
+				if (!section?.headingRef?.current) return;
 
 				const { id, headingRef, offsetRem = 0 } = section;
 
-				if (!headingRef?.current) {
-					continue;
-				}
+				if (!headingRef.current) return;
 
 				const offset = remToPx(offsetRem);
 				const top = headingRef.current.getBoundingClientRect().top + scrollY;
 
-				if (sectionIndex === 0 && top - offset > scrollY) {
+				if (index === 0 && top - offset > scrollY) {
 					newVisibleSections.push("_top");
 				}
 
-				const nextSection = sections[sectionIndex + 1];
+				const nextSection = sections[index + 1];
 				const bottom =
 					(nextSection?.headingRef?.current?.getBoundingClientRect().top ??
 						Number.NEGATIVE_INFINITY) +
 					scrollY -
 					remToPx(nextSection?.offsetRem ?? 0);
 
-				if (
-					(top > scrollY && top < scrollY + innerHeight) ||
-					(bottom > scrollY && bottom < scrollY + innerHeight) ||
-					(top <= scrollY && bottom >= scrollY + innerHeight)
-				) {
+				if (isVisible(top, bottom, scrollY, innerHeight)) {
 					newVisibleSections.push(id);
 				}
-			}
+			});
 
 			setVisibleSections(newVisibleSections);
 		}
@@ -138,8 +140,8 @@ export function SectionProvider({
 	sections,
 	children,
 }: {
-	sections: Array<Section>;
-	children: React.ReactNode;
+	readonly sections: Array<Section>;
+	readonly children: React.ReactNode;
 }) {
 	const [sectionStore] = useState(() => createSectionStore(sections));
 
@@ -158,5 +160,6 @@ export function SectionProvider({
 
 export function useSectionStore<T>(selector: (state: SectionState) => T) {
 	const store = useContext(SectionStoreContext);
-	return useStore(store!, selector);
+
+	return useStore(store!, selector); // skipcq: JS-0339, JS-W1029
 }
