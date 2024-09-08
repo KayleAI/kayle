@@ -7,6 +7,7 @@ import {
 	useLayoutEffect,
 	useState,
 } from "react";
+// skipcq: JS-W1029
 import { type StoreApi, createStore, useStore } from "zustand";
 
 import { remToPx } from "@/utils/remToPx";
@@ -63,10 +64,12 @@ function createSectionStore(sections: Array<Section>) {
 }
 
 function useVisibleSections(sectionStore: StoreApi<SectionState>) {
+	// skipcq: JS-W1029
 	const setVisibleSections = useStore(
 		sectionStore,
 		(s) => s.setVisibleSections,
 	);
+	// skipcq: JS-W1029
 	const sections = useStore(sectionStore, (s) => s.sections);
 
 	useEffect(() => {
@@ -138,8 +141,8 @@ export function SectionProvider({
 	sections,
 	children,
 }: {
-	sections: Array<Section>;
-	children: React.ReactNode;
+	readonly sections: Array<Section>;
+	readonly children: React.ReactNode;
 }) {
 	const [sectionStore] = useState(() => createSectionStore(sections));
 
@@ -159,9 +162,5 @@ export function SectionProvider({
 export function useSectionStore<T>(selector: (state: SectionState) => T) {
 	const store = useContext(SectionStoreContext);
 
-	if (!store) {
-		return null;
-	}
-
-	return useStore(store, selector);
+	return useStore(store!, selector); // skipcq: JS-0339, JS-W1029
 }
