@@ -4,6 +4,7 @@
   "scripts": {
     "dev": "wrangler dev",
     "studio": "drizzle-kit studio",
+    "introspect": "drizzle-kit introspect",
     "deploy": "wrangler deploy --minify",
 		"serve": "ts-node ./app/server.ts",
     "cf-typegen": "wrangler types --env-interface CloudflareBindings"
