@@ -161,8 +161,8 @@ function HighlightQuery({ text, query }: { text: string; query: string }) {
 		<Highlighter
 			highlightClassName="underline bg-transparent text-emerald-500"
 			searchWords={[query]}
-			autoEscape={true}
 			textToHighlight={text}
+			autoEscape
 		/>
 	);
 }

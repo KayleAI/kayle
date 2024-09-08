@@ -329,7 +329,7 @@ export function CodeGroup({
 	const panels = <CodeGroupPanels {...props}>{children}</CodeGroupPanels>;
 
 	return (
-		<CodeGroupContext.Provider value={true}>
+		<CodeGroupContext.Provider value>
 			{hasTabs ? (
 				<TabGroup {...tabGroupProps} className={containerClassName}>
 					<div className="not-prose">

@@ -129,7 +129,7 @@ export function MobileNavigation() {
 	const ToggleIcon = isOpen ? XIcon : MenuIcon;
 
 	return (
-		<IsInsideMobileNavigationContext.Provider value={true}>
+		<IsInsideMobileNavigationContext.Provider value>
 			<button
 				type="button"
 				className="flex h-6 w-6 items-center justify-center rounded-md transition hover:bg-zinc-900/5 dark:hover:bg-white/5"
