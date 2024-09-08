@@ -13,9 +13,9 @@ export function ArticleLayout({
 	children: React.ReactNode;
 }) {
 	return (
-		<main className="mx-auto w-full max-w-4xl lg:px-8 py-16 lg:py-32">
+		<main className="mx-auto w-full max-w-4xl px-4 lg:px-8 py-16 lg:py-32">
 			<article>
-				<header className="flex flex-col">
+				<header className="flex flex-col mt-8 lg:mt-0">
 					<h1 className="mt-6 text-4xl font-bold tracking-tight text-zinc-800 sm:text-5xl dark:text-zinc-100">
 						{article.title}
 					</h1>
