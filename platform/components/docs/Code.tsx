@@ -75,7 +75,7 @@ function CopyButton({ code }: { code: string }) {
 		window.navigator.clipboard.writeText(code).then(() => {
 			setCopyCount((count) => count + 1);
 		});
-	}
+	};
 
 	return (
 		<button

@@ -39,7 +39,7 @@ export function AuthVerifyEmailPanel() {
 		setTimeout(() => {
 			setStatus("idle");
 		}, 60000);
-	}
+	};
 
 	return (
 		<div className="max-w-md mx-auto border border-zinc-950/10 dark:border-white/10 px-4 py-6 rounded-lg w-full">

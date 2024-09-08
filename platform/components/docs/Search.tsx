@@ -300,7 +300,7 @@ const SearchInput = forwardRef<
 		} else {
 			inputProps.onKeyDown(event);
 		}
-	}
+	};
 
 	return (
 		<div className="group relative flex h-12">
@@ -352,9 +352,11 @@ function SearchDialog({
 	const handleDialogClose = () => {
 		setOpen(false);
 		autocomplete.setQuery("");
-	}
+	};
 
-	const handleInputClose = () => {() => setOpen(false)}
+	const handleInputClose = () => {
+		() => setOpen(false);
+	};
 
 	useEffect(() => {
 		if (open) {

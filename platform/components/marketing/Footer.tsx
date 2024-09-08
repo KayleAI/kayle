@@ -115,7 +115,8 @@ export function Footer({
 		});
 	};
 
-	const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)
+	const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) =>
+		setEmail(e.target.value);
 
 	const handleClick = async () =>
 		toast.promise(
@@ -146,7 +147,7 @@ export function Footer({
 				success: "You’re all set! 🎉",
 				error: "Something went wrong. Please try again.",
 			},
-		)
+		);
 
 	useEffect(() => {
 		getKayleStatus().then((status) => setKayleStatus(status));

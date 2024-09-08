@@ -24,7 +24,8 @@ export default function Contact() {
 		"idle" | "loading" | "success" | "error" | "email-error"
 	>("idle");
 	const [message, setMessage] = useState("");
-	const handleMessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => setMessage(e.target.value)
+	const handleMessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
+		setMessage(e.target.value);
 
 	const formSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -52,7 +53,7 @@ export default function Contact() {
 				error: (error) => `${error.message}`.replace("Error: ", ""),
 			},
 		);
-	}
+	};
 
 	return (
 		<div>
@@ -64,11 +65,7 @@ export default function Contact() {
 					</Button>
 				</div>
 			</div>
-			<form
-				className="my-8"
-				ref={formRef}
-				onSubmit={formSubmit}
-			>
+			<form className="my-8" ref={formRef} onSubmit={formSubmit}>
 				<Fieldset>
 					<Legend>Contact Us</Legend>
 					<Text>
