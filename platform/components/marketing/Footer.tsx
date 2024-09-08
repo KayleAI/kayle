@@ -144,7 +144,7 @@ export function Footer({
 				success: "You’re all set! 🎉",
 				error: "Something went wrong. Please try again.",
 			},
-		)
+		);
 
 	useEffect(() => {
 		getKayleStatus().then((status) => setKayleStatus(status));
