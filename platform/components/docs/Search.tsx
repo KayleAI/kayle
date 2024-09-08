@@ -23,6 +23,7 @@ import { Dialog, DialogPanel, DialogBackdrop } from "@headlessui/react";
 import clsx from "clsx";
 
 import { navigation } from "@/components/docs/Navigation";
+import { getCommandKey } from "@/utils/get-command-key";
 
 export interface Result extends BaseItem {
 	url: string;
@@ -87,9 +88,11 @@ function useAutocomplete({ close }: { close: () => void }) {
 						{
 							sourceId: "documentation",
 							getItems() {
+								// NOSONAR
 								return search(query, { limit: 5 });
 							},
 							getItemUrl({ item }) {
+								// NOSONAR
 								return item.url;
 							},
 							onSelect: navigate,
@@ -103,7 +106,7 @@ function useAutocomplete({ close }: { close: () => void }) {
 	return { autocomplete, autocompleteState };
 }
 
-function SearchIcon(props: React.ComponentPropsWithoutRef<"svg">) {
+function SearchIcon(props: Readonly<React.ComponentPropsWithoutRef<"svg">>) {
 	return (
 		<svg viewBox="0 0 20 20" fill="none" aria-hidden="true" {...props}>
 			<path
@@ -115,7 +118,7 @@ function SearchIcon(props: React.ComponentPropsWithoutRef<"svg">) {
 	);
 }
 
-function NoResultsIcon(props: React.ComponentPropsWithoutRef<"svg">) {
+function NoResultsIcon(props: Readonly<React.ComponentPropsWithoutRef<"svg">>) {
 	return (
 		<svg viewBox="0 0 20 20" fill="none" aria-hidden="true" {...props}>
 			<path
@@ -127,7 +130,7 @@ function NoResultsIcon(props: React.ComponentPropsWithoutRef<"svg">) {
 	);
 }
 
-function LoadingIcon(props: React.ComponentPropsWithoutRef<"svg">) {
+function LoadingIcon(props: Readonly<React.ComponentPropsWithoutRef<"svg">>) {
 	const id = useId();
 
 	return (
@@ -156,7 +159,10 @@ function LoadingIcon(props: React.ComponentPropsWithoutRef<"svg">) {
 	);
 }
 
-function HighlightQuery({ text, query }: { text: string; query: string }) {
+function HighlightQuery({
+	text,
+	query,
+}: { readonly text: string; readonly query: string }) {
 	return (
 		<Highlighter
 			highlightClassName="underline bg-transparent text-emerald-500"
@@ -174,11 +180,11 @@ function SearchResult({
 	collection,
 	query,
 }: {
-	result: Result;
-	resultIndex: number;
-	autocomplete: Autocomplete;
-	collection: AutocompleteCollection<Result>;
-	query: string;
+	readonly result: Result;
+	readonly resultIndex: number;
+	readonly autocomplete: Autocomplete;
+	readonly collection: AutocompleteCollection<Result>;
+	readonly query: string;
 }) {
 	const id = useId();
 
@@ -234,25 +240,29 @@ function SearchResult({
 	);
 }
 
+function Quote({ children }: { readonly children: React.ReactNode }) {
+	return (
+		<strong className="break-words font-semibold text-zinc-900 dark:text-white">
+			“{children}”
+		</strong>
+	);
+}
+
 function SearchResults({
 	autocomplete,
 	query,
 	collection,
 }: {
-	autocomplete: Autocomplete;
-	query: string;
-	collection?: AutocompleteCollection<Result>;
+	readonly autocomplete: Autocomplete;
+	readonly query: string;
+	readonly collection?: AutocompleteCollection<Result>;
 }) {
 	if (!collection || collection.items.length === 0) {
 		return (
 			<div className="p-6 text-center">
 				<NoResultsIcon className="mx-auto h-5 w-5 stroke-zinc-900 dark:stroke-zinc-600" />
 				<p className="mt-2 text-xs text-zinc-700 dark:text-zinc-400">
-					Nothing found for{" "}
-					<strong className="break-words font-semibold text-zinc-900 dark:text-white">
-						&lsquo;{query}&rsquo;
-					</strong>
-					. Please try again.
+					Nothing found for <Quote>{query}</Quote>. Please try again.
 				</p>
 			</div>
 		);
@@ -396,9 +406,9 @@ function SearchDialog({
 	setOpen,
 	className,
 }: {
-	open: boolean;
-	setOpen: (open: boolean) => void;
-	className?: string;
+	readonly open: boolean;
+	readonly setOpen: (open: boolean) => void;
+	readonly className?: string;
 }) {
 	const formRef = useRef<React.ElementRef<"form">>(null);
 	const panelRef = useRef<React.ElementRef<"div">>(null);
@@ -504,11 +514,11 @@ export function Search() {
 	const [modifierKey, setModifierKey] = useState<string>();
 	const { buttonProps, dialogProps } = useSearchProps();
 
+	const { key } = getCommandKey();
+
 	useEffect(() => {
-		setModifierKey(
-			/(Mac|iPhone|iPod|iPad)/i.test(navigator.platform) ? "⌘" : "Ctrl ",
-		);
-	}, []);
+		setModifierKey(key);
+	}, [key]);
 
 	return (
 		<div className="hidden lg:block lg:max-w-md lg:flex-auto">
