@@ -284,6 +284,23 @@ const SearchInput = forwardRef<
 	}
 >(function SearchInput({ autocomplete, autocompleteState, onClose }, inputRef) {
 	const inputProps = autocomplete.getInputProps({ inputElement: null });
+	const handleSearchEscape = (event: React.KeyboardEvent<HTMLInputElement>) => {
+		if (
+			event.key === "Escape" &&
+			!autocompleteState.isOpen &&
+			autocompleteState.query === ""
+		) {
+			// In Safari, closing the dialog with the escape key can sometimes cause the scroll position to jump to the
+			// bottom of the page. This is a workaround for that until we can figure out a proper fix in Headless UI.
+			if (document.activeElement instanceof HTMLElement) {
+				document.activeElement.blur();
+			}
+
+			onClose();
+		} else {
+			inputProps.onKeyDown(event);
+		}
+	}
 
 	return (
 		<div className="group relative flex h-12">
@@ -296,23 +313,7 @@ const SearchInput = forwardRef<
 					autocompleteState.status === "stalled" ? "pr-11" : "pr-4",
 				)}
 				{...inputProps}
-				onKeyDown={(event) => {
-					if (
-						event.key === "Escape" &&
-						!autocompleteState.isOpen &&
-						autocompleteState.query === ""
-					) {
-						// In Safari, closing the dialog with the escape key can sometimes cause the scroll position to jump to the
-						// bottom of the page. This is a workaround for that until we can figure out a proper fix in Headless UI.
-						if (document.activeElement instanceof HTMLElement) {
-							document.activeElement.blur();
-						}
-
-						onClose();
-					} else {
-						inputProps.onKeyDown(event);
-					}
-				}}
+				onKeyDown={handleSearchEscape}
 			/>
 			{autocompleteState.status === "stalled" && (
 				<div className="absolute inset-y-0 right-3 flex items-center">
@@ -348,6 +349,13 @@ function SearchDialog({
 		setOpen(false);
 	}, [pathname, searchParams, setOpen]);
 
+	const handleDialogClose = () => {
+		setOpen(false);
+		autocomplete.setQuery("");
+	}
+
+	const handleInputClose = () => {() => setOpen(false)}
+
 	useEffect(() => {
 		if (open) {
 			return;
@@ -370,10 +378,7 @@ function SearchDialog({
 	return (
 		<Dialog
 			open={open}
-			onClose={() => {
-				setOpen(false);
-				autocomplete.setQuery("");
-			}}
+			onClose={handleDialogClose}
 			className={clsx("fixed inset-0 z-50", className)}
 		>
 			<DialogBackdrop
@@ -397,7 +402,7 @@ function SearchDialog({
 								ref={inputRef}
 								autocomplete={autocomplete}
 								autocompleteState={autocompleteState}
-								onClose={() => setOpen(false)}
+								onClose={handleInputClose}
 							/>
 							<div
 								ref={panelRef}
@@ -450,7 +455,7 @@ export function Search() {
 
 	useEffect(() => {
 		setModifierKey(
-			/(Mac|iPhone|iPod|iPad)/i.test(navigator.platform) ? "⌘" : "Ctrl ",
+			/(Mac|iPhone|iPod|iPad)/i.test(window.navigator.platform) ? "⌘" : "Ctrl ", // added window. to resolve deprecation warning
 		);
 	}, []);
 

@@ -24,6 +24,35 @@ export default function Contact() {
 		"idle" | "loading" | "success" | "error" | "email-error"
 	>("idle");
 	const [message, setMessage] = useState("");
+	const handleMessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => setMessage(e.target.value)
+
+	const formSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+
+		toast.promise(
+			new Promise((resolve, reject) => {
+				setSubmissionState("loading");
+				setTimeout(async () => {
+					const { success, error } = await captureContactForm({
+						message: message,
+					});
+
+					if (error && !success) {
+						setSubmissionState("error");
+						return reject(new Error(error));
+					}
+
+					setSubmissionState("success");
+					return resolve(true);
+				}, 500);
+			}),
+			{
+				loading: "Sending message...",
+				success: "Thanks for reaching out! We’ll get back to you soon.",
+				error: (error) => `${error.message}`.replace("Error: ", ""),
+			},
+		);
+	}
 
 	return (
 		<div>
@@ -38,33 +67,7 @@ export default function Contact() {
 			<form
 				className="my-8"
 				ref={formRef}
-				onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
-					e.preventDefault();
-
-					toast.promise(
-						new Promise((resolve, reject) => {
-							setSubmissionState("loading");
-							setTimeout(async () => {
-								const { success, error } = await captureContactForm({
-									message: message,
-								});
-
-								if (error && !success) {
-									setSubmissionState("error");
-									return reject(new Error(error));
-								}
-
-								setSubmissionState("success");
-								return resolve(true);
-							}, 500);
-						}),
-						{
-							loading: "Sending message...",
-							success: "Thanks for reaching out! We’ll get back to you soon.",
-							error: (error) => `${error.message}`.replace("Error: ", ""),
-						},
-					);
-				}}
+				onSubmit={formSubmit}
 			>
 				<Fieldset>
 					<Legend>Contact Us</Legend>
@@ -79,7 +82,7 @@ export default function Contact() {
 								required
 								name="message"
 								value={message}
-								onChange={(e) => setMessage(e.target.value)}
+								onChange={handleMessageChange}
 								disabled={submissionState === "loading"}
 							/>
 							<Description>

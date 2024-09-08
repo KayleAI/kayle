@@ -115,6 +115,8 @@ export function Footer({
 		});
 	};
 
+	const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)
+
 	const handleClick = async () =>
 		toast.promise(
 			new Promise((resolve, reject) => {
@@ -144,7 +146,7 @@ export function Footer({
 				success: "You’re all set! 🎉",
 				error: "Something went wrong. Please try again.",
 			},
-		);
+		)
 
 	useEffect(() => {
 		getKayleStatus().then((status) => setKayleStatus(status));
@@ -284,7 +286,7 @@ export function Footer({
 							id="email-address"
 							invalid={submissionState === "email-error"}
 							value={email}
-							onChange={(e) => setEmail(e.target.value)}
+							onChange={handleEmail}
 							autoComplete="email"
 							required
 							className="w-full"

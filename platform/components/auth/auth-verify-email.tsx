@@ -18,6 +18,28 @@ export function AuthVerifyEmailPanel() {
 	const [status, setStatus] = useState<
 		"pending" | "success" | "idle" | "error"
 	>("idle");
+	const handleSubmit = async () => {
+		setStatus("pending");
+
+		const { error } = await supabase.auth.resend({
+			type: "signup",
+			email: email,
+		});
+
+		if (error) {
+			setStatus("error");
+			toast.error(
+				`An error occurred while resending the email: ${error.message}`,
+			);
+		} else {
+			setStatus("success");
+			toast.success("Email sent successfully");
+		}
+
+		setTimeout(() => {
+			setStatus("idle");
+		}, 60000);
+	}
 
 	return (
 		<div className="max-w-md mx-auto border border-zinc-950/10 dark:border-white/10 px-4 py-6 rounded-lg w-full">
@@ -34,28 +56,7 @@ export function AuthVerifyEmailPanel() {
 							className="w-full"
 							color="dark/white"
 							disabled={status === "pending" || status === "success"}
-							onClick={async () => {
-								setStatus("pending");
-
-								const { error } = await supabase.auth.resend({
-									type: "signup",
-									email: email,
-								});
-
-								if (error) {
-									setStatus("error");
-									toast.error(
-										`An error occurred while resending the email: ${error.message}`,
-									);
-								} else {
-									setStatus("success");
-									toast.success("Email sent successfully");
-								}
-
-								setTimeout(() => {
-									setStatus("idle");
-								}, 60000);
-							}}
+							onClick={handleSubmit}
 						>
 							{(status === "pending" || status === "success") && (
 								<LoaderIcon className="size-5 animate-spin" />
