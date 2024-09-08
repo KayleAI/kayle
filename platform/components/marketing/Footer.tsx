@@ -263,7 +263,7 @@ export function Footer({
 							<Button
 								className="w-full sm:w-auto !cursor-pointer"
 								color="emerald"
-								onClick={async () =>
+								onClick={() =>
 									toast.promise(
 										new Promise((resolve, reject) => {
 											setSubmissionState("loading");
