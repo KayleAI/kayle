@@ -88,8 +88,7 @@ function ArticleHeader({
 export const article = function Article({
 	id,
 	date,
-	children,
-	...props
+	children
 }: {
 	id: string;
 	date: string | Date;

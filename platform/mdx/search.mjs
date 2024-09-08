@@ -58,7 +58,7 @@ export default function Search(nextConfig = {}) {
 
 						const files = glob.sync("**/*.mdx", { cwd: appDir });
 						const data = files.map((file) => {
-							const path = `/docs/${file.replace(/(^|\/)page\.mdx$/, "")}`;
+							const doc_url = `/docs/${file.replace(/(^|\/)page\.mdx$/, "")}`;
 							const mdx = fs.readFileSync(path.join(appDir, file), "utf8");
 
 							let sections = [];
@@ -71,7 +71,7 @@ export default function Search(nextConfig = {}) {
 								cache.set(file, [mdx, sections]);
 							}
 
-							return { url: path, sections };
+							return { url: doc_url, sections };
 						});
 
 						// When this file is imported within the application

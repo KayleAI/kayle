@@ -1,7 +1,5 @@
 "use client";
 
-import Image from "next/image";
-
 import { Button } from "@/components/docs/Button";
 import { Heading } from "@/components/docs/Heading";
 import logoGo from "@/images/logos/go.svg";
