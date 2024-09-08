@@ -2,7 +2,7 @@
 import { moderations } from "@/db/drizzle/schema";
 
 // Types
-import type { ModerationResult } from "@/types/moderation";
+import type { ModerationResult } from "@repo/types/moderation";
 import type { NodePgDatabase } from "drizzle-orm/node-postgres";
 
 /**

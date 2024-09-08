@@ -9,7 +9,7 @@ import { Tag } from "@/components/docs/Tag";
 import { remToPx } from "@/utils/remToPx";
 import { usePathname } from "next/navigation";
 
-function AnchorIcon(props: React.ComponentPropsWithoutRef<"svg">) {
+function AnchorIcon(props: Readonly<React.ComponentPropsWithoutRef<"svg">>) {
 	return (
 		<svg
 			viewBox="0 0 20 20"
@@ -23,7 +23,10 @@ function AnchorIcon(props: React.ComponentPropsWithoutRef<"svg">) {
 	);
 }
 
-function Eyebrow({ tag, label }: { tag?: string; label?: string }) {
+function Eyebrow({
+	tag,
+	label,
+}: { readonly tag?: string; readonly label?: string }) {
 	if (!tag && !label) {
 		return null;
 	}
@@ -46,9 +49,9 @@ function Anchor({
 	inView,
 	children,
 }: {
-	id: string;
-	inView: boolean;
-	children: React.ReactNode;
+	readonly id: string;
+	readonly inView: boolean;
+	readonly children: React.ReactNode;
 }) {
 	if (!id) {
 		return children;
@@ -78,12 +81,12 @@ export function Heading<Level extends 2 | 3>({
 	level,
 	anchor = true,
 	...props
-}: React.ComponentPropsWithoutRef<`h${Level}`> & {
-	id: string;
-	tag?: string;
-	label?: string;
-	level?: Level;
-	anchor?: boolean;
+}: Readonly<React.ComponentPropsWithoutRef<`h${Level}`>> & {
+	readonly id: string;
+	readonly tag?: string;
+	readonly label?: string;
+	readonly level?: Level;
+	readonly anchor?: boolean;
 }) {
 	level = level ?? (2 as Level);
 	const pathname = usePathname();

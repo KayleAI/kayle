@@ -7,7 +7,7 @@ import type { Twitter } from "next/dist/lib/metadata/types/twitter-types";
 const url = new URL(`https://${process.env.VERCEL_PROJECT_PRODUCTION_URL!}`);
 
 const site = {
-	title: "Kayle API Reference",
+	title: "Kayle Docs",
 	description:
 		"Learn about the Kayle API and how to use it to integrate content moderation into your platform.",
 	url: url ?? new URL("https://kayle.ai"),
@@ -21,7 +21,7 @@ export const rootOpenGraph: OpenGraph = {
 	siteName: site.name,
 	title: {
 		default: site.title,
-		template: "%s - Kayle",
+		template: "%s - Kayle Docs",
 	},
 	description: site.description,
 };
@@ -29,7 +29,7 @@ export const rootOpenGraph: OpenGraph = {
 export const rootTwitter: Twitter = {
 	title: {
 		default: site.title,
-		template: "%s - Kayle",
+		template: "%s - Kayle Docs",
 	},
 	description: site.description,
 	card: "summary_large_image",
@@ -41,7 +41,7 @@ export const rootMetadata: Metadata = {
 	metadataBase: site.url,
 	title: {
 		default: site.title,
-		template: "%s - Kayle",
+		template: "%s - Kayle Docs",
 	},
 	description: site.description,
 	applicationName: site.name,
@@ -66,7 +66,7 @@ export function GenerateSEO({
 } = {}): Metadata {
 	const metadata = {
 		...rootMetadata,
-		title: `${title} - Kayle`,
+		title: `${title} - Kayle Docs`,
 		description,
 		alternates: {
 			canonical: url,
@@ -94,12 +94,19 @@ export function GenerateSEO({
 		type: "image/png",
 	};
 
-	metadata.openGraph!.images = image ? [image] : [screenshot];
-	metadata.twitter!.images = image ? [image] : [screenshot];
+	if (metadata?.openGraph) {
+		metadata.openGraph.images = image ? [image] : [screenshot];
+	}
+
+	if (metadata?.twitter) {
+		metadata.twitter.images = image ? [image] : [screenshot];
+	}
 
 	if (siteName) {
 		metadata.applicationName = siteName;
-		metadata.openGraph!.siteName = siteName;
+		if (metadata?.openGraph) {
+			metadata.openGraph.siteName = siteName;
+		}
 	}
 
 	return metadata;

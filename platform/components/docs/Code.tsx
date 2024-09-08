@@ -4,6 +4,7 @@ import {
 	Children,
 	createContext,
 	isValidElement,
+	useCallback,
 	useContext,
 	useEffect,
 	useRef,
@@ -42,7 +43,7 @@ function getPanelTitle({
 	return "Code";
 }
 
-function ClipboardIcon(props: React.ComponentPropsWithoutRef<"svg">) {
+function ClipboardIcon(props: Readonly<React.ComponentPropsWithoutRef<"svg">>) {
 	return (
 		<svg viewBox="0 0 20 20" aria-hidden="true" {...props}>
 			<path
@@ -58,7 +59,7 @@ function ClipboardIcon(props: React.ComponentPropsWithoutRef<"svg">) {
 	);
 }
 
-function CopyButton({ code }: { code: string }) {
+function CopyButton({ code }: { readonly code: string }) {
 	const [copyCount, setCopyCount] = useState(0);
 	const copied = copyCount > 0;
 
@@ -71,6 +72,12 @@ function CopyButton({ code }: { code: string }) {
 		}
 	}, [copyCount]);
 
+	const handleCopy = useCallback(() => {
+		window.navigator.clipboard.writeText(code).then(() => {
+			setCopyCount((count) => count + 1);
+		});
+	}, [code]);
+
 	return (
 		<button
 			type="button"
@@ -80,11 +87,7 @@ function CopyButton({ code }: { code: string }) {
 					? "bg-emerald-400/10 ring-1 ring-inset ring-emerald-400/20"
 					: "bg-white/5 hover:bg-white/7.5 dark:bg-white/2.5 dark:hover:bg-white/5",
 			)}
-			onClick={() => {
-				window.navigator.clipboard.writeText(code).then(() => {
-					setCopyCount((count) => count + 1);
-				});
-			}}
+			onClick={handleCopy}
 		>
 			<span
 				aria-hidden={copied}
@@ -109,7 +112,13 @@ function CopyButton({ code }: { code: string }) {
 	);
 }
 
-function CodePanelHeader({ tag, label }: { tag?: string; label?: string }) {
+function CodePanelHeader({
+	tag,
+	label,
+}: {
+	readonly tag?: string;
+	readonly label?: string;
+}) {
 	if (!tag && !label) {
 		return null;
 	}
@@ -137,10 +146,10 @@ function CodePanel({
 	label,
 	code,
 }: {
-	children: React.ReactNode;
-	tag?: string;
-	label?: string;
-	code?: string;
+	readonly children: React.ReactNode;
+	readonly tag?: string;
+	readonly label?: string;
+	readonly code?: string;
 }) {
 	const child = Children.only(children);
 
@@ -172,9 +181,9 @@ function CodeGroupHeader({
 	children,
 	selectedIndex,
 }: {
-	title: string;
-	children: React.ReactNode;
-	selectedIndex: number;
+	readonly title: string;
+	readonly children: React.ReactNode;
+	readonly selectedIndex: number;
 }) {
 	const hasTabs = Children.count(children) > 1;
 
@@ -352,7 +361,7 @@ export function CodeGroup({
 export function Code({
 	children,
 	...props
-}: React.ComponentPropsWithoutRef<"code">) {
+}: Readonly<React.ComponentPropsWithoutRef<"code">>) {
 	const isGrouped = useContext(CodeGroupContext);
 
 	if (isGrouped) {

@@ -78,9 +78,9 @@ function SocialLink({
 	icon: Icon,
 	children,
 }: {
-	href: string;
-	icon: React.ComponentType<{ className?: string }>;
-	children: React.ReactNode;
+	readonly href: string;
+	readonly icon: React.ComponentType<{ className?: string }>;
+	readonly children: React.ReactNode;
 }) {
 	return (
 		<Link href={href} className="group">
@@ -93,7 +93,7 @@ function SocialLink({
 export function Footer({
 	className = "",
 }: {
-	className?: string;
+	readonly className?: string;
 }) {
 	const [kayleStatus, setKayleStatus] = useState<
 		"okay" | "degraded" | "down" | "pending"
@@ -175,7 +175,7 @@ export function Footer({
 function FooterNavigation({
 	kayleStatus,
 }: {
-	kayleStatus: "okay" | "degraded" | "down" | "pending";
+	readonly kayleStatus: "okay" | "degraded" | "down" | "pending";
 }) {
 	return (
 		<div className="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">

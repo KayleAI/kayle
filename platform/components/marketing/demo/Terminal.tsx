@@ -9,7 +9,10 @@ import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
 
 // Utils
 import clsx from "clsx";
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
+
+// Types
+import type { ModerationType } from "@repo/types/moderation";
 
 const options = [
 	{
@@ -79,7 +82,7 @@ export function DemoTerminal() {
 							className="rounded-xl bg-black/5 dark:bg-white/5 p-3"
 						>
 							<ModerateDemo
-								type={id as "text" | "audio" | "image"}
+								type={id as ModerationType}
 								placeholder={placeholder}
 							/>
 						</TabPanel>
@@ -121,7 +124,7 @@ export function ModerateDemo({
 	type,
 	placeholder,
 }: {
-	readonly type: "text" | "audio" | "image";
+	readonly type: ModerationType;
 	readonly placeholder: string;
 }) {
 	// State Management
@@ -130,13 +133,16 @@ export function ModerateDemo({
 	>("idle");
 	const [input, setInput] = useState<string | File>("");
 
-	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		if (type === "text") {
-			setInput(e.target.value);
-		} else if (e?.target?.files?.[0]) {
-			setInput(e.target.files[0]);
-		}
-	};
+	const handleInputChange = useCallback(
+		(e: React.ChangeEvent<HTMLInputElement>) => {
+			if (type === "text") {
+				setInput(e.target.value);
+			} else if (e?.target?.files?.[0]) {
+				setInput(e.target.files[0]);
+			}
+		},
+		[type],
+	);
 
 	const [lastModerationTime, setLastModerationTime] = useState<number | null>(
 		null,
@@ -146,7 +152,7 @@ export function ModerateDemo({
 		violations: string[];
 	} | null>(null);
 
-	const handleSubmit = async () => {
+	const handleSubmit = useCallback(async () => {
 		if (status !== "idle") return;
 
 		if (type === "text") {
@@ -173,7 +179,35 @@ export function ModerateDemo({
 		setTimeout(() => {
 			setStatus("idle");
 		}, 2500);
-	};
+	}, [status, type, input]);
+
+	const inputType = useMemo(() => {
+		return type === "text" ? "text" : "file";
+	}, [type]);
+
+	const inputValue = useMemo(() => {
+		return type === "text" ? (input as string) : undefined;
+	}, [type, input]);
+
+	const handleKeyDown = useCallback(
+		(e: React.KeyboardEvent<HTMLInputElement>) => {
+			if (e.key === "Enter" && type === "text") {
+				handleSubmit();
+			}
+		},
+		[type, handleSubmit],
+	);
+
+	const acceptInputType = useMemo(() => {
+		switch (type) {
+			case "audio":
+				return "audio/*";
+			case "image":
+				return "image/*";
+			default:
+				return undefined;
+		}
+	}, [type]);
 
 	return (
 		<div>
@@ -181,22 +215,12 @@ export function ModerateDemo({
 			<div className="mt-2 flex flex-row gap-2">
 				<Input
 					autoComplete="off"
-					type={type === "text" ? "text" : "file"}
-					value={type === "text" ? (input as string) : undefined}
+					type={inputType}
+					value={inputValue}
 					placeholder={placeholder}
 					onChange={handleInputChange}
-					onKeyDown={(e) => {
-						if (e.key === "Enter" && type === "text") {
-							handleSubmit();
-						}
-					}}
-					accept={
-						type === "audio"
-							? "audio/*"
-							: type === "image"
-								? "image/*"
-								: undefined
-					}
+					onKeyDown={handleKeyDown}
+					accept={acceptInputType}
 				/>
 				<Button
 					color="amber"
@@ -232,7 +256,7 @@ async function getDemoResponse({
 	type,
 }: {
 	readonly input: string | File;
-	readonly type: "text" | "audio" | "image";
+	readonly type: ModerationType;
 }) {
 	try {
 		if (input instanceof File) {

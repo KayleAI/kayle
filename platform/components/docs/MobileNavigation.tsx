@@ -1,6 +1,13 @@
 "use client";
 
-import { createContext, Suspense, useContext, useEffect, useRef } from "react";
+import {
+	createContext,
+	Suspense,
+	useCallback,
+	useContext,
+	useEffect,
+	useRef,
+} from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import {
 	Dialog,
@@ -14,7 +21,7 @@ import { create } from "zustand";
 import { Header } from "@/components/docs/Header";
 import { Navigation } from "@/components/docs/Navigation";
 
-function MenuIcon(props: React.ComponentPropsWithoutRef<"svg">) {
+function MenuIcon(props: Readonly<React.ComponentPropsWithoutRef<"svg">>) {
 	return (
 		<svg
 			viewBox="0 0 10 9"
@@ -28,7 +35,7 @@ function MenuIcon(props: React.ComponentPropsWithoutRef<"svg">) {
 	);
 }
 
-function XIcon(props: React.ComponentPropsWithoutRef<"svg">) {
+function XIcon(props: Readonly<React.ComponentPropsWithoutRef<"svg">>) {
 	return (
 		<svg
 			viewBox="0 0 10 9"
@@ -42,14 +49,14 @@ function XIcon(props: React.ComponentPropsWithoutRef<"svg">) {
 	);
 }
 
-const IsInsideMobileNavigationContext = createContext(false);
+const IsInsideMobileNavigationContext = createContext<boolean>(false);
 
 function MobileNavigationDialog({
 	isOpen,
 	close,
 }: {
-	isOpen: boolean;
-	close: () => void;
+	readonly isOpen: boolean;
+	readonly close: () => void;
 }) {
 	const pathname = usePathname();
 	const searchParams = useSearchParams();
@@ -62,20 +69,25 @@ function MobileNavigationDialog({
 		}
 	}, [pathname, searchParams, close, initialPathname, initialSearchParams]);
 
-	function onClickDialog(event: React.MouseEvent<HTMLDivElement>) {
-		if (!(event.target instanceof HTMLElement)) {
-			return;
-		}
+	const onClickDialog = useCallback(
+		(event: React.MouseEvent<HTMLDivElement>) => {
+			if (!(event.target instanceof HTMLElement)) {
+				return;
+			}
 
-		const link = event.target.closest("a");
-		if (
-			link &&
-			link.pathname + link.search + link.hash ===
-				window.location.pathname + window.location.search + window.location.hash
-		) {
-			close();
-		}
-	}
+			const link = event.target.closest("a");
+			if (
+				link &&
+				link.pathname + link.search + link.hash ===
+					window.location.pathname +
+						window.location.search +
+						window.location.hash
+			) {
+				close();
+			}
+		},
+		[close],
+	);
 
 	return (
 		<Dialog

@@ -4,8 +4,8 @@ import { moderations } from "@/db/drizzle/schema";
 import { cosineDistance, desc, eq, gt, sql } from "drizzle-orm";
 
 // Types
-import type { ModerationResult } from "@/types/moderation";
-import type { SearchResult } from "@/types/search";
+import type { ModerationResult } from "@repo/types/moderation";
+import type { SearchResult } from "@repo/types/search";
 
 export async function searchVector({
 	env,

@@ -1,7 +1,8 @@
 export function getFileNameFromResponse(headers: Headers): string | null {
 	const contentDisposition = headers.get("content-disposition");
 	if (contentDisposition) {
-		const fileNameMatch = contentDisposition.match(/filename="?(.+)"?/i);
+		const fileNameRegex = /filename="?(.+)"?/i;
+		const fileNameMatch = fileNameRegex.exec(contentDisposition);
 		if (fileNameMatch) {
 			return fileNameMatch[1];
 		}
