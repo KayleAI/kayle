@@ -19,15 +19,11 @@ export const Link = function Link({
 			router.prefetch(href);
 		}
 		return props.onMouseEnter?.(e);
-	}
+	};
 
 	return (
 		<Headless.DataInteractive>
-			<NextLink
-				ref={ref}
-				onMouseEnter={handleMouseEnter}
-				{...props}
-			/>
+			<NextLink ref={ref} onMouseEnter={handleMouseEnter} {...props} />
 		</Headless.DataInteractive>
 	);
 };
