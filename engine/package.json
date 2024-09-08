@@ -6,7 +6,7 @@
     "studio": "drizzle-kit studio",
     "introspect": "drizzle-kit introspect",
     "deploy": "wrangler deploy --minify",
-		"serve": "ts-node ./app/server.ts",
+    "serve": "ts-node ./app/server.ts",
     "cf-typegen": "wrangler types --env-interface CloudflareBindings"
   },
   "dependencies": {
@@ -28,6 +28,7 @@
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20240815.0",
     "@types/pg": "^8.11.6",
+    "dotenv": "^16.4.5",
     "drizzle-kit": "^0.24.1",
     "wrangler": "^3.74.0"
   }
