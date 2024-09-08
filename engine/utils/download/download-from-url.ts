@@ -16,7 +16,7 @@ export async function downloadFromUrl(
 			return handleBase64Data(data, maxMB, type);
 		}
 
-		return handleUrlData(url, maxMB, type);
+		return await handleUrlData(url, maxMB, type);
 	} catch (error) {
 		throw new Error(`Failed to download file: ${error}`);
 	}
