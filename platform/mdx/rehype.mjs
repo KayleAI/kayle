@@ -5,7 +5,7 @@ import rehypeSlug from "rehype-slug";
 import { remarkRehypeWrap } from "remark-rehype-wrap";
 import shiki from "shiki";
 import { visit } from "unist-util-visit";
-import * as acorn from "acorn";
+import * as acorn from "acorn"; // skipcq: JS-C1003
 
 function rehypeParseCodeBlocks() {
 	return (tree) => {
@@ -20,7 +20,7 @@ function rehypeParseCodeBlocks() {
 	};
 }
 
-let highlighter;
+let highlighter; // skipcq: JS-0119 - we need to keep it this way.
 
 function rehypeShiki() {
 	return async (tree) => {

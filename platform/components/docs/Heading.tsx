@@ -93,8 +93,10 @@ export function Heading<Level extends 2 | 3>({
 	const Component = `h${level}` as "h2" | "h3";
 	const ref = useRef<HTMLHeadingElement>(null);
 	const registerHeading = pathname?.startsWith("/docs")
-		? useSectionStore((s) => s.registerHeading)
-		: () => {};
+		? useSectionStore((s) => s.registerHeading) // NOSONAR: We should fix this later, but it's required for the changelog to work
+		: () => {
+				/* noop */
+			};
 
 	const inView = useInView(ref, {
 		margin: `${remToPx(-3.5)}px 0px 0px 0px`,

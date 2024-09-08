@@ -46,7 +46,7 @@ export default function ContactPageClient() {
 							setSubmissionState("loading");
 							setTimeout(async () => {
 								const { success, error } = await captureContactForm({
-									message: message,
+									message,
 								});
 
 								if (error && !success) {
