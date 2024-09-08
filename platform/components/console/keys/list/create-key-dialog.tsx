@@ -219,7 +219,7 @@ export default function CreateKeyDialog() {
 						onClick={async () => {
 							if (keyCreatedSecret === "false") {
 								if (!org_id) {
-									alert("No organization.");
+									toast.error("No organisation selected.");
 									return;
 								}
 
@@ -230,7 +230,7 @@ export default function CreateKeyDialog() {
 								});
 
 								if (keyError) {
-									alert(keyError);
+									toast.error(keyError);
 									return;
 								}
 
@@ -238,7 +238,7 @@ export default function CreateKeyDialog() {
 									setKeyCreatedSecret(keyData.keys.key);
 									router.refresh();
 								} else {
-									alert("Failed to create key.");
+									toast.error("We couldn’t create your key. Please try again.");
 								}
 
 								return;
