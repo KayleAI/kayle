@@ -69,10 +69,11 @@ export const NavbarItem = function NavbarItem({
 	current?: boolean;
 	className?: string;
 	children: React.ReactNode;
-}> & (
-	| Readonly<Omit<Headless.ButtonProps, "as" | "className">>
-	| Readonly<Omit<React.ComponentPropsWithoutRef<typeof Link>, "className">>
-)) {
+}> &
+	(
+		| Readonly<Omit<Headless.ButtonProps, "as" | "className">>
+		| Readonly<Omit<React.ComponentPropsWithoutRef<typeof Link>, "className">>
+	)) {
 	const classes = clsx(
 		// Base
 		"relative flex min-w-0 items-center gap-3 rounded-lg p-2 text-left text-base/6 font-medium text-zinc-950 sm:text-sm/5",

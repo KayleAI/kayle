@@ -6,7 +6,7 @@ import type { Section } from "@/components/docs/SectionProvider";
 export default async function RootLayout({
 	children,
 }: {
-readonly	children: React.ReactNode;
+	readonly children: React.ReactNode;
 }) {
 	const pages = await glob("**/*.mdx", { cwd: "app/(docs)/docs" });
 	const allSectionsEntries = (await Promise.all(
