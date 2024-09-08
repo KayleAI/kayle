@@ -1,7 +1,6 @@
 import { slugifyWithCounter } from "@sindresorhus/slugify";
 import { toString as toMdastString } from "mdast-util-to-string";
 import { mdxAnnotations } from "mdx-annotations";
-import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeSlug from "rehype-slug";
 import { remarkRehypeWrap } from "remark-rehype-wrap";
 import shiki from "shiki";
