@@ -39,9 +39,7 @@ export function ManageKey({
 				setTimeout(async () => {
 					try {
 						if (!orgs?.activeOrg?.id)
-							throw new Error(
-								"Something went wrong. Please try again.",
-							);
+							throw new Error("Something went wrong. Please try again.");
 						if (keyData?.enabled) {
 							await updateApiKey({
 								keyId,
@@ -61,9 +59,7 @@ export function ManageKey({
 						}
 					} catch {
 						setButtonsDisabled(false);
-						return reject(
-							new Error("Failed to perform action on key."),
-						);
+						return reject(new Error("Failed to perform action on key."));
 					}
 
 					setButtonsDisabled(false);
@@ -91,9 +87,7 @@ export function ManageKey({
 				setTimeout(async () => {
 					try {
 						if (!orgs?.activeOrg?.id)
-							throw new Error(
-								"Something went wrong. Please try again.",
-							);
+							throw new Error("Something went wrong. Please try again.");
 						await deleteApiKey(keyId, orgs?.activeOrg?.id);
 					} catch {
 						setButtonsDisabled(false);
@@ -129,11 +123,7 @@ export function ManageKey({
 					>
 						{keyData?.enabled ? "Suspend API Key" : "Activate API Key"}
 					</Button>
-					<Button
-						disabled={buttonsDisabled}
-						color="red"
-						onClick={deleteAPIKey}
-					>
+					<Button disabled={buttonsDisabled} color="red" onClick={deleteAPIKey}>
 						Delete API Key
 					</Button>
 				</div>
