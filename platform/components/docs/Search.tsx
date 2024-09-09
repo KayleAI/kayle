@@ -542,7 +542,9 @@ export function Search() {
 
 	useEffect(() => {
 		setModifierKey(
-			/(Mac|iPhone|iPod|iPad)/i.test(window.navigator.userAgent) ? "⌘" : "Ctrl ",
+			/(Mac|iPhone|iPod|iPad)/i.test(window.navigator.userAgent)
+				? "⌘"
+				: "Ctrl ",
 		);
 	}, []);
 
