@@ -38,6 +38,7 @@ import { useOrg } from "@/utils/auth/OrgProvider";
 import { useTheme } from "next-themes";
 import { toggleSearch } from "../Search";
 import { useRouter } from "next/navigation";
+import React from "react";
 
 export default function ConsoleNavbar(): JSX.Element {
 	const { setTheme, resolvedTheme } = useTheme();
@@ -45,21 +46,21 @@ export default function ConsoleNavbar(): JSX.Element {
 	const user = useAuth();
 	const orgs = useOrg();
 
-	const toggleTheme = () => {
+	const toggleTheme = React.useCallback(() => {
 		if (resolvedTheme) {
 			setTheme(resolvedTheme === "dark" ? "light" : "dark");
 		}
-	};
+	}, [resolvedTheme, setTheme]);
 
-	const handleSignout = async () => {
+	const handleSignout = React.useCallback(async () => {
 		await signout();
 
 		router.push("/sign-out");
-	};
+	},[router]);
 
-	const handleOrgSwitch = (orgId: string) => {
+	const handleOrgSwitch = React.useCallback((orgId: string) => {
 		orgs?.switchOrg(orgId);
-	};
+	}, [orgs]);
 
 	return (
 		<Navbar>
@@ -158,7 +159,6 @@ export default function ConsoleNavbar(): JSX.Element {
 						</DropdownItem>
 						<DropdownItem onClick={toggleTheme}>
 							{" "}
-							{/* skipcq: JS-0417 - don't see any issue */}
 							{resolvedTheme === "dark" ? (
 								<SunIcon data-slot="icon" />
 							) : (
@@ -169,7 +169,6 @@ export default function ConsoleNavbar(): JSX.Element {
 						<DropdownDivider />
 						<DropdownItem onClick={handleSignout}>
 							{" "}
-							{/* skipcq: JS-0417 - don't see any issue */}
 							<LeaveIcon data-slot="icon" />
 							<DropdownLabel>Sign out</DropdownLabel>
 						</DropdownItem>
