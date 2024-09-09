@@ -103,7 +103,7 @@ function Star({
 
 		return () => {
 			for (const animation of animations) {
-				animation.cancel();
+				animation.cancel(); // skipcq JS-0047: it is best to explicitly cancel/unsubscribe
 			}
 		};
 	}, [dim]);
