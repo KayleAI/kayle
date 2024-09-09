@@ -70,9 +70,12 @@ export default function ConsoleSidebar(): JSX.Element {
 		router.push("/sign-out");
 	}, [router]);
 
-	const handleOrgSwitch = React.useCallback((orgId: string) => {
-		orgs?.switchOrg(orgId);
-	}, [orgs]);
+	const handleOrgSwitch = React.useCallback(
+		(orgId: string) => {
+			orgs?.switchOrg(orgId);
+		},
+		[orgs],
+	);
 
 	return (
 		<Sidebar>

@@ -56,11 +56,14 @@ export default function ConsoleNavbar(): JSX.Element {
 		await signout();
 
 		router.push("/sign-out");
-	},[router]);
+	}, [router]);
 
-	const handleOrgSwitch = React.useCallback((orgId: string) => {
-		orgs?.switchOrg(orgId);
-	}, [orgs]);
+	const handleOrgSwitch = React.useCallback(
+		(orgId: string) => {
+			orgs?.switchOrg(orgId);
+		},
+		[orgs],
+	);
 
 	return (
 		<Navbar>
