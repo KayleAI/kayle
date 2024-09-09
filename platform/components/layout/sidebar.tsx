@@ -112,10 +112,7 @@ export default function ConsoleSidebar(): JSX.Element {
 						)}
 						<DropdownDivider />
 						{orgs?.memberOrgs?.map((org) => (
-							<DropdownItem
-								key={org.id}
-								onClick={() => handleOrgSwitch(org.id)}
-							>
+							<DropdownItem key={org.id} onClick={() => handleOrgSwitch(org.id)}>
 								<Avatar
 									slot="icon"
 									src={org.logo}

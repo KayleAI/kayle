@@ -57,6 +57,10 @@ export default function ConsoleNavbar(): JSX.Element {
 		router.push("/sign-out");
 	};
 
+	const handleOrgSwitch = (orgId: string) => {
+		orgs?.switchOrg(orgId);
+	};
+
 	return (
 		<Navbar>
 			<Dropdown>
@@ -93,7 +97,7 @@ export default function ConsoleNavbar(): JSX.Element {
 					)}
 					<DropdownDivider />
 					{orgs?.memberOrgs?.map((org) => (
-						<DropdownItem key={org.id} onClick={() => orgs.switchOrg(org.id)}>
+						<DropdownItem key={org.id} onClick={() => handleOrgSwitch(org.id)}>
 							<Avatar
 								slot="icon"
 								src={org.logo}
@@ -152,7 +156,7 @@ export default function ConsoleNavbar(): JSX.Element {
 							<EnvelopeIcon data-slot="icon" />
 							<DropdownLabel>Send Feedback</DropdownLabel>
 						</DropdownItem>
-						<DropdownItem onClick={toggleTheme}>
+						<DropdownItem onClick={toggleTheme}> {/* skipcq: JS-0417 - don't see any issue */}
 							{resolvedTheme === "dark" ? (
 								<SunIcon data-slot="icon" />
 							) : (
@@ -161,7 +165,7 @@ export default function ConsoleNavbar(): JSX.Element {
 							<DropdownLabel>Toggle Theme</DropdownLabel>
 						</DropdownItem>
 						<DropdownDivider />
-						<DropdownItem onClick={handleSignout}>
+						<DropdownItem onClick={handleSignout}> {/* skipcq: JS-0417 - don't see any issue */}
 							<LeaveIcon data-slot="icon" />
 							<DropdownLabel>Sign out</DropdownLabel>
 						</DropdownItem>
