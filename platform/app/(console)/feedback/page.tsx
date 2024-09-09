@@ -13,7 +13,7 @@ import {
 import { Listbox, ListboxOption, ListboxLabel } from "@repo/ui/listbox";
 import { Text } from "@repo/ui/text";
 import { Textarea } from "@repo/ui/textarea";
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { toast } from "sonner";
 
 import { captureFeedback } from "@repo/comm/feedback";
@@ -27,6 +27,36 @@ export default function Feedback() {
 	>("idle");
 	const [feedback, setFeedback] = useState("");
 
+	const handleSubmit = React.useCallback((e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+
+		toast.promise(
+			new Promise((resolve, reject) => {
+				setSubmissionState("loading");
+				setTimeout(async () => {
+					const { success, error } = await captureFeedback({
+						feedback,
+						feedbackType,
+					});
+
+					if (error && !success) {
+						setSubmissionState("error");
+						return reject(new Error(error));
+					}
+
+					setSubmissionState("success");
+					return resolve(true);
+				}, 500);
+			}),
+			{
+				loading: "Sending feedback...",
+				success: "Awesome! Thanks for sharing your feedback!",
+				error: (error) =>
+					`Error: ${error.message}`.replace("Error: Error: ", ""),
+			},
+		);
+	}, [feedback, feedbackType]);
+
 	return (
 		<div>
 			<PageHeading title="Share Feedback with the Kayle team" description="">
@@ -37,35 +67,7 @@ export default function Feedback() {
 			<form
 				className="my-8"
 				ref={formRef}
-				onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
-					e.preventDefault();
-
-					toast.promise(
-						new Promise((resolve, reject) => {
-							setSubmissionState("loading");
-							setTimeout(async () => {
-								const { success, error } = await captureFeedback({
-									feedback,
-									feedbackType,
-								});
-
-								if (error && !success) {
-									setSubmissionState("error");
-									return reject(new Error(error));
-								}
-
-								setSubmissionState("success");
-								return resolve(true);
-							}, 500);
-						}),
-						{
-							loading: "Sending feedback...",
-							success: "Awesome! Thanks for sharing your feedback!",
-							error: (error) =>
-								`Error: ${error.message}`.replace("Error: Error: ", ""),
-						},
-					);
-				}}
+				onSubmit={handleSubmit}
 			>
 				<Fieldset>
 					<Legend>Feedback</Legend>
