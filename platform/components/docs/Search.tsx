@@ -365,7 +365,7 @@ const SearchResultsPanel = ({
 		)}
 	</div>
 );
-
+// unused constant: SearchDialogContent
 const SearchDialogContent = ({
 	formRef,
 	inputRef,
@@ -426,10 +426,6 @@ function SearchDialog({
 		setOpen(false);
 	}, [pathname, searchParams, setOpen]);
 
-	const handleInputClose = () => {
-		() => setOpen(false);
-	};
-
 	useEffect(() => {
 		if (open) {
 			return;
@@ -487,7 +483,7 @@ function SearchDialog({
 								ref={inputRef}
 								autocomplete={autocomplete}
 								autocompleteState={autocompleteState}
-								onClose={() => setOpen(false)}
+								onClose={handleSearchClose}
 							/>
 							<div
 								ref={panelRef}
@@ -538,7 +534,7 @@ export function Search() {
 	const [modifierKey, setModifierKey] = useState<string>();
 	const { buttonProps, dialogProps } = useSearchProps();
 
-	const { key } = getCommandKey();
+	// const { key } = getCommandKey();
 
 	useEffect(() => {
 		setModifierKey(
