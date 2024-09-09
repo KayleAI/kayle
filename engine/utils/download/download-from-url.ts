@@ -47,7 +47,7 @@ function handleBase64Data(
 	if (!matches) throw new Error("Invalid base64 data");
 
 	const contentType = matches[1];
-	
+
 	if (type && !contentType.includes(type)) {
 		throw new Error("Invalid content type");
 	}
