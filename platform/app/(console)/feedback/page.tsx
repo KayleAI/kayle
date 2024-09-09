@@ -27,35 +27,38 @@ export default function Feedback() {
 	>("idle");
 	const [feedback, setFeedback] = useState("");
 
-	const handleSubmit = React.useCallback((e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
+	const handleSubmit = React.useCallback(
+		(e: React.FormEvent<HTMLFormElement>) => {
+			e.preventDefault();
 
-		toast.promise(
-			new Promise((resolve, reject) => {
-				setSubmissionState("loading");
-				setTimeout(async () => {
-					const { success, error } = await captureFeedback({
-						feedback,
-						feedbackType,
-					});
+			toast.promise(
+				new Promise((resolve, reject) => {
+					setSubmissionState("loading");
+					setTimeout(async () => {
+						const { success, error } = await captureFeedback({
+							feedback,
+							feedbackType,
+						});
 
-					if (error && !success) {
-						setSubmissionState("error");
-						return reject(new Error(error));
-					}
+						if (error && !success) {
+							setSubmissionState("error");
+							return reject(new Error(error));
+						}
 
-					setSubmissionState("success");
-					return resolve(true);
-				}, 500);
-			}),
-			{
-				loading: "Sending feedback...",
-				success: "Awesome! Thanks for sharing your feedback!",
-				error: (error) =>
-					`Error: ${error.message}`.replace("Error: Error: ", ""),
-			},
-		);
-	}, [feedback, feedbackType]);
+						setSubmissionState("success");
+						return resolve(true);
+					}, 500);
+				}),
+				{
+					loading: "Sending feedback...",
+					success: "Awesome! Thanks for sharing your feedback!",
+					error: (error) =>
+						`Error: ${error.message}`.replace("Error: Error: ", ""),
+				},
+			);
+		},
+		[feedback, feedbackType],
+	);
 
 	return (
 		<div>
@@ -64,11 +67,7 @@ export default function Feedback() {
 					Go back to Dashboard
 				</Button>
 			</PageHeading>
-			<form
-				className="my-8"
-				ref={formRef}
-				onSubmit={handleSubmit}
-			>
+			<form className="my-8" ref={formRef} onSubmit={handleSubmit}>
 				<Fieldset>
 					<Legend>Feedback</Legend>
 					<Text>How can we make Kayle better?</Text>
