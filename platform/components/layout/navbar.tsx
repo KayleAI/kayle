@@ -156,7 +156,9 @@ export default function ConsoleNavbar(): JSX.Element {
 							<EnvelopeIcon data-slot="icon" />
 							<DropdownLabel>Send Feedback</DropdownLabel>
 						</DropdownItem>
-						<DropdownItem onClick={toggleTheme}> {/* skipcq: JS-0417 - don't see any issue */}
+						<DropdownItem onClick={toggleTheme}>
+							{" "}
+							{/* skipcq: JS-0417 - don't see any issue */}
 							{resolvedTheme === "dark" ? (
 								<SunIcon data-slot="icon" />
 							) : (
@@ -165,7 +167,9 @@ export default function ConsoleNavbar(): JSX.Element {
 							<DropdownLabel>Toggle Theme</DropdownLabel>
 						</DropdownItem>
 						<DropdownDivider />
-						<DropdownItem onClick={handleSignout}> {/* skipcq: JS-0417 - don't see any issue */}
+						<DropdownItem onClick={handleSignout}>
+							{" "}
+							{/* skipcq: JS-0417 - don't see any issue */}
 							<LeaveIcon data-slot="icon" />
 							<DropdownLabel>Sign out</DropdownLabel>
 						</DropdownItem>
