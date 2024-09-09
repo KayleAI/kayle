@@ -25,35 +25,39 @@ export default function ContactPageClient() {
 	>("idle");
 	const [message, setMessage] = useState("");
 
-	const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => setMessage(e.target.value);
+	const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
+		setMessage(e.target.value);
 
-	const handleSubmit = React.useCallback((e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
+	const handleSubmit = React.useCallback(
+		(e: React.FormEvent<HTMLFormElement>) => {
+			e.preventDefault();
 
-		toast.promise(
-			new Promise((resolve, reject) => {
-				setSubmissionState("loading");
-				setTimeout(async () => {
-					const { success, error } = await captureContactForm({
-						message,
-					});
+			toast.promise(
+				new Promise((resolve, reject) => {
+					setSubmissionState("loading");
+					setTimeout(async () => {
+						const { success, error } = await captureContactForm({
+							message,
+						});
 
-					if (error && !success) {
-						setSubmissionState("error");
-						return reject(new Error(error));
-					}
+						if (error && !success) {
+							setSubmissionState("error");
+							return reject(new Error(error));
+						}
 
-					setSubmissionState("success");
-					return resolve(true);
-				}, 500);
-			}),
-			{
-				loading: "Sending message...",
-				success: "Thanks for reaching out! We’ll get back to you soon.",
-				error: (error) => `${error.message}`.replace("Error: ", ""),
-			},
-		);
-	}, [message]);
+						setSubmissionState("success");
+						return resolve(true);
+					}, 500);
+				}),
+				{
+					loading: "Sending message...",
+					success: "Thanks for reaching out! We’ll get back to you soon.",
+					error: (error) => `${error.message}`.replace("Error: ", ""),
+				},
+			);
+		},
+		[message],
+	);
 
 	return (
 		<div>
@@ -65,11 +69,7 @@ export default function ContactPageClient() {
 					</Button>
 				</div>
 			</div>
-			<form
-				className="my-8"
-				ref={formRef}
-				onSubmit={handleSubmit}
-			>
+			<form className="my-8" ref={formRef} onSubmit={handleSubmit}>
 				<Fieldset>
 					<Legend>Contact Us</Legend>
 					<Text>
