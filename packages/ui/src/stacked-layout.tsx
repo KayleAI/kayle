@@ -1,7 +1,7 @@
 "use client";
 
-import * as Headless from "@headlessui/react";
-import { type default as React, useState } from "react";
+import * as Headless from "@headlessui/react"; // skipcq: JS-C1003
+import { type default as React, useCallback, useState } from "react";
 import { NavbarItem } from "./navbar";
 
 function OpenMenuIcon() {
@@ -20,6 +20,19 @@ function CloseMenuIcon() {
 	);
 }
 
+function MobileSidebarContent({ children }: Readonly<React.PropsWithChildren>) {
+	return (
+		<div className="flex h-full flex-col rounded-lg bg-white shadow-sm ring-1 ring-zinc-950/5 dark:bg-zinc-900 dark:ring-white/10">
+			<div className="-mb-3 px-4 pt-3">
+				<Headless.CloseButton as={NavbarItem} aria-label="Close navigation">
+					<CloseMenuIcon />
+				</Headless.CloseButton>
+			</div>
+			{children}
+		</div>
+	);
+}
+
 function MobileSidebar({
 	open,
 	close,
@@ -35,14 +48,7 @@ function MobileSidebar({
 				transition
 				className="fixed inset-y-0 w-full max-w-80 p-2 transition duration-300 ease-in-out data-[closed]:-translate-x-full"
 			>
-				<div className="flex h-full flex-col rounded-lg bg-white shadow-sm ring-1 ring-zinc-950/5 dark:bg-zinc-900 dark:ring-white/10">
-					<div className="-mb-3 px-4 pt-3">
-						<Headless.CloseButton as={NavbarItem} aria-label="Close navigation">
-							<CloseMenuIcon />
-						</Headless.CloseButton>
-					</div>
-					{children}
-				</div>
+				<MobileSidebarContent>{children}</MobileSidebarContent>
 			</Headless.DialogPanel>
 		</Headless.Dialog>
 	);
@@ -58,10 +64,13 @@ export function StackedLayout({
 }>) {
 	const [showSidebar, setShowSidebar] = useState(false);
 
+	const openSidebar = useCallback(() => setShowSidebar(true), []);
+	const closeSidebar = useCallback(() => setShowSidebar(false), []);
+
 	return (
 		<div className="relative isolate flex min-h-svh w-full flex-col bg-white lg:bg-zinc-100 dark:bg-zinc-900 dark:lg:bg-zinc-950">
 			{/* Sidebar on mobile */}
-			<MobileSidebar open={showSidebar} close={() => setShowSidebar(false)}>
+			<MobileSidebar open={showSidebar} close={closeSidebar}>
 				{sidebar}
 			</MobileSidebar>
 
@@ -69,7 +78,7 @@ export function StackedLayout({
 			<header className="flex items-center px-4">
 				<div className="py-2.5 lg:hidden">
 					<NavbarItem
-						onClick={() => setShowSidebar(true)}
+						onClick={openSidebar}
 						aria-label="Open navigation"
 					>
 						<OpenMenuIcon />

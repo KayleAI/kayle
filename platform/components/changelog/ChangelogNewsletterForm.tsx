@@ -36,7 +36,7 @@ export function ChangelogNewsletterForm() {
 			<Button
 				color="emerald"
 				className="!cursor-pointer"
-				onClick={async () =>
+				onClick={() =>
 					toast.promise(
 						new Promise((resolve, reject) => {
 							setSubmissionState("loading");

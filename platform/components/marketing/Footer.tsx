@@ -7,7 +7,7 @@ import { Link } from "@repo/ui/link";
 import { join } from "@repo/comm/newsletter";
 
 import { Kayle } from "@repo/icons/ui/index";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 
 import clsx from "clsx";
@@ -78,9 +78,9 @@ function SocialLink({
 	icon: Icon,
 	children,
 }: {
-	href: string;
-	icon: React.ComponentType<{ className?: string }>;
-	children: React.ReactNode;
+	readonly href: string;
+	readonly icon: React.ComponentType<{ className?: string }>;
+	readonly children: React.ReactNode;
 }) {
 	return (
 		<Link href={href} className="group">
@@ -93,7 +93,7 @@ function SocialLink({
 export function Footer({
 	className = "",
 }: {
-	className?: string;
+	readonly className?: string;
 }) {
 	const [kayleStatus, setKayleStatus] = useState<
 		"okay" | "degraded" | "down" | "pending"
@@ -103,22 +103,12 @@ export function Footer({
 		"idle" | "loading" | "success" | "error" | "email-error"
 	>("idle");
 
-	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
+	const handleEmailChange = useCallback(
+		(e: any) => setEmail(e.target.value),
+		[],
+	);
 
-		const form = e.currentTarget;
-		const email = form["email-address"].value;
-
-		await join({
-			email: email,
-			audienceId: "b23a5d3b-c8de-4d2e-b73b-b726b8f20ec4",
-		});
-	};
-
-	const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) =>
-		setEmail(e.target.value);
-
-	const handleClick = async () =>
+	const handleSubmit = useCallback(() => {
 		toast.promise(
 			new Promise((resolve, reject) => {
 				setSubmissionState("loading");
@@ -129,7 +119,7 @@ export function Footer({
 					}
 
 					const success = await join({
-						email: email,
+						email,
 						audienceId: "b23a5d3b-c8de-4d2e-b73b-b726b8f20ec4",
 					});
 
@@ -148,177 +138,218 @@ export function Footer({
 				error: "Something went wrong. Please try again.",
 			},
 		);
+	}, [email]);
 
 	useEffect(() => {
 		getKayleStatus().then((status) => setKayleStatus(status));
 	}, []);
 
 	return (
-		<footer aria-labelledby="footer-heading">
+		<footer
+			aria-labelledby="footer-heading"
+			className={clsx(
+				"mx-auto max-w-7xl px-6 pb-8 pt-16 sm:pt-24 lg:px-8 lg:pt-32",
+				className,
+			)}
+		>
 			<h2 id="footer-heading" className="sr-only">
 				Footer
 			</h2>
-			<div
-				className={clsx(
-					"mx-auto max-w-7xl px-6 pb-8 pt-16 sm:pt-24 lg:px-8 lg:pt-32",
-					className,
-				)}
-			>
-				<div className="xl:grid xl:grid-cols-3 xl:gap-8">
-					<Link href="/" className="w-fit h-fit">
-						<Kayle className={"size-10"} />
-					</Link>
-					<div className="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
-						<div className="md:grid md:grid-cols-2 md:gap-8">
-							<div>
-								<h3 className="text-sm font-semibold leading-6 text-zinc-900 dark:text-zinc-100">
-									Solutions
-								</h3>
-								<ul className="mt-6 gap-y-4">
-									{navigation.solutions.map((item) => (
-										<li key={item.name}>
-											<Link
-												href={item.href}
-												className="text-sm leading-6 text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-300"
-											>
-												{item.name}
-											</Link>
-										</li>
-									))}
-								</ul>
-							</div>
-							<div className="mt-10 md:mt-0">
-								<h3 className="text-sm font-semibold leading-6 text-zinc-900 dark:text-zinc-100">
-									For Developers
-								</h3>
-								<ul className="mt-6 gap-y-4">
-									{navigation.developer.map((item) => {
-										return (
-											<li key={item.name}>
-												<Link
-													href={item.href}
-													className="text-sm leading-6 text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-300 flex relative flex-row items-baseline"
-												>
-													<p className="w-fit inline-flex">{item.name}</p>
-													{item.ping && (
-														<span className="relative ml-1.5 flex size-2.5">
-															<span
-																className={clsx(
-																	"absolute inline-flex h-full w-full animate-ping rounded-full opacity-75",
-																	kayleStatus === "okay" && "bg-emerald-400",
-																	kayleStatus === "degraded" && "bg-amber-400",
-																	kayleStatus === "down" && "bg-red-400",
-																)}
-															/>
-															<span
-																className={clsx(
-																	"relative inline-flex size-2.5 rounded-full",
-																	kayleStatus === "okay" && "bg-emerald-500",
-																	kayleStatus === "degraded" && "bg-amber-500",
-																	kayleStatus === "down" && "bg-red-500",
-																)}
-															/>
-														</span>
-													)}
-												</Link>
-											</li>
-										);
-									})}
-								</ul>
-							</div>
-						</div>
-						<div className="md:grid md:grid-cols-2 md:gap-8">
-							<div>
-								<h3 className="text-sm font-semibold leading-6 text-zinc-900 dark:text-zinc-100">
-									Company
-								</h3>
-								<ul className="mt-6 gap-y-4">
-									{navigation.company.map((item) => (
-										<li key={item.name}>
-											<Link
-												href={item.href}
-												className="text-sm leading-6 text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-300"
-											>
-												{item.name}
-											</Link>
-										</li>
-									))}
-								</ul>
-							</div>
-							<div className="mt-10 md:mt-0">
-								<h3 className="text-sm font-semibold leading-6 text-zinc-900 dark:text-zinc-100">
-									Legal
-								</h3>
-								<ul className="mt-6 gap-y-4">
-									{navigation.legal.map((item) => (
-										<li key={item.name}>
-											<Link
-												href={item.href}
-												className="text-sm leading-6 text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-300"
-											>
-												{item.name}
-											</Link>
-										</li>
-									))}
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div className="mt-16 border-t border-zinc-900/10 dark:border-zinc-50/10 pt-8 sm:mt-20 lg:mt-24 lg:flex lg:items-center lg:justify-between">
-					<div>
-						<h3 className="text-sm font-semibold leading-6 text-zinc-900 dark:text-zinc-100">
-							Join our newsletter
-						</h3>
-						<p className="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
-							Stay up to date with the latest news and updates.
-						</p>
-					</div>
-					<form
-						className="mt-6 flex sm:max-w-md lg:mt-0 flex-col sm:flex-row"
-						onSubmit={handleSubmit}
-					>
-						<label htmlFor="email-address" className="sr-only">
-							Email address
-						</label>
-						<Input
-							type="email"
-							name="email-address"
-							id="email-address"
-							invalid={submissionState === "email-error"}
-							value={email}
-							onChange={handleEmail}
-							autoComplete="email"
-							required
-							className="w-full"
-							placeholder="Enter your email"
-						/>
-						<div className="mt-4 sm:ml-4 sm:mt-0 sm:flex-shrink-0 w-full sm:w-fit">
-							<Button
-								className="w-full sm:w-auto !cursor-pointer"
-								color="emerald"
-								onClick={handleClick}
-								disabled={submissionState === "loading"}
-							>
-								Join
-							</Button>
-						</div>
-					</form>
-				</div>
-				<div className="mt-8 border-t border-zinc-900/10 dark:border-zinc-50/10 pt-8 md:flex md:items-center md:justify-between">
-					<div className="flex gap-x-6 md:order-2">
-						{navigation.social.map((item) => (
-							<SocialLink key={item.name} href={item.href} icon={item.icon}>
-								{item.name}
-							</SocialLink>
+			<div className="xl:grid xl:grid-cols-3 xl:gap-8">
+				<Link href="/" className="w-fit h-fit">
+					<Kayle className="size-10" />
+				</Link>
+				<FooterNavigation kayleStatus={kayleStatus} />
+			</div>
+			<NewsletterForm
+				handleSubmit={handleSubmit}
+				handleEmailChange={handleEmailChange}
+				email={email}
+				submissionState={submissionState}
+			/>
+			<FooterBottom />
+		</footer>
+	);
+}
+
+function FooterNavigation({
+	kayleStatus,
+}: {
+	readonly kayleStatus: "okay" | "degraded" | "down" | "pending";
+}) {
+	return (
+		<div className="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
+			<div className="md:grid md:grid-cols-2 md:gap-8">
+				<div>
+					<h3 className="text-sm font-semibold leading-6 text-zinc-900 dark:text-zinc-100">
+						Solutions
+					</h3>
+					<ul className="mt-6 gap-y-4">
+						{navigation.solutions.map((item) => (
+							<li key={item.name}>
+								<Link
+									href={item.href}
+									className="text-sm leading-6 text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-300"
+								>
+									{item.name}
+								</Link>
+							</li>
 						))}
-					</div>
-					<p className="mt-8 text-xs leading-5 text-zinc-600 dark:text-zinc-400 md:order-1 md:mt-0">
-						&copy; Copyright {new Date().getFullYear()} Kayle. All rights
-						reserved.
-					</p>
+					</ul>
+				</div>
+				<div className="mt-10 md:mt-0">
+					<h3 className="text-sm font-semibold leading-6 text-zinc-900 dark:text-zinc-100">
+						For Developers
+					</h3>
+					<ul className="mt-6 gap-y-4">
+						{navigation.developer.map((item) => {
+							return (
+								<li key={item.name}>
+									<Link
+										href={item.href}
+										className="text-sm leading-6 text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-300 flex relative flex-row items-baseline"
+									>
+										<p className="w-fit inline-flex">{item.name}</p>
+										{item.ping && (
+											<span className="relative ml-1.5 flex size-2.5">
+												<span
+													className={clsx(
+														"absolute inline-flex h-full w-full animate-ping rounded-full opacity-75",
+														kayleStatus === "okay" && "bg-emerald-400",
+														kayleStatus === "degraded" && "bg-amber-400",
+														kayleStatus === "down" && "bg-red-400",
+													)}
+												/>
+												<span
+													className={clsx(
+														"relative inline-flex size-2.5 rounded-full",
+														kayleStatus === "okay" && "bg-emerald-500",
+														kayleStatus === "degraded" && "bg-amber-500",
+														kayleStatus === "down" && "bg-red-500",
+													)}
+												/>
+											</span>
+										)}
+									</Link>
+								</li>
+							);
+						})}
+					</ul>
 				</div>
 			</div>
-		</footer>
+			<div className="md:grid md:grid-cols-2 md:gap-8">
+				<div>
+					<h3 className="text-sm font-semibold leading-6 text-zinc-900 dark:text-zinc-100">
+						Company
+					</h3>
+					<ul className="mt-6 gap-y-4">
+						{navigation.company.map((item) => (
+							<li key={item.name}>
+								<Link
+									href={item.href}
+									className="text-sm leading-6 text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-300"
+								>
+									{item.name}
+								</Link>
+							</li>
+						))}
+					</ul>
+				</div>
+				<div className="mt-10 md:mt-0">
+					<h3 className="text-sm font-semibold leading-6 text-zinc-900 dark:text-zinc-100">
+						Legal
+					</h3>
+					<ul className="mt-6 gap-y-4">
+						{navigation.legal.map((item) => (
+							<li key={item.name}>
+								<Link
+									href={item.href}
+									className="text-sm leading-6 text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-300"
+								>
+									{item.name}
+								</Link>
+							</li>
+						))}
+					</ul>
+				</div>
+			</div>
+		</div>
+	);
+}
+
+function NewsletterForm({
+	handleSubmit,
+	handleEmailChange,
+	email,
+	submissionState,
+}: {
+	readonly handleSubmit: () => void;
+	readonly handleEmailChange: (e: any) => void;
+	readonly email: string;
+	readonly submissionState:
+		| "idle"
+		| "loading"
+		| "success"
+		| "error"
+		| "email-error";
+}) {
+	return (
+		<div className="mt-16 border-t border-zinc-900/10 dark:border-zinc-50/10 pt-8 sm:mt-20 lg:mt-24 lg:flex lg:items-center lg:justify-between">
+			<div>
+				<h3 className="text-sm font-semibold leading-6 text-zinc-900 dark:text-zinc-100">
+					Join our newsletter
+				</h3>
+				<p className="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+					Stay up to date with the latest news and updates.
+				</p>
+			</div>
+			<form
+				className="mt-6 flex sm:max-w-md lg:mt-0 flex-col sm:flex-row"
+				onSubmit={handleSubmit}
+			>
+				<label htmlFor="email-address" className="sr-only">
+					Email address
+				</label>
+				<Input
+					type="email"
+					name="email-address"
+					id="email-address"
+					invalid={submissionState === "email-error"}
+					value={email}
+					onChange={handleEmailChange}
+					autoComplete="email"
+					required
+					className="w-full"
+					placeholder="Enter your email"
+				/>
+				<div className="mt-4 sm:ml-4 sm:mt-0 sm:flex-shrink-0 w-full sm:w-fit">
+					<Button
+						className="w-full sm:w-auto !cursor-pointer"
+						color="emerald"
+						onClick={handleSubmit}
+						disabled={submissionState === "loading"}
+					>
+						Join
+					</Button>
+				</div>
+			</form>
+		</div>
+	);
+}
+
+function FooterBottom() {
+	return (
+		<div className="mt-8 border-t border-zinc-900/10 dark:border-zinc-50/10 pt-8 md:flex md:items-center md:justify-between">
+			<div className="flex gap-x-6 md:order-2">
+				{navigation.social.map((item) => (
+					<SocialLink key={item.name} href={item.href} icon={item.icon}>
+						{item.name}
+					</SocialLink>
+				))}
+			</div>
+			<p className="mt-8 text-xs leading-5 text-zinc-600 dark:text-zinc-400 md:order-1 md:mt-0">
+				&copy; Copyright {new Date().getFullYear()} Kayle. All rights reserved.
+			</p>
+		</div>
 	);
 }

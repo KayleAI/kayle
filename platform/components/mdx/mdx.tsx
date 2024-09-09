@@ -89,11 +89,10 @@ export const article = function Article({
 	id,
 	date,
 	children,
-	...props
 }: {
-	id: string;
-	date: string | Date;
-	children: React.ReactNode;
+	readonly id: string;
+	readonly date: string | Date;
+	readonly children: React.ReactNode;
 }) {
 	const heightRef = useRef<React.ElementRef<"div">>(null);
 	const [heightAdjustment, setHeightAdjustment] = useState(0);
@@ -114,6 +113,7 @@ export const article = function Article({
 
 		observer.observe(heightRef.current);
 
+		// skipcq: JS-0045 - this is fine
 		return () => {
 			observer.disconnect();
 		};
@@ -135,7 +135,7 @@ export const article = function Article({
 	);
 };
 
-export function wrapper({ children }: { children: React.ReactNode }) {
+export function wrapper({ children }: { readonly children: React.ReactNode }) {
 	return (
 		<article className="flex h-full flex-col pb-10 pt-16">
 			<Prose className="flex-auto">{children}</Prose>
@@ -146,7 +146,7 @@ export function wrapper({ children }: { children: React.ReactNode }) {
 	);
 }
 
-function InfoIcon(props: React.ComponentPropsWithoutRef<"svg">) {
+function InfoIcon(props: Readonly<React.ComponentPropsWithoutRef<"svg">>) {
 	return (
 		<svg viewBox="0 0 16 16" aria-hidden="true" {...props}>
 			<circle cx="8" cy="8" r="8" strokeWidth="0" />
@@ -162,7 +162,7 @@ function InfoIcon(props: React.ComponentPropsWithoutRef<"svg">) {
 	);
 }
 
-export function Note({ children }: { children: React.ReactNode }) {
+export function Note({ children }: { readonly children: React.ReactNode }) {
 	return (
 		<div className="my-6 flex gap-2.5 rounded-2xl border border-emerald-500/20 bg-emerald-50/50 p-4 leading-6 text-emerald-900 dark:border-emerald-500/30 dark:bg-emerald-500/5 dark:text-emerald-200 dark:[--tw-prose-links-hover:theme(colors.emerald.300)] dark:[--tw-prose-links:theme(colors.white)]">
 			<InfoIcon className="mt-1 h-4 w-4 flex-none fill-emerald-500 stroke-white dark:fill-emerald-200/20 dark:stroke-emerald-200" />
@@ -173,7 +173,7 @@ export function Note({ children }: { children: React.ReactNode }) {
 	);
 }
 
-export function Warn({ children }: { children: React.ReactNode }) {
+export function Warn({ children }: { readonly children: React.ReactNode }) {
 	return (
 		<div className="my-6 flex gap-2.5 rounded-2xl border border-amber-500/20 bg-amber-50/50 p-4 leading-6 text-amber-900 dark:border-amber-500/30 dark:bg-amber-500/5 dark:text-amber-200 dark:[--tw-prose-links-hover:theme(colors.amber.300)] dark:[--tw-prose-links:theme(colors.white)]">
 			<InfoIcon className="mt-1 h-4 w-4 flex-none fill-amber-500 stroke-white dark:fill-amber-200/20 dark:stroke-amber-200" />
@@ -184,7 +184,7 @@ export function Warn({ children }: { children: React.ReactNode }) {
 	);
 }
 
-export function Row({ children }: { children: React.ReactNode }) {
+export function Row({ children }: { readonly children: React.ReactNode }) {
 	return (
 		<div className="grid grid-cols-1 items-start gap-x-16 gap-y-10 xl:max-w-none xl:grid-cols-2">
 			{children}
@@ -196,8 +196,8 @@ export function Col({
 	children,
 	sticky = false,
 }: {
-	children: React.ReactNode;
-	sticky?: boolean;
+	readonly children: React.ReactNode;
+	readonly sticky?: boolean;
 }) {
 	return (
 		<div
@@ -211,7 +211,7 @@ export function Col({
 	);
 }
 
-export function Properties({ children }: { children: React.ReactNode }) {
+export function Properties({ children }: { readonly children: React.ReactNode }) {
 	return (
 		<div className="my-6">
 			<ul className="m-0 max-w-[calc(theme(maxWidth.lg)-theme(spacing.8))] list-none divide-y divide-zinc-900/5 p-0 dark:divide-white/5">
@@ -227,10 +227,10 @@ export function Property({
 	type,
 	defaultValue,
 }: {
-	name: string;
-	children: React.ReactNode;
-	type?: string;
-	defaultValue?: string;
+	readonly name: string;
+	readonly children: React.ReactNode;
+	readonly type?: string;
+	readonly defaultValue?: string;
 }) {
 	return (
 		<li className="m-0 px-0 py-4 first:pt-0 last:pb-0">

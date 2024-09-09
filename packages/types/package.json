@@ -1,0 +1,11 @@
+{
+	"name": "@repo/types",
+	"description": "Shared types for Kayle.",
+	"version": "0.0.0",
+	"exports": {
+		"./*": "./src/*.ts"
+	},
+	"scripts": {},
+	"dependencies": {},
+	"devDependencies": {}
+}

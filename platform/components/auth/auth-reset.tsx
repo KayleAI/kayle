@@ -12,7 +12,7 @@ import {
 import { Input } from "@repo/ui/input";
 import { Button } from "@repo/ui/button";
 import { Text, TextLink } from "@repo/ui/text";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useCaptcha } from "@/utils/captcha/CaptchaProvider";
 import { toast } from "sonner";
 import {
@@ -29,40 +29,50 @@ export function AuthResetPanel() {
 	>("idle");
 	const { captchaToken, resetCaptcha } = useCaptcha();
 
-	resetCaptcha();
+	useEffect(() => {
+		resetCaptcha();
+	}, [resetCaptcha]);
+
+	const handleEmailChange = useCallback((e: any) => {
+		setEmail(e.target.value);
+	}, []);
+
+	const submitForm = useCallback(
+		async (e: any) => {
+			e.preventDefault();
+			setStatus("pending");
+
+			const { error } = await supabase.auth.resetPasswordForEmail(email, {
+				captchaToken,
+				redirectTo: `${window.location.origin}/auth/change-password`,
+			});
+
+			if (error) {
+				setStatus("error");
+				console.error(error);
+				toast.error(
+					betterErrorMessages[error.message as keyof BetterErrorMessagesType] ??
+						error.message,
+				);
+				return;
+			}
+
+			resetCaptcha();
+
+			setTimeout(() => {
+				setStatus("success");
+				toast.info(
+					"If an account with that email exists, an email with a link to reset your password has been sent.",
+				);
+			}, 2000);
+		},
+		[captchaToken, email, resetCaptcha, supabase.auth],
+	);
 
 	return (
 		<form
 			className="max-w-md mx-auto border border-zinc-950/10 dark:border-white/10 px-4 py-6 rounded-lg w-full"
-			onSubmit={async (e: any) => {
-				e.preventDefault();
-				setStatus("pending");
-
-				const { error } = await supabase.auth.resetPasswordForEmail(email, {
-					captchaToken: captchaToken,
-					redirectTo: `${window.location.origin}/auth/change-password`,
-				});
-
-				if (error) {
-					setStatus("error");
-					console.error(error);
-					toast.error(
-						betterErrorMessages[
-							error.message as keyof BetterErrorMessagesType
-						] ?? error.message,
-					);
-					return;
-				}
-
-				resetCaptcha();
-
-				setTimeout(() => {
-					setStatus("success");
-					toast.info(
-						"If an account with that email exists, an email with a link to reset your password has been sent.",
-					);
-				}, 2000);
-			}}
+			onSubmit={submitForm}
 		>
 			<Fieldset>
 				<Legend>Reset your password</Legend>
@@ -78,7 +88,7 @@ export function AuthResetPanel() {
 							name="email"
 							type="email"
 							value={email}
-							onChange={(e) => setEmail(e.target.value)}
+							onChange={handleEmailChange}
 						/>
 						<Description>
 							Enter the email address associated with your account.

@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import {
 	Popover,
 	PopoverButton,
-	PopoverOverlay,
+	PopoverBackdrop,
 	PopoverPanel,
 	Transition,
 	TransitionChild,
@@ -81,6 +81,37 @@ function MobileNavItem({
 	);
 }
 
+function MobileNavContent() {
+	return (
+		<PopoverPanel
+			focus
+			className="fixed inset-x-4 top-8 z-50 origin-top rounded-3xl bg-white p-8 ring-1 ring-neutral-900/5 dark:bg-neutral-900 dark:ring-neutral-800"
+		>
+			<div className="flex flex-row-reverse items-center justify-between">
+				<PopoverButton aria-label="Close menu" className="-m-1 p-1">
+					<CloseIcon className="h-6 w-6 text-neutral-500 dark:text-neutral-400" />
+				</PopoverButton>
+				<h2 className="text-sm font-medium text-neutral-600 dark:text-neutral-400">
+					Navigation
+				</h2>
+			</div>
+			<nav className="mt-6">
+				<ul className="-my-2 divide-y divide-neutral-100 text-base text-neutral-800 dark:divide-neutral-100/5 dark:text-neutral-300">
+					{navigation.map((item) => (
+						<MobileNavItem
+							key={item.href}
+							href={item.href}
+							newTab={item?.newTab || false}
+						>
+							{item.name}
+						</MobileNavItem>
+					))}
+				</ul>
+			</nav>
+		</PopoverPanel>
+	);
+}
+
 function MobileNavigation(
 	props: Readonly<React.ComponentPropsWithoutRef<typeof Popover>>,
 ) {
@@ -100,7 +131,7 @@ function MobileNavigation(
 					leaveFrom="opacity-100"
 					leaveTo="opacity-0"
 				>
-					<PopoverOverlay className="fixed inset-0 z-50 bg-neutral-800/40 backdrop-blur-sm dark:bg-black/80" />
+					<PopoverBackdrop className="fixed inset-0 z-50 bg-neutral-800/40 backdrop-blur-sm dark:bg-black/80" />
 				</TransitionChild>
 				<TransitionChild
 					as={Fragment}
@@ -111,32 +142,7 @@ function MobileNavigation(
 					leaveFrom="opacity-100 scale-100"
 					leaveTo="opacity-0 scale-95"
 				>
-					<PopoverPanel
-						focus
-						className="fixed inset-x-4 top-8 z-50 origin-top rounded-3xl bg-white p-8 ring-1 ring-neutral-900/5 dark:bg-neutral-900 dark:ring-neutral-800"
-					>
-						<div className="flex flex-row-reverse items-center justify-between">
-							<PopoverButton aria-label="Close menu" className="-m-1 p-1">
-								<CloseIcon className="h-6 w-6 text-neutral-500 dark:text-neutral-400" />
-							</PopoverButton>
-							<h2 className="text-sm font-medium text-neutral-600 dark:text-neutral-400">
-								Navigation
-							</h2>
-						</div>
-						<nav className="mt-6">
-							<ul className="-my-2 divide-y divide-neutral-100 text-base text-neutral-800 dark:divide-neutral-100/5 dark:text-neutral-300">
-								{navigation.map((item) => (
-									<MobileNavItem
-										key={item.href}
-										href={item.href}
-										newTab={item?.newTab || false}
-									>
-										{item.name}
-									</MobileNavItem>
-								))}
-							</ul>
-						</nav>
-					</PopoverPanel>
+					<MobileNavContent />
 				</TransitionChild>
 			</Transition>
 		</Popover>
@@ -247,6 +253,35 @@ function Logo({
 	);
 }
 
+function HeaderContent() {
+	return (
+		<Container
+			className="top-[var(--header-top,theme(spacing.6))] w-full"
+			style={{
+				position:
+					"var(--header-inner-position)" as React.CSSProperties["position"],
+			}}
+		>
+			<div className="relative flex gap-4">
+				<div className="flex flex-1">
+					<LogoContainer>
+						<Logo />
+					</LogoContainer>
+				</div>
+				<div className="flex flex-1 justify-end md:justify-center">
+					<MobileNavigation className="pointer-events-auto md:hidden" />
+					<DesktopNavigation className="pointer-events-auto hidden md:block" />
+				</div>
+				<div className="flex justify-end md:flex-1">
+					<div className="pointer-events-auto">
+						<LoginButton />
+					</div>
+				</div>
+			</div>
+		</Container>
+	);
+}
+
 export function Header() {
 	const headerRef = useRef<React.ElementRef<"div">>(null);
 	const logoRef = useRef<React.ElementRef<"div">>(null);
@@ -269,30 +304,7 @@ export function Header() {
 					position: "var(--header-position)" as React.CSSProperties["position"],
 				}}
 			>
-				<Container
-					className="top-[var(--header-top,theme(spacing.6))] w-full"
-					style={{
-						position:
-							"var(--header-inner-position)" as React.CSSProperties["position"],
-					}}
-				>
-					<div className="relative flex gap-4">
-						<div className="flex flex-1">
-							<LogoContainer>
-								<Logo />
-							</LogoContainer>
-						</div>
-						<div className="flex flex-1 justify-end md:justify-center">
-							<MobileNavigation className="pointer-events-auto md:hidden" />
-							<DesktopNavigation className="pointer-events-auto hidden md:block" />
-						</div>
-						<div className="flex justify-end md:flex-1">
-							<div className="pointer-events-auto">
-								<LoginButton />
-							</div>
-						</div>
-					</div>
-				</Container>
+				<HeaderContent />
 			</div>
 		</header>
 	);

@@ -1,5 +1,5 @@
 // Types
-import type { ModerationType } from "@/types/moderation";
+import type { ModerationType } from "@repo/types/moderation";
 
 // Utils
 import { getFileNameFromResponse } from "./utils";
@@ -16,7 +16,7 @@ export async function downloadFromUrl(
 			return handleBase64Data(data, maxMB, type);
 		}
 
-		return handleUrlData(url, maxMB, type);
+		return await handleUrlData(url, maxMB, type);
 	} catch (error) {
 		throw new Error(`Failed to download file: ${error}`);
 	}
@@ -42,10 +42,12 @@ function handleBase64Data(
 	maxMB: number,
 	type?: ModerationType,
 ): File {
-	const matches = data.match(/^data:([a-z]+\/[a-z0-9-+.]+);base64,/i);
+	const base64Pattern = /^data:([a-z]+\/[a-z0-9-+.]+);base64,/i;
+	const matches = base64Pattern.exec(data);
 	if (!matches) throw new Error("Invalid base64 data");
 
 	const contentType = matches[1];
+	
 	if (type && !contentType.includes(type)) {
 		throw new Error("Invalid content type");
 	}

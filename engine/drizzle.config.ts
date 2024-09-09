@@ -1,4 +1,10 @@
 import { defineConfig } from "drizzle-kit";
+import * as dotenv from "dotenv";
+
+dotenv.config({
+	path: ".env.local", // Path to .env file
+	override: true, // Override existing environment variables
+});
 
 export default defineConfig({
 	dialect: "postgresql",
@@ -7,7 +13,7 @@ export default defineConfig({
 	dbCredentials: {
 		// Directly connect to the local Supabase instance as
 		// this should be identical to the production database.
-		url: "postgresql://postgres:postgres@127.0.0.1:54322/postgres",
+		url: process.env.DATABASE_URL ?? "",
 	},
 	schemaFilter: ["public", "storage", "auth"],
 });

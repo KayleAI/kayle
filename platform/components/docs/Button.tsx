@@ -1,7 +1,7 @@
 import Link from "next/link";
 import clsx from "clsx";
 
-function ArrowIcon(props: React.ComponentPropsWithoutRef<"svg">) {
+function ArrowIcon(props: Readonly<React.ComponentPropsWithoutRef<"svg">>) {
 	return (
 		<svg viewBox="0 0 20 20" fill="none" aria-hidden="true" {...props}>
 			<path
@@ -31,7 +31,7 @@ type ButtonProps = {
 	arrow?: "left" | "right";
 } & (
 	| React.ComponentPropsWithoutRef<typeof Link>
-	| (React.ComponentPropsWithoutRef<"button"> & { href?: undefined })
+	| (React.ComponentPropsWithoutRef<"button"> & { href: undefined })
 );
 
 export function Button({

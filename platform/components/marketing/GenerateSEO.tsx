@@ -4,7 +4,7 @@ import type { OpenGraph } from "next/dist/lib/metadata/types/opengraph-types";
 import type { Twitter } from "next/dist/lib/metadata/types/twitter-types";
 
 // Constants
-const url = new URL(`https://${process.env.VERCEL_PROJECT_PRODUCTION_URL!}`);
+const url = new URL(`https://${process.env?.VERCEL_PROJECT_PRODUCTION_URL ?? "kayle.ai"}`);
 
 const site = {
 	title: "Content moderation made simple.",
@@ -94,12 +94,19 @@ export function GenerateSEO({
 		type: "image/png",
 	};
 
-	metadata.openGraph!.images = image ? [image] : [screenshot];
-	metadata.twitter!.images = image ? [image] : [screenshot];
+	if (metadata?.openGraph) {
+		metadata.openGraph.images = image ? [image] : [screenshot];
+	}
+
+	if (metadata?.twitter) {
+		metadata.twitter.images = image ? [image] : [screenshot];
+	}
 
 	if (siteName) {
 		metadata.applicationName = siteName;
-		metadata.openGraph!.siteName = siteName;
+		if (metadata?.openGraph) {
+			metadata.openGraph.siteName = siteName;
+		}
 	}
 
 	return metadata;

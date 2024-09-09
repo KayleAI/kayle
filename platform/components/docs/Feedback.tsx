@@ -1,10 +1,10 @@
 "use client";
 
-import { forwardRef, useState } from "react";
+import { forwardRef, useCallback, useState } from "react";
 import { Transition } from "@headlessui/react";
 import clsx from "clsx";
 
-function CheckIcon(props: React.ComponentPropsWithoutRef<"svg">) {
+function CheckIcon(props: Readonly<React.ComponentPropsWithoutRef<"svg">>) {
 	return (
 		<svg viewBox="0 0 20 20" aria-hidden="true" {...props}>
 			<circle cx="10" cy="10" r="10" strokeWidth="0" />
@@ -20,7 +20,9 @@ function CheckIcon(props: React.ComponentPropsWithoutRef<"svg">) {
 }
 
 function FeedbackButton(
-	props: Omit<React.ComponentPropsWithoutRef<"button">, "type" | "className">,
+	props: Readonly<
+		Omit<React.ComponentPropsWithoutRef<"button">, "type" | "className">
+	>,
 ) {
 	return (
 		<button
@@ -81,14 +83,14 @@ const FeedbackThanks = forwardRef<
 export function Feedback() {
 	const [submitted, setSubmitted] = useState(false);
 
-	function onSubmit(event: React.FormEvent<HTMLFormElement>) {
+	const onSubmit = useCallback((event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
 		// event.nativeEvent.submitter.dataset.response
 		// => "yes" or "no"
 
 		setSubmitted(true);
-	}
+	}, []);
 
 	return (
 		<div className="relative h-8">

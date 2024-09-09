@@ -8,30 +8,8 @@ import {
 	useState,
 	useRef,
 	type ReactNode,
+	useCallback,
 } from "react";
-
-export function Captcha({
-	invisible = false,
-}: { readonly invisible?: boolean }) {
-	const ref = useRef<TurnstileInstance>(null);
-	const { setCaptchaToken, setResetCaptcha } = useCaptcha();
-
-	useMemo(() => {
-		setResetCaptcha(() => () => ref.current?.reset());
-	}, [setResetCaptcha]);
-
-	return (
-		<Turnstile
-			ref={ref}
-			className={(invisible && "hidden") || ""}
-			siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
-			onSuccess={(token: string) => {
-				setCaptchaToken(token);
-			}}
-			onExpire={() => ref.current?.reset()}
-		/>
-	);
-}
 
 interface CaptchaContextType {
 	captchaToken: string;
@@ -50,9 +28,45 @@ export const useCaptcha = () => {
 	return context;
 };
 
+export function Captcha({
+	invisible = false,
+}: { readonly invisible?: boolean }) {
+	const ref = useRef<TurnstileInstance>(null);
+	const { setCaptchaToken, setResetCaptcha } = useCaptcha();
+
+	useMemo(() => {
+		setResetCaptcha(() => () => ref.current?.reset());
+	}, [setResetCaptcha]);
+
+	const onSuccess = useCallback(
+		(token: string) => {
+			setCaptchaToken(token);
+		},
+		[setCaptchaToken],
+	);
+
+	const onExpire = useCallback(() => {
+		ref.current?.reset();
+	}, []);
+
+	if (!process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY) {
+		return null;
+	}
+
+	return (
+		<Turnstile
+			ref={ref}
+			className={(invisible && "hidden") || ""}
+			siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
+			onSuccess={onSuccess}
+			onExpire={onExpire}
+		/>
+	);
+}
+
 export const CaptchaProvider = ({ children }: { children: ReactNode }) => {
 	const [captchaToken, setCaptchaToken] = useState<string>("");
-	const [resetCaptcha, setResetCaptcha] = useState<() => void>(() => () => {});
+	const [resetCaptcha, setResetCaptcha] = useState<() => void>(() => {/* noop */});
 
 	const value = useMemo(
 		() => ({

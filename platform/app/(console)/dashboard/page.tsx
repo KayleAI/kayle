@@ -1,9 +1,5 @@
-import { PlatformDashboard } from "@/components/console/platform-dashboard";
+import { DashboardClient } from "./page.client";
 
 export default function Dashboard() {
-	return (
-		<>
-			<PlatformDashboard />
-		</>
-	);
+	return <DashboardClient />;
 }

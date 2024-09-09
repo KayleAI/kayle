@@ -3,7 +3,7 @@
 import { useOrg } from "@/utils/auth/OrgProvider";
 import { Card, CardGroup } from "@repo/ui/card";
 import { PageHeading } from "@repo/ui/page-heading";
-import { OrgArea } from "../auth/org-area";
+import { OrgArea } from "../../../components/auth/org-area";
 
 const options = [
 	{
@@ -27,7 +27,7 @@ const options = [
 	},
 ];
 
-export function PlatformDashboard() {
+export function DashboardClient() {
 	const orgs = useOrg();
 
 	return (

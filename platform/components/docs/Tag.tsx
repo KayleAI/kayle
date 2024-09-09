@@ -45,9 +45,10 @@ export function Tag({
 	variant = "medium",
 	color = valueColorMap[children] ?? "emerald",
 }: {
-	children: keyof typeof valueColorMap & (string | Record<string, never>);
-	variant?: keyof typeof variantStyles;
-	color?: keyof typeof colorStyles;
+	readonly children: keyof typeof valueColorMap &
+		(string | Record<string, never>);
+	readonly variant?: keyof typeof variantStyles;
+	readonly color?: keyof typeof colorStyles;
 }) {
 	return (
 		<span

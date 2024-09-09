@@ -1,6 +1,6 @@
 // DB
 import { content as contentTable } from "@/db/drizzle/schema";
-import type { ModerationType } from "@/types/moderation";
+import type { ModerationType } from "@repo/types/moderation";
 
 // Types
 import type { NodePgDatabase } from "drizzle-orm/node-postgres";
@@ -30,5 +30,5 @@ export async function storeContent({
 			id: contentTable.id,
 		});
 
-	return contentResult?.[0]?.id;
+	return contentResult?.[0]?.id ?? "";
 }

@@ -23,6 +23,7 @@ import { Dialog, DialogPanel, DialogBackdrop } from "@headlessui/react";
 import clsx from "clsx";
 
 import { navigation } from "@/components/docs/Navigation";
+import { getCommandKey } from "@/utils/get-command-key";
 
 export interface Result extends BaseItem {
 	url: string;
@@ -87,9 +88,11 @@ function useAutocomplete({ close }: { close: () => void }) {
 						{
 							sourceId: "documentation",
 							getItems() {
+								// NOSONAR
 								return search(query, { limit: 5 });
 							},
 							getItemUrl({ item }) {
+								// NOSONAR
 								return item.url;
 							},
 							onSelect: navigate,
@@ -103,7 +106,7 @@ function useAutocomplete({ close }: { close: () => void }) {
 	return { autocomplete, autocompleteState };
 }
 
-function SearchIcon(props: React.ComponentPropsWithoutRef<"svg">) {
+function SearchIcon(props: Readonly<React.ComponentPropsWithoutRef<"svg">>) {
 	return (
 		<svg viewBox="0 0 20 20" fill="none" aria-hidden="true" {...props}>
 			<path
@@ -115,7 +118,7 @@ function SearchIcon(props: React.ComponentPropsWithoutRef<"svg">) {
 	);
 }
 
-function NoResultsIcon(props: React.ComponentPropsWithoutRef<"svg">) {
+function NoResultsIcon(props: Readonly<React.ComponentPropsWithoutRef<"svg">>) {
 	return (
 		<svg viewBox="0 0 20 20" fill="none" aria-hidden="true" {...props}>
 			<path
@@ -127,7 +130,7 @@ function NoResultsIcon(props: React.ComponentPropsWithoutRef<"svg">) {
 	);
 }
 
-function LoadingIcon(props: React.ComponentPropsWithoutRef<"svg">) {
+function LoadingIcon(props: Readonly<React.ComponentPropsWithoutRef<"svg">>) {
 	const id = useId();
 
 	return (
@@ -156,13 +159,16 @@ function LoadingIcon(props: React.ComponentPropsWithoutRef<"svg">) {
 	);
 }
 
-function HighlightQuery({ text, query }: { text: string; query: string }) {
+function HighlightQuery({
+	text,
+	query,
+}: { readonly text: string; readonly query: string }) {
 	return (
 		<Highlighter
 			highlightClassName="underline bg-transparent text-emerald-500"
 			searchWords={[query]}
-			autoEscape={true}
 			textToHighlight={text}
+			autoEscape
 		/>
 	);
 }
@@ -174,11 +180,11 @@ function SearchResult({
 	collection,
 	query,
 }: {
-	result: Result;
-	resultIndex: number;
-	autocomplete: Autocomplete;
-	collection: AutocompleteCollection<Result>;
-	query: string;
+	readonly result: Result;
+	readonly resultIndex: number;
+	readonly autocomplete: Autocomplete;
+	readonly collection: AutocompleteCollection<Result>;
+	readonly query: string;
 }) {
 	const id = useId();
 
@@ -215,8 +221,7 @@ function SearchResult({
 					className="mt-1 truncate whitespace-nowrap text-2xs text-zinc-500"
 				>
 					{hierarchy.map((item, itemIndex, items) => (
-						// biome-ignore lint/suspicious/noArrayIndexKey: it's fine for now
-						<Fragment key={itemIndex}>
+						<Fragment key={item}>
 							<HighlightQuery text={item} query={query} />
 							<span
 								className={
@@ -235,25 +240,29 @@ function SearchResult({
 	);
 }
 
+function Quote({ children }: { readonly children: React.ReactNode }) {
+	return (
+		<strong className="break-words font-semibold text-zinc-900 dark:text-white">
+			“{children}”
+		</strong>
+	);
+}
+
 function SearchResults({
 	autocomplete,
 	query,
 	collection,
 }: {
-	autocomplete: Autocomplete;
-	query: string;
-	collection?: AutocompleteCollection<Result>;
+	readonly autocomplete: Autocomplete;
+	readonly query: string;
+	readonly collection?: AutocompleteCollection<Result>;
 }) {
 	if (!collection || collection.items.length === 0) {
 		return (
 			<div className="p-6 text-center">
 				<NoResultsIcon className="mx-auto h-5 w-5 stroke-zinc-900 dark:stroke-zinc-600" />
 				<p className="mt-2 text-xs text-zinc-700 dark:text-zinc-400">
-					Nothing found for{" "}
-					<strong className="break-words font-semibold text-zinc-900 dark:text-white">
-						&lsquo;{query}&rsquo;
-					</strong>
-					. Please try again.
+					Nothing found for <Quote>{query}</Quote>. Please try again.
 				</p>
 			</div>
 		);
@@ -284,23 +293,32 @@ const SearchInput = forwardRef<
 	}
 >(function SearchInput({ autocomplete, autocompleteState, onClose }, inputRef) {
 	const inputProps = autocomplete.getInputProps({ inputElement: null });
-	const handleSearchEscape = (event: React.KeyboardEvent<HTMLInputElement>) => {
-		if (
-			event.key === "Escape" &&
-			!autocompleteState.isOpen &&
-			autocompleteState.query === ""
-		) {
-			// In Safari, closing the dialog with the escape key can sometimes cause the scroll position to jump to the
-			// bottom of the page. This is a workaround for that until we can figure out a proper fix in Headless UI.
-			if (document.activeElement instanceof HTMLElement) {
-				document.activeElement.blur();
-			}
 
-			onClose();
-		} else {
-			inputProps.onKeyDown(event);
-		}
-	};
+	const handleKeyDown = useCallback(
+		(event: React.KeyboardEvent<HTMLInputElement>) => {
+			if (
+				event.key === "Escape" &&
+				!autocompleteState.isOpen &&
+				autocompleteState.query === ""
+			) {
+				// In Safari, closing the dialog with the escape key can sometimes cause the scroll position to jump to the
+				// bottom of the page. This is a workaround for that until we can figure out a proper fix in Headless UI.
+				if (document.activeElement instanceof HTMLElement) {
+					document.activeElement.blur();
+				}
+
+				onClose();
+			} else {
+				inputProps.onKeyDown(event);
+			}
+		},
+		[
+			autocompleteState.isOpen,
+			autocompleteState.query,
+			onClose,
+			inputProps.onKeyDown,
+		],
+	);
 
 	return (
 		<div className="group relative flex h-12">
@@ -313,7 +331,7 @@ const SearchInput = forwardRef<
 					autocompleteState.status === "stalled" ? "pr-11" : "pr-4",
 				)}
 				{...inputProps}
-				onKeyDown={handleSearchEscape}
+				onKeyDown={handleKeyDown}
 			/>
 			{autocompleteState.status === "stalled" && (
 				<div className="absolute inset-y-0 right-3 flex items-center">
@@ -324,14 +342,73 @@ const SearchInput = forwardRef<
 	);
 });
 
+const SearchResultsPanel = ({
+	panelRef,
+	autocomplete,
+	autocompleteState,
+}: {
+	readonly panelRef: React.RefObject<HTMLDivElement>;
+	readonly autocomplete: Autocomplete;
+	readonly autocompleteState: AutocompleteState<Result> | EmptyObject;
+}) => (
+	<div
+		ref={panelRef}
+		className="border-t border-zinc-200 bg-white empty:hidden dark:border-zinc-100/5 dark:bg-white/2.5"
+		{...autocomplete.getPanelProps({})}
+	>
+		{autocompleteState.isOpen && (
+			<SearchResults
+				autocomplete={autocomplete}
+				query={autocompleteState.query}
+				collection={autocompleteState.collections[0]}
+			/>
+		)}
+	</div>
+);
+
+const SearchDialogContent = ({
+	formRef,
+	inputRef,
+	panelRef,
+	autocomplete,
+	autocompleteState,
+	onClose,
+}: {
+	readonly formRef: React.RefObject<HTMLFormElement>;
+	readonly inputRef: React.RefObject<HTMLInputElement>;
+	readonly panelRef: React.RefObject<HTMLDivElement>;
+	readonly autocomplete: Autocomplete;
+	readonly autocompleteState: AutocompleteState<Result> | EmptyObject;
+	readonly onClose: () => void;
+}) => (
+	<div {...autocomplete.getRootProps({})}>
+		<form
+			ref={formRef}
+			{...autocomplete.getFormProps({ inputElement: inputRef.current })}
+		>
+			<SearchInput
+				ref={inputRef}
+				autocomplete={autocomplete}
+				autocompleteState={autocompleteState}
+				onClose={onClose}
+			/>
+			<SearchResultsPanel
+				panelRef={panelRef}
+				autocomplete={autocomplete}
+				autocompleteState={autocompleteState}
+			/>
+		</form>
+	</div>
+);
+
 function SearchDialog({
 	open,
 	setOpen,
 	className,
 }: {
-	open: boolean;
-	setOpen: (open: boolean) => void;
-	className?: string;
+	readonly open: boolean;
+	readonly setOpen: (open: boolean) => void;
+	readonly className?: string;
 }) {
 	const formRef = useRef<React.ElementRef<"form">>(null);
 	const panelRef = useRef<React.ElementRef<"div">>(null);
@@ -372,10 +449,21 @@ function SearchDialog({
 
 		window.addEventListener("keydown", onKeyDown);
 
+		// skipcq: JS-0045
 		return () => {
 			window.removeEventListener("keydown", onKeyDown);
 		};
 	}, [open, setOpen]);
+
+	const handleDialogClose = useCallback(() => {
+		setOpen(false);
+		autocomplete.setQuery("");
+	}, [setOpen, autocomplete]);
+
+	const handleSearchClose = useCallback(() => {
+		setOpen(false);
+		autocomplete.setQuery("");
+	}, [setOpen, autocomplete]);
 
 	return (
 		<Dialog
@@ -404,7 +492,7 @@ function SearchDialog({
 								ref={inputRef}
 								autocomplete={autocomplete}
 								autocompleteState={autocompleteState}
-								onClose={handleInputClose}
+								onClose={() => setOpen(false)}
 							/>
 							<div
 								ref={panelRef}
@@ -455,9 +543,11 @@ export function Search() {
 	const [modifierKey, setModifierKey] = useState<string>();
 	const { buttonProps, dialogProps } = useSearchProps();
 
+	const { key } = getCommandKey();
+
 	useEffect(() => {
 		setModifierKey(
-			/(Mac|iPhone|iPod|iPad)/i.test(window.navigator.platform) ? "⌘" : "Ctrl ", // added window. to resolve deprecation warning
+			/(Mac|iPhone|iPod|iPad)/i.test(navigator.platform) ? "⌘" : "Ctrl ",
 		);
 	}, []);
 

@@ -7,12 +7,12 @@ export function GridPattern({
 	y,
 	squares,
 	...props
-}: React.ComponentPropsWithoutRef<"svg"> & {
-	width: number;
-	height: number;
-	x: string | number;
-	y: string | number;
-	squares: Array<[x: number, y: number]>;
+}: Readonly<React.ComponentPropsWithoutRef<"svg">> & {
+	readonly width: number;
+	readonly height: number;
+	readonly x: string | number;
+	readonly y: string | number;
+	readonly squares: Array<[x: number, y: number]>;
 }) {
 	const patternId = useId();
 

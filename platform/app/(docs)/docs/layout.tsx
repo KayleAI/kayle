@@ -1,20 +1,12 @@
-import type { Metadata } from "next";
 import glob from "fast-glob";
 
 import { Layout } from "@/components/docs/Layout";
 import type { Section } from "@/components/docs/SectionProvider";
 
-export const metadata: Metadata = {
-	title: {
-		template: "%s - Kayle API Reference",
-		default: "Kayle API Reference",
-	},
-};
-
 export default async function RootLayout({
 	children,
 }: {
-	children: React.ReactNode;
+readonly	children: React.ReactNode;
 }) {
 	const pages = await glob("**/*.mdx", { cwd: "app/(docs)/docs" });
 	const allSectionsEntries = (await Promise.all(

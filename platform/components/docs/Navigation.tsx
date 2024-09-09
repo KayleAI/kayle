@@ -11,6 +11,7 @@ import { useIsInsideMobileNavigation } from "@/components/docs/MobileNavigation"
 import { useSectionStore } from "@/components/docs/SectionProvider";
 import { Tag } from "@/components/docs/Tag";
 import { remToPx } from "@/utils/remToPx";
+import { useAuth } from "@/utils/auth/AuthProvider";
 
 interface NavGroup {
 	title: string;
@@ -29,8 +30,8 @@ function TopLevelNavItem({
 	href,
 	children,
 }: {
-	href: string;
-	children: React.ReactNode;
+	readonly href: string;
+	readonly children: React.ReactNode;
 }) {
 	return (
 		<li className="md:hidden">
@@ -51,11 +52,11 @@ function NavLink({
 	active = false,
 	isAnchorLink = false,
 }: {
-	href: string;
-	children: React.ReactNode;
-	tag?: string;
-	active?: boolean;
-	isAnchorLink?: boolean;
+	readonly href: string;
+	readonly children: React.ReactNode;
+	readonly tag?: string;
+	readonly active?: boolean;
+	readonly isAnchorLink?: boolean;
 }) {
 	return (
 		<Link
@@ -83,8 +84,8 @@ function VisibleSectionHighlight({
 	group,
 	pathname,
 }: {
-	group: NavGroup;
-	pathname: string;
+	readonly group: NavGroup;
+	readonly pathname: string;
 }) {
 	const [sections, visibleSections] = useInitialValue(
 		[
@@ -125,8 +126,8 @@ function ActivePageMarker({
 	group,
 	pathname,
 }: {
-	group: NavGroup;
-	pathname: string;
+	readonly group: NavGroup;
+	readonly pathname: string;
 }) {
 	const itemHeight = remToPx(2);
 	const offset = remToPx(0.25);
@@ -151,8 +152,8 @@ function NavigationGroup({
 	group,
 	className,
 }: {
-	group: NavGroup;
-	className?: string;
+	readonly group: NavGroup;
+	readonly className?: string;
 }) {
 	// If this is the mobile navigation then we always render the initial
 	// state, so that the state does not change during the close animation.
@@ -198,7 +199,6 @@ function NavigationGroup({
 							<AnimatePresence mode="popLayout" initial={false}>
 								{link.href === pathname && sections.length > 0 && (
 									<motion.ul
-										role="list"
 										initial={{ opacity: 0 }}
 										animate={{
 											opacity: 1,
@@ -260,7 +260,11 @@ export const navigation: Array<NavGroup> = [
 	},
 ];
 
-export function Navigation(props: React.ComponentPropsWithoutRef<"nav">) {
+export function Navigation(
+	props: Readonly<React.ComponentPropsWithoutRef<"nav">>,
+) {
+	const { authStatus } = useAuth();
+
 	return (
 		<nav {...props}>
 			<ul>
@@ -274,9 +278,15 @@ export function Navigation(props: React.ComponentPropsWithoutRef<"nav">) {
 					/>
 				))}
 				<li className="sticky bottom-0 z-10 mt-6 min-[416px]:hidden">
-					<Button href="#" variant="filled" className="w-full">
-						Sign in
-					</Button>
+					{authStatus === "authenticated" ? (
+						<Button href="/dashboard" variant="filled" className="w-full">
+							Dashboard
+						</Button>
+					) : (
+						<Button href="/sign-in" variant="filled" className="w-full">
+							Sign in
+						</Button>
+					)}
 				</li>
 			</ul>
 		</nav>
