@@ -426,11 +426,6 @@ function SearchDialog({
 		setOpen(false);
 	}, [pathname, searchParams, setOpen]);
 
-	const handleDialogClose = () => {
-		setOpen(false);
-		autocomplete.setQuery("");
-	};
-
 	const handleInputClose = () => {
 		() => setOpen(false);
 	};
@@ -547,7 +542,7 @@ export function Search() {
 
 	useEffect(() => {
 		setModifierKey(
-			/(Mac|iPhone|iPod|iPad)/i.test(navigator.platform) ? "⌘" : "Ctrl ",
+			/(Mac|iPhone|iPod|iPad)/i.test(window.navigator.userAgent) ? "⌘" : "Ctrl ",
 		);
 	}, []);
 
