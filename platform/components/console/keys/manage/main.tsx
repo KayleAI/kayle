@@ -10,7 +10,7 @@ import { OrgArea } from "@/components/auth/org-area";
 import { useOrg } from "@/utils/auth/OrgProvider";
 
 // Functions
-import { useState } from "react";
+import React, { useState } from "react";
 import { useRouter, notFound } from "next/navigation";
 
 // API Keys
@@ -31,6 +31,89 @@ export function ManageKey({
 
 	const [buttonsDisabled, setButtonsDisabled] = useState(false);
 
+	const suspendAPIKey = React.useCallback(() => {
+		toast.promise(
+			new Promise((resolve, reject) => {
+				setButtonsDisabled(true);
+
+				setTimeout(async () => {
+					try {
+						if (!orgs?.activeOrg?.id)
+							throw new Error(
+								"Something went wrong. Please try again.",
+							);
+						if (keyData?.enabled) {
+							await updateApiKey({
+								keyId,
+								orgId: orgs?.activeOrg?.id,
+								values: {
+									enabled: false,
+								},
+							});
+						} else {
+							await updateApiKey({
+								keyId,
+								orgId: orgs?.activeOrg?.id,
+								values: {
+									enabled: true,
+								},
+							});
+						}
+					} catch {
+						setButtonsDisabled(false);
+						return reject(
+							new Error("Failed to perform action on key."),
+						);
+					}
+
+					setButtonsDisabled(false);
+					router.refresh();
+					return resolve(true);
+				}, 500);
+			}),
+			{
+				loading: keyData?.enabled
+					? "Suspending API Key..."
+					: "Activating API Key...",
+				success: (_) =>
+					`API Key ${keyData?.enabled ? "suspended" : "activated"}.`,
+				error: (error) =>
+					`Error: ${error.message}`.replace("Error: Error: ", ""),
+			},
+		);
+	}, [orgs, keyData, keyId, router]);
+
+	const deleteAPIKey = React.useCallback(() => {
+		toast.promise(
+			new Promise((resolve, reject) => {
+				setButtonsDisabled(true);
+
+				setTimeout(async () => {
+					try {
+						if (!orgs?.activeOrg?.id)
+							throw new Error(
+								"Something went wrong. Please try again.",
+							);
+						await deleteApiKey(keyId, orgs?.activeOrg?.id);
+					} catch {
+						setButtonsDisabled(false);
+						return reject(new Error("Failed to delete key."));
+					}
+
+					setButtonsDisabled(false);
+					router.push("/developers/keys");
+					return resolve(true);
+				}, 500);
+			}),
+			{
+				loading: "Deleting API Key...",
+				success: (_) => "API Key deleted.",
+				error: (error) =>
+					`Error: ${error.message}`.replace("Error: Error: ", ""),
+			},
+		);
+	}, [orgs, keyId, router]);
+
 	if (!keyId) {
 		return notFound();
 	}
@@ -42,93 +125,14 @@ export function ManageKey({
 					<Button
 						disabled={buttonsDisabled}
 						color={keyData?.enabled ? "amber" : "emerald"}
-						onClick={() => {
-							toast.promise(
-								new Promise((resolve, reject) => {
-									setButtonsDisabled(true);
-
-									setTimeout(async () => {
-										try {
-											if (!orgs?.activeOrg?.id)
-												throw new Error(
-													"Something went wrong. Please try again.",
-												);
-											if (keyData?.enabled) {
-												await updateApiKey({
-													keyId,
-													orgId: orgs?.activeOrg?.id,
-													values: {
-														enabled: false,
-													},
-												});
-											} else {
-												await updateApiKey({
-													keyId,
-													orgId: orgs?.activeOrg?.id,
-													values: {
-														enabled: true,
-													},
-												});
-											}
-										} catch {
-											setButtonsDisabled(false);
-											return reject(
-												new Error("Failed to perform action on key."),
-											);
-										}
-
-										setButtonsDisabled(false);
-										router.refresh();
-										return resolve(true);
-									}, 500);
-								}),
-								{
-									loading: keyData?.enabled
-										? "Suspending API Key..."
-										: "Activating API Key...",
-									success: (_) =>
-										`API Key ${keyData?.enabled ? "suspended" : "activated"}.`,
-									error: (error) =>
-										`Error: ${error.message}`.replace("Error: Error: ", ""),
-								},
-							);
-						}}
+						onClick={suspendAPIKey}
 					>
 						{keyData?.enabled ? "Suspend API Key" : "Activate API Key"}
 					</Button>
 					<Button
 						disabled={buttonsDisabled}
 						color="red"
-						onClick={() => {
-							toast.promise(
-								new Promise((resolve, reject) => {
-									setButtonsDisabled(true);
-
-									setTimeout(async () => {
-										try {
-											if (!orgs?.activeOrg?.id)
-												throw new Error(
-													"Something went wrong. Please try again.",
-												);
-											await deleteApiKey(keyId, orgs?.activeOrg?.id);
-										} catch {
-											setButtonsDisabled(false);
-											return reject(new Error("Failed to delete key."));
-										}
-
-										setButtonsDisabled(false);
-										router.push("/developers/keys");
-										return resolve(true);
-									}, 500);
-								}),
-								{
-									loading: "Deleting API Key...",
-									success: (_) => "API Key deleted.",
-									error: (error) =>
-										`Error: ${error.message}`.replace("Error: Error: ", ""),
-								},
-							);
-						}}
+						onClick={deleteAPIKey}
 					>
 						Delete API Key
 					</Button>
