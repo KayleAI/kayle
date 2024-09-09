@@ -112,7 +112,10 @@ export default function ConsoleSidebar(): JSX.Element {
 						)}
 						<DropdownDivider />
 						{orgs?.memberOrgs?.map((org) => (
-							<DropdownItem key={org.id} onClick={() => handleOrgSwitch(org.id)}>
+							<DropdownItem
+								key={org.id}
+								onClick={() => handleOrgSwitch(org.id)}
+							>
 								<Avatar
 									slot="icon"
 									src={org.logo}
@@ -232,7 +235,9 @@ export default function ConsoleSidebar(): JSX.Element {
 							<EnvelopeIcon data-slot="icon" />
 							<DropdownLabel>Send feedback</DropdownLabel>
 						</DropdownItem>
-						<DropdownItem onClick={toggleTheme}> {/* skipcq: JS-0417 - don't see any issue */}
+						<DropdownItem onClick={toggleTheme}>
+							{" "}
+							{/* skipcq: JS-0417 - don't see any issue */}
 							{resolvedTheme === "dark" ? (
 								<SunIcon data-slot="icon" />
 							) : (
@@ -241,7 +246,9 @@ export default function ConsoleSidebar(): JSX.Element {
 							<DropdownLabel>Toggle Theme</DropdownLabel>
 						</DropdownItem>
 						<DropdownDivider />
-						<DropdownItem onClick={handleSignout}> {/* skipcq: JS-0417 - don't see any issue */}
+						<DropdownItem onClick={handleSignout}>
+							{" "}
+							{/* skipcq: JS-0417 - don't see any issue */}
 							<LeaveIcon data-slot="icon" />
 							<DropdownLabel>Sign out</DropdownLabel>
 						</DropdownItem>
