@@ -4,7 +4,9 @@ import type { OpenGraph } from "next/dist/lib/metadata/types/opengraph-types";
 import type { Twitter } from "next/dist/lib/metadata/types/twitter-types";
 
 // Constants
-const url = new URL(`https://${process.env.VERCEL_PROJECT_PRODUCTION_URL || 'kayle.ai'}`);
+const url = new URL(
+	`https://${process.env.VERCEL_PROJECT_PRODUCTION_URL || "kayle.ai"}`,
+);
 
 const site = {
 	title: "Kayle Docs",
