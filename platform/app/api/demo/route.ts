@@ -5,7 +5,7 @@ const ajCharacteristics =
 	process.env.NODE_ENV === "production" ? ["ip"] : ["ip2"];
 
 const aj = arcjet({
-	key: process.env.ARCJET_KEY!,
+	key: process.env.ARCJET_KEY || '',
 	characteristics: ajCharacteristics,
 	rules: [
 		tokenBucket({

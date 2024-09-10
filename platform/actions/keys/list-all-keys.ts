@@ -4,7 +4,7 @@ import { createClient } from "@repo/db/server";
 import { Unkey } from "@unkey/api";
 
 const unkey = new Unkey({
-	rootKey: process.env.UNKEY_AUTH_TOKEN!,
+	rootKey: process.env.UNKEY_AUTH_TOKEN || '',
 	cache: "reload",
 });
 
@@ -58,7 +58,7 @@ export async function listAllKeys(orgId: string) {
 	}
 
 	const keys = await unkey.apis.listKeys({
-		apiId: process.env.UNKEY_API_ID!,
+		apiId: process.env.UNKEY_API_ID || '',
 		ownerId: orgId,
 		revalidateKeysCache: true, // this is the most annoying thing in the world
 	});

@@ -56,7 +56,7 @@ export function AnalyticsProvider() {
 
 	return (
 		<OpenPanelComponent
-			clientId={process.env.NEXT_PUBLIC_OPENPANEL_CLIENT_ID!}
+			clientId={process.env.NEXT_PUBLIC_OPENPANEL_CLIENT_ID || ''}
 			profileId={data?.id ?? ""}
 			trackOutgoingLinks
 			trackHashChanges
