@@ -20,7 +20,7 @@ export const metadata = GenerateSEO({
 	url: "https://kayle.ai/blog",
 });
 
-function Article({ article }: { article: ArticleWithSlug }) {
+function Article({ article }: { readonly article: ArticleWithSlug }) {
 	return (
 		<Link href={`/blog/${article.slug}`} className="group w-full">
 			<article className="flex flex-1 flex-col gap-2 group-hover:bg-zinc-100 dark:group-hover:bg-zinc-800 rounded-lg p-4 transition-colors duration-300 w-full h-full">
