@@ -42,7 +42,7 @@ const nextConfig = {
 			},
 		},
 		outputFileTracingIncludes: {
-			"/**/*": ["./app/(docs)/docs/**/*.mdx"],
+			"/**/*": ["./app/(docs)/docs/**/*.mdx", "./app/(blog)/blog/**/*.mdx"],
 		},
 	},
 };

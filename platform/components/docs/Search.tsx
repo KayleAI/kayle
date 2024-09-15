@@ -88,11 +88,9 @@ function useAutocomplete({ close }: { close: () => void }) {
 						{
 							sourceId: "documentation",
 							getItems() {
-								// NOSONAR
 								return search(query, { limit: 5 });
 							},
 							getItemUrl({ item }) {
-								// NOSONAR
 								return item.url;
 							},
 							onSelect: navigate,

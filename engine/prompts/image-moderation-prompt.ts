@@ -5,7 +5,7 @@ import type { ChatCompletionMessageParam } from "openai/resources/index.mjs";
 import { z } from "zod";
 
 // Config
-import { violations } from "@/config/violations";
+import { violations } from "@repo/config/violations";
 
 export const imageModerationPrompt: ChatCompletionMessageParam = {
 	role: "system",

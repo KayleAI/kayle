@@ -1,0 +1,101 @@
+import { ArticleLayout } from '@/components/blog/ArticleLayout'
+import { GenerateSEO } from "@/components/marketing/GenerateSEO";
+
+import NewDocs from "@/images/changelog/new-docs.png"
+
+export const article = {
+  author: 'arsenstorm',
+  date: '2024-09-15',
+  title: 'Introducing Kayle',
+  description: 'Kayle is a complete content moderation solution—from APIs to dashboards, and everything in between.',
+  image: NewDocs?.src
+}
+
+export const metadata = GenerateSEO({
+  title: article.title,
+  description: article.description,
+	url: "https://kayle.ai/blog/introducing-kayle",
+});
+
+export default (props) => <ArticleLayout article={article} {...props} />
+
+Kayle started as a school project back in February of 2023; since then, we’ve experimented with different approaches to content moderation, 
+we’ve spoken to stakeholders of all sizes and iterated to reach the degree of understanding that a content moderation platform needs to have.
+
+## Our mission
+
+When we were children, the Internet exposed us to material that is still too difficult to describe and that we should never have seen.
+
+As time goes on, we still continue to witness the *worst in humanity* despite using platforms that promised to uphold users’ safety.
+
+**This must stop.**
+
+That’s why we’re building Kayle to prevent harmful content from being easily accessible and to protect everyone, **especially children**.
+
+## What we’ve learnt
+
+In the past year and a half, we’ve learned that several factors can make or break a content moderation service.
+
+### Pricing
+
+The biggest factor is **cost**.
+
+From speaking with those who need content moderation, we continue to see that the most significant reason they opt out of using **any** form of content moderation is the cost of implementing it.
+
+At Kayle, we’re going to change that.
+
+**Content moderation should be <ins>affordable</ins>—even at much higher usage levels.**
+
+### User experience
+
+A commonly overlooked factor is the **user experience** (UX) of:
+1. A platform’s users
+2. Their moderators
+3. Their stakeholders
+
+Here’s why:
+1. Whether reports go unaddressed or user content gets inaccurately removed, poor moderation ruins the culture of user community, causing users to migrate to alternative platforms.
+2. Most platforms take weeks to get used to. To avoid costly mistakes, moderators need a platform that can be used effectively as soon as they log in. No user manuals, no pricey consultation calls, just get started immediately.
+3. Stakeholders need a reliable service that can give them peace of mind, *knowing their platform is safe*, so they can focus on improving their product.
+
+**A successful content moderation platform must consider all of these users.**
+
+### Developer experience
+
+Another commonly overlooked factor is **developer experience**.
+
+Excellent developer experience (DX) is crucial for any software-based company, and a content moderation platform is no exception.
+
+Most software-based companies use cloud platforms such as Amazon Web Services or Google Cloud Platform. 
+Many of our waitlist members have complained about how the complexity of cloud platforms force their hand to hire specialists and watch their costs skyrocket.
+
+**It’s the developers who build platforms, not the content moderators.**
+
+## What we’re doing
+
+We’re building Kayle to be the **go-to** content moderation platform in the world.
+
+And we’re building Kayle in public with our entire codebase open-source for several reasons:
+- **Anyone** should be able to contribute to Kayle.
+- **Everyone** needing content moderation should be able to access the service without using our cloud platform (i.e., **anyone** should be able to **self-host** Kayle).
+
+## Our plans
+
+Over the coming months, we’ll be rolling out the necessities (and more) for a content moderation platform.
+
+So far, we’ve released the Moderation API for text, audio, and images, with video, document, and URL moderation coming soon.
+
+We’ll be **upgrading** our dashboard for moderators to have a better experience when moderating content, and we’ll be adding more things to the dashboard, such as:
+- Reports
+- Analytics
+- User management
+
+Further down the line, we’ll be introducing some more useful tools:
+- **Kayle Predator**—a tool to catch child predators **before** they hurt any child.
+- **Kayle Shield**—a tool to identify individuals vulnerable to **radicalisation** and support them before they cause harm.
+- **Kayle Hunter**—a tool that allows the **community** to find and report unflagged content.
+- **Kayle Apps**—multiple apps for various services such as **Discord** and **Reddit** that help automatically moderate communities.
+
+We’ll soon start onboarding beta testers from [our waitlist](https://go.kayle.ai/waitlist)—join if you haven’t already!
+
+If you have any questions, reach out to us at [support@kayle.ai](mailto:support@kayle.ai)!

@@ -47,14 +47,14 @@ function HeroComponent() {
 						<div className="max-w-lg">
 							<div className="mt-24 sm:mt-32 lg:mt-16">
 								<Link
-									href="/docs/moderate/text"
+									href="/blog/introducing-kayle"
 									className="inline-flex space-x-6"
 								>
 									<span className="rounded-full bg-emerald-600/10 px-3 py-1 text-sm font-semibold leading-6 text-emerald-600 ring-1 ring-inset ring-emerald-600/10">
 										What’s new
 									</span>
 									<span className="inline-flex items-center space-x-2 text-sm font-medium leading-6 text-zinc-600 dark:text-zinc-400">
-										<span>Text Moderation API</span>
+										<span>Blog: Introducing Kayle</span>
 										<span className="" aria-hidden="true">
 											&rarr;
 										</span>

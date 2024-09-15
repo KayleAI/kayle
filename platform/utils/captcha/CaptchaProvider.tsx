@@ -66,7 +66,9 @@ export function Captcha({
 
 export const CaptchaProvider = ({ children }: { children: ReactNode }) => {
 	const [captchaToken, setCaptchaToken] = useState<string>("");
-	const [resetCaptcha, setResetCaptcha] = useState<() => void>(() => {/* noop */});
+	const [resetCaptcha, setResetCaptcha] = useState<() => void>(() => {
+		/* noop */
+	});
 
 	const value = useMemo(
 		() => ({
