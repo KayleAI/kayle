@@ -80,10 +80,15 @@ function MobileNavItem({
 	);
 }
 
-function MobileNavContent() {
+function MobileNavContent({
+	ref,
+}: {
+	readonly ref: React.RefObject<HTMLDivElement>;
+}) {
 	return (
 		<PopoverPanel
 			focus
+			ref={ref}
 			className="fixed inset-x-4 top-8 z-50 origin-top rounded-3xl bg-white p-8 ring-1 ring-neutral-900/5 dark:bg-neutral-900 dark:ring-neutral-800"
 		>
 			<div className="flex flex-row-reverse items-center justify-between">
@@ -100,7 +105,7 @@ function MobileNavContent() {
 						<MobileNavItem
 							key={item.href}
 							href={item.href}
-							newTab={item?.newTab || false}
+							newTab={item?.newTab ?? false}
 						>
 							{item.name}
 						</MobileNavItem>
@@ -114,6 +119,8 @@ function MobileNavContent() {
 function MobileNavigation(
 	props: Readonly<React.ComponentPropsWithoutRef<typeof Popover>>,
 ) {
+	const ref = useRef<React.ElementRef<"div">>(null);
+
 	return (
 		<Popover {...props}>
 			<PopoverButton className="group flex items-center rounded-full bg-white/90 px-4 py-2 text-sm font-medium text-neutral-800 shadow-lg shadow-neutral-800/5 ring-1 ring-neutral-900/5 backdrop-blur dark:bg-neutral-800/90 dark:text-neutral-200 dark:ring-white/10 dark:hover:ring-white/20">
@@ -141,7 +148,7 @@ function MobileNavigation(
 					leaveFrom="opacity-100 scale-100"
 					leaveTo="opacity-0 scale-95"
 				>
-					<MobileNavContent />
+					<MobileNavContent ref={ref} />
 				</TransitionChild>
 			</Transition>
 		</Popover>
