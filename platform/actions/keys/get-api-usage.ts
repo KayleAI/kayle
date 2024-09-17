@@ -3,8 +3,14 @@
 import { createClient } from "@repo/db/server";
 import { Unkey } from "@unkey/api";
 
+const rootKey = process.env.UNKEY_AUTH_TOKEN || "";
+
+if (!rootKey) {
+	throw new Error("UNKEY_AUTH_TOKEN environment variable is not set or is empty.");
+}
+
 const unkey = new Unkey({
-	rootKey: process.env.UNKEY_AUTH_TOKEN || "",
+	rootKey: rootKey, 
 	cache: "no-store",
 	retry: {
 		attempts: 0,

@@ -470,34 +470,14 @@ function SearchDialog({
 					transition
 					className="mx-auto transform-gpu overflow-hidden rounded-lg bg-zinc-50 shadow-xl ring-1 ring-zinc-900/7.5 data-[closed]:scale-95 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in sm:max-w-xl dark:bg-zinc-900 dark:ring-zinc-800"
 				>
-					<div {...autocomplete.getRootProps({})}>
-						<form
-							ref={formRef}
-							{...autocomplete.getFormProps({
-								inputElement: inputRef.current,
-							})}
-						>
-							<SearchInput
-								ref={inputRef}
-								autocomplete={autocomplete}
-								autocompleteState={autocompleteState}
-								onClose={handleSearchClose}
-							/>
-							<div
-								ref={panelRef}
-								className="border-t border-zinc-200 bg-white empty:hidden dark:border-zinc-100/5 dark:bg-white/2.5"
-								{...autocomplete.getPanelProps({})}
-							>
-								{autocompleteState.isOpen && (
-									<SearchResults
-										autocomplete={autocomplete}
-										query={autocompleteState.query}
-										collection={autocompleteState.collections[0]}
-									/>
-								)}
-							</div>
-						</form>
-					</div>
+					<SearchDialogContent
+						formRef={formRef}
+						inputRef={inputRef}
+						panelRef={panelRef}
+						autocomplete={autocomplete}
+						autocompleteState={autocompleteState}
+						onClose={handleDialogClose}
+					/>
 				</DialogPanel>
 			</div>
 		</Dialog>

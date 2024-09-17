@@ -54,9 +54,15 @@ export function Toaster() {
 export function AnalyticsProvider() {
 	const { data } = useAuth();
 
+	const clientId = process.env.NEXT_PUBLIC_OPENPANEL_CLIENT_ID || "";
+
+	if (!clientId) {
+		return null; 
+	}
+
 	return (
 		<OpenPanelComponent
-			clientId={process.env.NEXT_PUBLIC_OPENPANEL_CLIENT_ID || ""}
+			clientId={clientId}
 			profileId={data?.id ?? ""}
 			trackOutgoingLinks
 			trackHashChanges

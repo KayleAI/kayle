@@ -52,7 +52,6 @@ moderate.use("/:type?", async (c, next) => {
 	c.set("type", type);
 
 	await next();
-	return c.json({ message: "Moderationn type set successfully" }, 200);
 });
 
 moderate.all("/:type?", async (c) => {
