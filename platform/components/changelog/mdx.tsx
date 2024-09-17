@@ -101,7 +101,7 @@ export const article = function Article({
 		observer.observe(heightRef.current);
 
 		return () => {
-			observer.disconnect();
+			observer.disconnect(); // skipcq JS-0047: it is best to explicitly disconnect/unsubscrib
 		};
 	}, []);
 

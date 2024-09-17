@@ -70,6 +70,7 @@ function CopyButton({ code }: { readonly code: string }) {
 				clearTimeout(timeout);
 			};
 		}
+		return undefined;
 	}, [copyCount]);
 
 	const handleCopy = useCallback(() => {

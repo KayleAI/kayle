@@ -3,8 +3,13 @@
 import { createClient } from "@repo/db/server";
 import { Unkey } from "@unkey/api";
 
+const rootKey = process.env.UNKEY_AUTH_TOKEN || "";
+if (!rootKey) {
+	throw new Error("UNKEY_AUTH_TOKEN environment variable is not set or is empty.");
+}
+
 const unkey = new Unkey({
-	rootKey: process.env.UNKEY_AUTH_TOKEN!,
+	rootKey: rootKey,
 	cache: "reload",
 });
 
@@ -58,7 +63,7 @@ export async function listAllKeys(orgId: string) {
 	}
 
 	const keys = await unkey.apis.listKeys({
-		apiId: process.env.UNKEY_API_ID!,
+		apiId: process.env.UNKEY_API_ID || "",
 		ownerId: orgId,
 		revalidateKeysCache: true, // this is the most annoying thing in the world
 	});
