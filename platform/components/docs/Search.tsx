@@ -534,15 +534,11 @@ export function Search() {
 	const [modifierKey, setModifierKey] = useState<string>();
 	const { buttonProps, dialogProps } = useSearchProps();
 
-	// const { key } = getCommandKey();
+	const { key } = getCommandKey();
 
 	useEffect(() => {
-		setModifierKey(
-			/(Mac|iPhone|iPod|iPad)/i.test(window.navigator.userAgent)
-				? "⌘"
-				: "Ctrl ",
-		);
-	}, []);
+		setModifierKey(key);
+	}, [key]);
 
 	return (
 		<div className="hidden lg:block lg:max-w-md lg:flex-auto">
