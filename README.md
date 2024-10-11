@@ -26,3 +26,8 @@ bunx drizzle-kit introspect
 ## Contributing
 
 To contribute to Kayle, please read our [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## License
+
+We’re using the [Apache 2.0 license](LICENSE). We’ll be updating this license
+soon to a different one for various reasons.

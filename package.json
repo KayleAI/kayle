@@ -9,13 +9,13 @@
 		"deploy": "turbo deploy",
 		"cf-typegen": "turbo cf-typegen",
 		"serve": "turbo serve",
-		"format": "prettier --write \"**/*.{ts,tsx,md}\"",
+		"format": "bunx biome format --write ./",
 		"prepare": "husky"
 	},
 	"devDependencies": {
 		"husky": "^9.1.6",
-		"prettier": "^3.2.5",
 		"turbo": "^2.0.14",
+		"@biomejs/biome": "^1.9.3",
 		"typescript": "^5.4.5"
 	},
 	"engines": {
