@@ -1,6 +1,3 @@
 # .husky/post-commit
 
-echo "Signing off commit..."
-exit 1
-git commit --signoff
-echo "Commit signed off."
+# do nothing
