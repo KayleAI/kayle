@@ -1,9 +1,5 @@
 # .husky/pre-commit
 
-echo "Running Biome formatting..."
-bunx biome format --write ./
-echo "Biome formatting done."
-
 echo "Signing off commit..."
 git commit --signoff
 echo "Commit signed off."
