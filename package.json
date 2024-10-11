@@ -9,9 +9,11 @@
 		"deploy": "turbo deploy",
 		"cf-typegen": "turbo cf-typegen",
 		"serve": "turbo serve",
-		"format": "prettier --write \"**/*.{ts,tsx,md}\""
+		"format": "prettier --write \"**/*.{ts,tsx,md}\"",
+		"prepare": "husky"
 	},
 	"devDependencies": {
+		"husky": "^9.1.6",
 		"prettier": "^3.2.5",
 		"turbo": "^2.0.14",
 		"typescript": "^5.4.5"

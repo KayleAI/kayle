@@ -1,0 +1,7 @@
+# Format the code
+
+bunx @biomejs/biome format --write ./
+
+# Sign the commit
+
+git commit --signoff
