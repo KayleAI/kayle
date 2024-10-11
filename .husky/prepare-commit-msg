@@ -1,0 +1,5 @@
+# .husky/prepare-commit-msg
+
+echo "Signing off commit..."
+git commit --signoff
+echo "Commit signed off."
