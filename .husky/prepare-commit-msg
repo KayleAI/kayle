@@ -5,5 +5,8 @@ SIGNOFF="Signed-off-by: $(git var GIT_AUTHOR_IDENT | sed -n 's/^\(.*>\).*$/\1/p'
 
 # Check if the commit message already has a Signed-off-by line
 if ! grep -q "$SIGNOFF" "$1"; then
-  echo "$SIGNOFF" >> "$1"
+  # Prepend two blank lines before the Signed-off-by line
+  sed -i -e "/^$/a\\
+\\
+$SIGNOFF" "$1"
 fi
