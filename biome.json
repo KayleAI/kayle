@@ -18,7 +18,7 @@
 			"**/.next/**",
 			"**/tmp/**",
 			"**/*.min.js",
-			"**/*.min.css"
+			"**/*.css"
 		],
 		"attributePosition": "auto",
 		"indentStyle": "tab",

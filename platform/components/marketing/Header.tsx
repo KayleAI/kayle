@@ -23,7 +23,7 @@ const navigation = [
 	{ name: "Docs", href: "/docs", newTab: false },
 	{ name: "Demo", href: "/demo", newTab: false },
 	//{ name: 'Pricing', href: '/pricing' },
-	//{ name: 'Investors', href: '/investors' },
+	{ name: "Investors", href: "/pitch" },
 ];
 
 function CloseIcon(props: Readonly<React.ComponentPropsWithoutRef<"svg">>) {
