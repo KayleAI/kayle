@@ -259,8 +259,7 @@ const stats = {
 	},
 	moderations: {
 		title: "Moderations",
-		description:
-			"This is how many times Kayle has been used for moderations.",
+		description: "This is how many times Kayle has been used for moderations.",
 	},
 };
 
