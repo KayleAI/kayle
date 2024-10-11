@@ -8,13 +8,13 @@ export function createClient() {
 		throw new Error("NEXT_PUBLIC_SUPABASE_URL is not set");
 	}
 
-	if (!process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY) {
-		throw new Error("NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY is not set");
+	if (!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+		throw new Error("NEXT_PUBLIC_SUPABASE_ANON_KEY is not set");
 	}
 
 	return createServerClient(
 		process.env.NEXT_PUBLIC_SUPABASE_URL,
-		process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
+		process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
 		{
 			cookies: {
 				getAll() {
