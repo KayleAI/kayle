@@ -29,4 +29,5 @@ To contribute to Kayle, please read our [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
-We’ll be updating this license soon.
+We’re using the [Apache 2.0 license](LICENSE). We’ll be updating this license
+soon to a different one for various reasons.
