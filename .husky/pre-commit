@@ -1,7 +1,7 @@
 # .husky/pre-commit
 
 echo "Running Biome formatting..."
-bunx @biomejs/biome format --write ./
+bunx biome format --write ./
 echo "Biome formatting done."
 
 echo "Signing off commit..."
