@@ -200,7 +200,7 @@ export function IntroductionSlide() {
 export function LiveStatsSlide() {
 	const { data, isValidating } = useSWR("/api/pitch", {
 		fetcher,
-		refreshInterval: 30000,
+		refreshInterval: 2000,
 	});
 
 	return (
