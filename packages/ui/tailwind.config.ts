@@ -34,6 +34,7 @@ const config = {
 		extend: {
 			animation: {
 				"caret-blink": "caret-blink 1.2s ease-out infinite",
+				"spin-reverse": "spin-reverse 1s linear infinite",
 			},
 			boxShadow: {
 				glow: "0 0 4px rgb(0 0 0 / 0.1)",
@@ -61,6 +62,10 @@ const config = {
 				"caret-blink": {
 					"0%,70%,100%": { opacity: "1" },
 					"20%,50%": { opacity: "0" },
+				},
+				"spin-reverse": {
+					from: { transform: "rotate(360deg)" },
+					to: { transform: "rotate(0deg)" },
 				},
 			},
 		},
