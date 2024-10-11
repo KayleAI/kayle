@@ -5,6 +5,9 @@ import { GenerateSEO } from "@/components/marketing/GenerateSEO";
 // Components
 import PitchSlides from "./page.client";
 
+// React
+import { Suspense } from "react";
+
 export const metadata: Metadata = GenerateSEO({
 	title: "Pitch Deck",
 	description: "Investors allow us to continue building Kayle.",
@@ -12,5 +15,9 @@ export const metadata: Metadata = GenerateSEO({
 });
 
 export default function PitchDeck() {
-	return <PitchSlides />;
+	return (
+		<Suspense fallback={<div />}>
+			<PitchSlides />
+		</Suspense>
+	);
 }
