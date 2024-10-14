@@ -1,0 +1,5 @@
+# .husky/pre-commit
+
+echo "Formatting code..."
+bun run format
+echo "Code formatted."

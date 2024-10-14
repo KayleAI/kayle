@@ -180,15 +180,13 @@ export const Button = function Button({
 }: ButtonProps & {
 	ref?: React.RefObject<HTMLElement>;
 }) {
-	const classes = clsx(
-		className,
-		styles.base,
-		outline
-			? styles.outline
-			: plain
-				? styles.plain
-				: clsx(styles.solid, styles.colors[color ?? "dark/zinc"]),
-	);
+	function getButtonStyle() {
+		if (outline) return styles.outline;
+		if (plain) return styles.plain;
+		return clsx(styles.solid, styles.colors[color ?? "dark/zinc"]);
+	}
+
+	const classes = clsx(className, styles.base, getButtonStyle());
 
 	return "href" in props ? (
 		<Link
@@ -212,7 +210,9 @@ export const Button = function Button({
 /**
  * Expand the hit area to at least 44×44px on touch devices
  */
-export function TouchTarget({ children }: { children: React.ReactNode }) {
+export function TouchTarget({
+	children,
+}: { readonly children: React.ReactNode }) {
 	return (
 		<>
 			<span

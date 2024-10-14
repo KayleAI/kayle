@@ -6,7 +6,8 @@ Open-source content moderation at scale.
 
 [Biome](https://biomejs.dev/) is recommended for linting.
 
-We use [Deepsource](https://deepsource.io/) for static analysis. Our link is [here](https://app.deepsource.com/gh/KayleAI/kayle).
+We use [Deepsource](https://deepsource.io/) for static analysis. Our link is
+[here](https://app.deepsource.com/gh/KayleAI/kayle).
 
 ### Database
 
@@ -21,3 +22,12 @@ To produce schema for Drizzle, run the following command:
 ```bash
 bunx drizzle-kit introspect
 ```
+
+## Contributing
+
+To contribute to Kayle, please read our [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## License
+
+We’re using the [Apache 2.0 license](LICENSE). We’ll be updating this license
+soon to a different one for various reasons.
