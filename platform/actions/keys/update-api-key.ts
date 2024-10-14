@@ -1,20 +1,7 @@
 "use server";
 
-import { Unkey } from "@unkey/api";
 import { getApiKey } from "./get-api-key";
-
-const rootKey = process.env.UNKEY_AUTH_TOKEN || "";
-
-if (!rootKey) {
-	throw new Error(
-		"UNKEY_AUTH_TOKEN environment variable is not set or is empty.",
-	);
-}
-
-const unkey = new Unkey({
-	rootKey: rootKey,
-	cache: "no-store",
-});
+import { unkey } from "@/utils/unkey";
 
 export async function updateApiKey({
 	keyId,
