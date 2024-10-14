@@ -8,5 +8,6 @@ if ! grep -q "$SIGNOFF" "$1"; then
   # Prepend two blank lines before the Signed-off-by line
   sed -i -e "/^$/a\\
 \\
-$SIGNOFF" "$1"
+$SIGNOFF" "$1"\\
+
 fi
