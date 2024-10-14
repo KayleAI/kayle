@@ -3,20 +3,18 @@ import { cookies } from "next/headers";
 
 export function createClient() {
 	const cookieStore = cookies();
-	const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-	const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-	if (!supabaseUrl) {
-		throw new Error("Supabase URL is not set.");
+	if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
+		throw new Error("NEXT_PUBLIC_SUPABASE_URL is not set");
 	}
 
-	if (!supabaseAnonKey) {
-		throw new Error("Supabase anon key is not set.");
+	if (!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+		throw new Error("NEXT_PUBLIC_SUPABASE_ANON_KEY is not set");
 	}
 
 	return createServerClient(
-		supabaseUrl,
-		supabaseAnonKey,
+		process.env.NEXT_PUBLIC_SUPABASE_URL,
+		process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
 		{
 			cookies: {
 				getAll() {
