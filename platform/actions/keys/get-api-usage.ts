@@ -1,7 +1,7 @@
 "use server";
 
 import { createClient } from "@repo/db/server";
-import { unkey } from "@/utils/unkey"
+import { unkey } from "@/utils/unkey";
 
 export async function getApiUsage({
 	orgId,

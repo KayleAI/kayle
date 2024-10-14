@@ -7,7 +7,9 @@ import { Unkey } from "@unkey/api";
 const rootKey = process.env.UNKEY_AUTH_TOKEN || "";
 
 if (!rootKey) {
-	throw new Error("UNKEY_AUTH_TOKEN environment variable is not set or is empty.");
+	throw new Error(
+		"UNKEY_AUTH_TOKEN environment variable is not set or is empty.",
+	);
 }
 
 const unkey = new Unkey({
@@ -59,9 +61,11 @@ export async function createApiKey({
 	}
 
 	const apiId = process.env.UNKEY_API_ID || "";
-	
+
 	if (!apiId) {
-			throw new Error("UNKEY_API_ID environment variable is not set or is empty.");
+		throw new Error(
+			"UNKEY_API_ID environment variable is not set or is empty.",
+		);
 	}
 
 	const created = await unkey.keys.create({

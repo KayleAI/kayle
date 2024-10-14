@@ -2,7 +2,7 @@ import { type NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
 	const { text } = await req.json();
-	
+
 	const KAYLE_API_KEY = process.env.KAYLE_API_KEY || "";
 
 	if (!KAYLE_API_KEY) {

@@ -57,7 +57,7 @@ export function AnalyticsProvider() {
 	const clientId = process.env.NEXT_PUBLIC_OPENPANEL_CLIENT_ID || "";
 
 	if (!clientId) {
-		return null; 
+		return null;
 	}
 
 	return (

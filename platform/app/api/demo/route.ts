@@ -7,7 +7,7 @@ const ajCharacteristics =
 const ajKey = process.env.ARCJET_KEY;
 
 if (!ajKey) {
-	throw new Error ("ARCJET_KEY is not set")
+	throw new Error("ARCJET_KEY is not set");
 }
 
 const aj = arcjet({
