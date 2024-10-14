@@ -1,13 +1,7 @@
 "use server";
 
 import { createClient } from "@repo/db/server";
-
-import { Unkey } from "@unkey/api";
-
-const unkey = new Unkey({
-	rootKey: process.env.UNKEY_AUTH_TOKEN!,
-	cache: "no-store",
-});
+import { unkey } from "@/utils/unkey";
 
 export async function createApiKey({
 	name,
@@ -52,8 +46,16 @@ export async function createApiKey({
 		};
 	}
 
+	const apiId = process.env.UNKEY_API_ID || "";
+
+	if (!apiId) {
+		throw new Error(
+			"UNKEY_API_ID environment variable is not set or is empty.",
+		);
+	}
+
 	const created = await unkey.keys.create({
-		apiId: process.env.UNKEY_API_ID!,
+		apiId: apiId,
 		prefix: testMode ? "kk_test" : "kk_live",
 		byteLength: 32,
 		...(testMode && {

@@ -4,8 +4,14 @@ import { type NextRequest, NextResponse } from "next/server";
 const ajCharacteristics =
 	process.env.NODE_ENV === "production" ? ["ip"] : ["ip2"];
 
+const ajKey = process.env.ARCJET_KEY;
+
+if (!ajKey) {
+	throw new Error("ARCJET_KEY is not set");
+}
+
 const aj = arcjet({
-	key: process.env.ARCJET_KEY!,
+	key: ajKey,
 	characteristics: ajCharacteristics,
 	rules: [
 		tokenBucket({

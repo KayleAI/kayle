@@ -13,7 +13,7 @@ import {
 } from "@repo/ui/fieldset";
 import { Text, TextLink } from "@repo/ui/text";
 import { Textarea } from "@repo/ui/textarea";
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { toast } from "sonner";
 
 import { captureContactForm } from "@repo/comm/contact";
@@ -25,6 +25,40 @@ export default function ContactPageClient() {
 	>("idle");
 	const [message, setMessage] = useState("");
 
+	const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
+		setMessage(e.target.value);
+
+	const handleSubmit = React.useCallback(
+		(e: React.FormEvent<HTMLFormElement>) => {
+			e.preventDefault();
+
+			toast.promise(
+				new Promise((resolve, reject) => {
+					setSubmissionState("loading");
+					setTimeout(async () => {
+						const { success, error } = await captureContactForm({
+							message,
+						});
+
+						if (error && !success) {
+							setSubmissionState("error");
+							return reject(new Error(error));
+						}
+
+						setSubmissionState("success");
+						return resolve(true);
+					}, 500);
+				}),
+				{
+					loading: "Sending message...",
+					success: "Thanks for reaching out! We’ll get back to you soon.",
+					error: (error) => `${error.message}`.replace("Error: ", ""),
+				},
+			);
+		},
+		[message],
+	);
+
 	return (
 		<div>
 			<div className="flex w-full flex-wrap items-end justify-between gap-4 border-b border-zinc-950/10 pb-6 dark:border-white/10">
@@ -35,37 +69,7 @@ export default function ContactPageClient() {
 					</Button>
 				</div>
 			</div>
-			<form
-				className="my-8"
-				ref={formRef}
-				onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
-					e.preventDefault();
-
-					toast.promise(
-						new Promise((resolve, reject) => {
-							setSubmissionState("loading");
-							setTimeout(async () => {
-								const { success, error } = await captureContactForm({
-									message,
-								});
-
-								if (error && !success) {
-									setSubmissionState("error");
-									return reject(new Error(error));
-								}
-
-								setSubmissionState("success");
-								return resolve(true);
-							}, 500);
-						}),
-						{
-							loading: "Sending message...",
-							success: "Thanks for reaching out! We’ll get back to you soon.",
-							error: (error) => `${error.message}`.replace("Error: ", ""),
-						},
-					);
-				}}
-			>
+			<form className="my-8" ref={formRef} onSubmit={handleSubmit}>
 				<Fieldset>
 					<Legend>Contact Us</Legend>
 					<Text>
@@ -79,7 +83,7 @@ export default function ContactPageClient() {
 								required
 								name="message"
 								value={message}
-								onChange={(e) => setMessage(e.target.value)}
+								onChange={handleTextChange}
 								disabled={submissionState === "loading"}
 							/>
 							<Description>

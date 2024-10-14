@@ -1,12 +1,7 @@
 "use server";
 
-import { Unkey } from "@unkey/api";
 import { getApiKey } from "./get-api-key";
-
-const unkey = new Unkey({
-	rootKey: process.env.UNKEY_AUTH_TOKEN!,
-	cache: "no-store",
-});
+import { unkey } from "@/utils/unkey";
 
 export async function updateApiKey({
 	keyId,

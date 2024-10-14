@@ -103,7 +103,7 @@ function Star({
 
 		return () => {
 			for (const animation of animations) {
-				animation.cancel();
+				animation.cancel(); // skipcq JS-0047: it is best to explicitly cancel/unsubscribe
 			}
 		};
 	}, [dim]);
@@ -164,7 +164,7 @@ function Constellation({
 		const animation = timeline(sequence);
 
 		return () => {
-			animation.cancel();
+			animation.cancel(); // skipcq JS-0047: it is best to explicitly cancel/unsubscribe
 		};
 	}, [isFilled]);
 

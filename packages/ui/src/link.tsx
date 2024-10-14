@@ -13,19 +13,17 @@ export const Link = function Link({
 	}) {
 	const router = useRouter();
 
+	const handleMouseEnter = (e: React.MouseEvent<HTMLAnchorElement>) => {
+		const href = typeof props.href === "string" ? props.href : null;
+		if (href) {
+			router.prefetch(href);
+		}
+		return props.onMouseEnter?.(e);
+	};
+
 	return (
 		<Headless.DataInteractive>
-			<NextLink
-				ref={ref}
-				onMouseEnter={(e) => {
-					const href = typeof props.href === "string" ? props.href : null;
-					if (href) {
-						router.prefetch(href);
-					}
-					return props.onMouseEnter?.(e);
-				}}
-				{...props}
-			/>
+			<NextLink ref={ref} onMouseEnter={handleMouseEnter} {...props} />
 		</Headless.DataInteractive>
 	);
 };

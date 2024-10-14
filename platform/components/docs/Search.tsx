@@ -363,7 +363,7 @@ const SearchResultsPanel = ({
 		)}
 	</div>
 );
-
+// unused constant: SearchDialogContent
 const SearchDialogContent = ({
 	formRef,
 	inputRef,
@@ -476,7 +476,7 @@ function SearchDialog({
 						panelRef={panelRef}
 						autocomplete={autocomplete}
 						autocompleteState={autocompleteState}
-						onClose={handleSearchClose}
+						onClose={handleDialogClose}
 					/>
 				</DialogPanel>
 			</div>

@@ -1,13 +1,7 @@
 "use server";
 
 import { createClient } from "@repo/db/server";
-
-import { Unkey } from "@unkey/api";
-
-const unkey = new Unkey({
-	rootKey: process.env.UNKEY_AUTH_TOKEN!,
-	cache: "no-store",
-});
+import { unkey } from "@/utils/unkey";
 
 export async function getApiKey(keyId: string, orgId: string) {
 	const supabase = createClient();
