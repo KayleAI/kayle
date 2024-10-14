@@ -3,9 +3,7 @@ import { type NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
 	const { text } = await req.json();
 
-	const KAYLE_API_KEY = process.env.KAYLE_API_KEY || "";
-
-	if (!KAYLE_API_KEY) {
+	if (!process.env.KAYLE_API_KEY) {
 		throw new Error("KAYLE_API_KEY environment variable is not set");
 	}
 
@@ -18,7 +16,7 @@ export async function POST(req: NextRequest) {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
-			Authorization: `Bearer ${KAYLE_API_KEY}`,
+			Authorization: `Bearer ${process.env.KAYLE_API_KEY}`,
 		},
 		body: JSON.stringify({
 			text,
