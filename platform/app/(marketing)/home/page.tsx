@@ -1,9 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@repo/ui/button";
 import { Link } from "@repo/ui/link";
-import { useState } from "react";
 
 // Marketing components
 import { CTAComponent } from "@/components/marketing/CTA";
