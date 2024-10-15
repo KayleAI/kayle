@@ -3,3 +3,6 @@
 echo "Formatting code..."
 bun run format
 echo "Code formatted."
+
+# stage any changes
+git add .

@@ -91,9 +91,7 @@ export function SlideHeader({ title }: Readonly<{ title: string }>) {
 			<Subheading>{title}</Subheading>
 			<div className="flex flex-row gap-4">
 				<Text>
-					<TextLink href="https://go.kayle.ai/invest">
-						book a call
-					</TextLink>
+					<TextLink href="https://go.kayle.ai/invest">book a call</TextLink>
 				</Text>
 				<Text>
 					<TextLink href="/">kayle.ai</TextLink>
