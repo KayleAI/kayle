@@ -75,19 +75,8 @@ export async function POST(req: NextRequest) {
 					error: "An error occurred while calling the Kayle API",
 				});
 			}
-		case "image":
-			try {
-				const response = await callKayleAPI({ input, type });
-
-				return NextResponse.json(response);
-			} catch (error) {
-				console.error("Error in getDemoResponse:", error);
-				return NextResponse.json({
-					error: "An error occurred while calling the Kayle API",
-				});
-			}
-
 		case "audio":
+		case "image":
 			try {
 				const response = await callKayleAPI({ input, type });
 
