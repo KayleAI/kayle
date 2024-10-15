@@ -10,6 +10,7 @@
 		"cf-typegen": "turbo cf-typegen",
 		"serve": "turbo serve",
 		"format": "bunx biome format --write ./",
+		"infisical": "infisical run -- bun run",
 		"prepare": "husky"
 	},
 	"devDependencies": {
