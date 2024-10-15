@@ -24,11 +24,13 @@ const options = [
 		id: "audio",
 		name: "Moderate Audio",
 		placeholder: "Upload an audio file",
+		disabled: true,
 	},
 	{
 		id: "image",
 		name: "Moderate an Image",
 		placeholder: "Upload an image",
+		disabled: true,
 	},
 	{
 		id: "video",
