@@ -26,8 +26,8 @@ const navigation = {
 		{ name: "Changelog", href: "/changelog" },
 	],
 	company: [
-		{ name: "About", href: "#" },
-		{ name: "Blog", href: "#" },
+		{ name: "About", href: "/about" },
+		{ name: "Blog", href: "/blog" },
 		{ name: "Contact us", href: "/contact" },
 	],
 	legal: [
@@ -348,7 +348,8 @@ function FooterBottom() {
 				))}
 			</div>
 			<p className="mt-8 text-xs leading-5 text-zinc-600 dark:text-zinc-400 md:order-1 md:mt-0">
-				&copy; Copyright {new Date().getFullYear()} Kayle. All rights reserved.
+				&copy; Copyright {new Date().getFullYear()} Kayle Inc. All rights
+				reserved.
 			</p>
 		</div>
 	);
