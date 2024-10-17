@@ -73,6 +73,9 @@ export function GenerateSEO({
 		alternates: {
 			canonical: url,
 		},
+		verification: {
+			yandex: "b8cbfdab6bc7caaf",
+		},
 		icons: [],
 		openGraph: {
 			...rootOpenGraph,
