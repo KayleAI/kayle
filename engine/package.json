@@ -1,37 +1,11 @@
 {
-	"name": "kayle-engine",
-	"type": "module",
+	"name": "engine",
+	"version": "0.1.0",
 	"scripts": {
-		"dev": "wrangler dev",
-		"studio": "drizzle-kit studio",
-		"introspect": "drizzle-kit introspect",
-		"deploy": "wrangler deploy --minify",
-		"serve": "ts-node ./app/server.ts",
-		"cf-typegen": "wrangler types --env-interface CloudflareBindings"
-	},
-	"dependencies": {
-		"@repo/config": "*",
-		"@repo/types": "*",
-		"@aws-sdk/client-s3": "^3.645.0",
-		"@hono-storage/s3": "^0.0.12",
-		"@hono/node-server": "^1.12.2",
-		"@supabase/supabase-js": "^2.45.3",
-		"@unkey/hono": "^1.4.4",
-		"drizzle-orm": "^0.33.0",
-		"groq-sdk": "^0.7.0",
-		"hono": "^4.5.6",
-		"music-metadata": "^10.3.1",
-		"openai": "^4.56.0",
-		"pg": "^8.12.0",
-		"ts-node": "^10.9.2",
-		"typescript": "^5.5.4",
-		"zod": "^3.23.8"
-	},
-	"devDependencies": {
-		"@cloudflare/workers-types": "^4.20240815.0",
-		"@types/pg": "^8.11.6",
-		"dotenv": "^16.4.5",
-		"drizzle-kit": "^0.24.1",
-		"wrangler": "^3.74.0"
+		"dev": "bun run build:dev && cargo run",
+		"build:dev": "cargo build",
+		"build:release": "cargo build --release",
+		"start": "bun run build:release && cargo run --release",
+		"infisical": "infisical run -- bun run"
 	}
 }
