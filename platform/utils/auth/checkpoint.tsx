@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { useAuth } from "./AuthProvider";
+import { useAuth } from "./provider";
 import { useRouter } from "next/navigation";
 import {
 	AuthCheckpointRedirecting,
@@ -12,33 +12,33 @@ export default function AuthCheckpoint({
 	children,
 	ifAuthenticated,
 	ifUnauthenticated,
-}: {
-	readonly children: React.ReactNode;
-	readonly ifAuthenticated?: string;
-	readonly ifUnauthenticated?: string;
-}) {
+}: Readonly<{
+	children: React.ReactNode;
+	ifAuthenticated?: string;
+	ifUnauthenticated?: string;
+}>) {
 	const router = useRouter();
-	const { authStatus } = useAuth();
+	const { status } = useAuth();
 
 	useEffect(() => {
-		if (authStatus === "loading") return;
+		if (status === "loading") return;
 
-		if (authStatus === "authenticated") {
+		if (status === "authenticated") {
 			if (ifAuthenticated) router.push(ifAuthenticated);
 		}
 
-		if (authStatus === "unauthenticated") {
+		if (status === "unauthenticated") {
 			if (ifUnauthenticated) router.push(ifUnauthenticated);
 		}
-	}, [authStatus, ifAuthenticated, ifUnauthenticated, router]);
+	}, [status, ifAuthenticated, ifUnauthenticated, router]);
 
-	if (authStatus === "loading") return <AuthCheckpointLoading />;
+	if (status === "loading") return <AuthCheckpointLoading />;
 
-	if (authStatus === "authenticated" && ifAuthenticated) {
+	if (status === "authenticated" && ifAuthenticated) {
 		return <AuthCheckpointRedirecting />;
 	}
 
-	if (authStatus === "unauthenticated" && ifUnauthenticated) {
+	if (status === "unauthenticated" && ifUnauthenticated) {
 		return <AuthCheckpointRedirecting />;
 	}
 

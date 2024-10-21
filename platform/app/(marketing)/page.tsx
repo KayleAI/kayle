@@ -79,7 +79,7 @@ function HeroComponent() {
 						</div>
 					</div>
 				</div>
-				{/* TODO: Hero sections for big 3 benefits, KPI/Moderator platform preview and Testimonials. */}
+				{/* TODO(wana): Hero sections for big 3 benefits, KPI/Moderator platform preview and Testimonials. */}
 				{/* Hunting terminal */}
 				<div className="mt-20 sm:mt-24 md:mx-auto md:max-w-2xl lg:mx-0 lg:mt-0 lg:w-screen">
 					<div

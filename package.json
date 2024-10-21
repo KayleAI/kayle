@@ -1,19 +1,6 @@
 {
 	"name": "kayle",
 	"version": "0.4.0",
-	"license": "AGPL-3.0-only",
-	"private": true,
-	"scripts": {
-		"build": "turbo build",
-		"dev": "turbo dev",
-		"lint": "turbo lint",
-		"deploy": "turbo deploy",
-		"cf-typegen": "turbo cf-typegen",
-		"serve": "turbo serve",
-		"format": "bunx biome format --write ./",
-		"infisical": "infisical run -- bun run",
-		"prepare": "husky"
-	},
 	"devDependencies": {
 		"husky": "^9.1.6",
 		"turbo": "^2.0.14",
@@ -21,8 +8,23 @@
 		"typescript": "^5.4.5"
 	},
 	"engines": {
-		"node": ">=18"
+		"node": ">=20"
 	},
+	"license": "AGPL-3.0-only",
 	"packageManager": "bun@1.1.15",
+	"private": true,
+	"scripts": {
+		"build": "turbo build",
+		"dev": "turbo dev",
+		"lint": "turbo lint",
+		"deploy": "turbo deploy",
+		"serve": "turbo serve",
+		"format": "bunx biome format --write ./",
+		"infisical": "infisical run -- bun run",
+		"prepare": "husky",
+		"auth:generate": "npx @better-auth/cli generate -y --config=packages/auth/server.ts --output=packages/db/schema",
+		"auth:migrate": "npx @better-auth/cli migrate -y --config=packages/auth/server.ts",
+		"db:generate": "kysely-codegen --env-file=.env --out-file packages/db/schema.d.ts"
+	},
 	"workspaces": ["apps/*", "packages/*", "engine/", "platform/"]
 }

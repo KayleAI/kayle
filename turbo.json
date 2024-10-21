@@ -7,10 +7,7 @@
 		"NODE_ENV",
 		"ARCJET_KEY",
 		"KAYLE_API_KEY",
-		"NEXT_PUBLIC_SUPABASE_URL",
-		"NEXT_PUBLIC_SUPABASE_ANON_KEY",
-		"SUPABASE_SERVICE_ROLE_KEY",
-		"SUPABASE_JWT_SECRET",
+		"DATABASE_URL",
 		"UNKEY_AUTH_TOKEN",
 		"UNKEY_API_ID",
 		"NEXT_PUBLIC_OPENPANEL_CLIENT_ID",
@@ -33,11 +30,11 @@
 		"deploy": {
 			"dependsOn": ["^deploy"]
 		},
-		"cf-typegen": {
-			"dependsOn": ["^cf-typegen"]
-		},
 		"serve": {
 			"dependsOn": ["^serve"]
+		},
+		"db:generate": {
+			"dependsOn": ["^db:generate"]
 		}
 	}
 }

@@ -24,6 +24,7 @@ const nextConfig = {
 		"@repo/db",
 		"@repo/comm",
 		"@repo/config",
+		"@repo/auth",
 	],
 	webpack(config) {
 		config.module.rules.push({

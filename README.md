@@ -9,20 +9,6 @@ Open-source content moderation at scale.
 We use [Deepsource](https://deepsource.io/) for static analysis. Our link is
 [here](https://app.deepsource.com/gh/KayleAI/kayle).
 
-### Database
-
-To produce migrations for Supabase, run the following command:
-
-```bash
-supabase db diff --schema auth,public,extensions -f <name_of_migration>
-```
-
-To produce schema for Drizzle, run the following command:
-
-```bash
-bunx drizzle-kit introspect
-```
-
 ## Kayle Inc. Staff
 
 If you’re a member of Kayle Inc., you can use the following command to start
