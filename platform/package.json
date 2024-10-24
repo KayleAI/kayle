@@ -1,13 +1,12 @@
 {
-	"name": "kayle",
-	"version": "0.0.0",
+	"name": "platform",
+	"version": "0.1.0",
 	"private": true,
 	"scripts": {
 		"dev": "next dev",
-		"dev:all": "next dev",
 		"build": "next build",
 		"start": "next start",
-		"lint": "eslint . --max-warnings 0"
+		"lint": "next lint"
 	},
 	"dependencies": {
 		"@algolia/autocomplete-core": "^1.17.6",
@@ -36,7 +35,6 @@
 		"acorn": "^8.13.0",
 		"assert": "^2.1.0",
 		"cheerio": "^1.0.0",
-		"eslint-config-next": "^14.2.15",
 		"fast-glob": "^3.3.2",
 		"feed": "^4.2.2",
 		"flexsearch": "^0.7.43",
@@ -45,11 +43,11 @@
 		"mdast-util-to-string": "^4.0.0",
 		"mdx-annotations": "^0.1.4",
 		"motion": "^10.18.0",
-		"next": "^15.0.0-rc.1",
+		"next": "15.0.1",
 		"next-themes": "^0.3.0",
 		"nuqs": "^1.20.0",
-		"react": "19.0.0-rc-f994737d14-20240522",
-		"react-dom": "19.0.0-rc-f994737d14-20240522",
+		"react": "19.0.0-rc-69d4b800-20241021",
+		"react-dom": "19.0.0-rc-69d4b800-20241021",
 		"react-highlight-words": "^0.20.0",
 		"recma-import-images": "^0.0.3",
 		"rehype-autolink-headings": "^7.1.0",
@@ -70,17 +68,13 @@
 		"zustand": "4.4.7"
 	},
 	"devDependencies": {
-		"@next/eslint-plugin-next": "^15.0.0-rc.1",
-		"@repo/eslint-config": "workspace:*",
-		"@repo/typescript-config": "workspace:*",
-		"@types/eslint": "^8.56.12",
-		"@types/node": "^20.16.13",
-		"@types/react": "^18.3.11",
-		"@types/react-dom": "^18.3.1",
-		"autoprefixer": "^10.4.20",
-		"eslint": "^8.57.1",
-		"postcss": "^8.4.47",
-		"tailwindcss": "^3.4.14",
-		"typescript": "^5.6.3"
+		"typescript": "^5",
+		"@types/node": "^20",
+		"@types/react": "^18",
+		"@types/react-dom": "^18",
+		"postcss": "^8",
+		"tailwindcss": "^3.4.1",
+		"eslint": "^8",
+		"eslint-config-next": "^15.0.1"
 	}
 }

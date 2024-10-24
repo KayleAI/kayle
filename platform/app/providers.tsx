@@ -1,11 +1,10 @@
 "use client";
 
 // Auth
-import AuthProvider, { useAuth } from "@/utils/auth/AuthProvider";
-import OrgProvider from "@/utils/auth/OrgProvider";
+import AuthProvider, { useAuth } from "@/utils/auth/provider";
 
 // Captcha
-import { Captcha, CaptchaProvider } from "@/utils/captcha/CaptchaProvider";
+import { Captcha, CaptchaProvider } from "@/utils/captcha/provider";
 
 // Themes
 import { ThemeProvider, useTheme } from "next-themes";
@@ -24,17 +23,11 @@ export function Providers({
 	return (
 		<CaptchaProvider>
 			<AuthProvider>
-				<OrgProvider>
-					<ThemeProvider
-						attribute="class"
-						disableTransitionOnChange
-						enableSystem
-					>
-						{children}
-						<Toaster />
-						<AnalyticsProvider />
-					</ThemeProvider>
-				</OrgProvider>
+				<ThemeProvider attribute="class" disableTransitionOnChange enableSystem>
+					{children}
+					<Toaster />
+					<AnalyticsProvider />
+				</ThemeProvider>
 			</AuthProvider>
 			<Captcha invisible />
 		</CaptchaProvider>
@@ -52,7 +45,7 @@ export function Toaster() {
 }
 
 export function AnalyticsProvider() {
-	const { data } = useAuth();
+	const { user } = useAuth();
 
 	const clientId = process.env.NEXT_PUBLIC_OPENPANEL_CLIENT_ID;
 
@@ -63,7 +56,7 @@ export function AnalyticsProvider() {
 	return (
 		<OpenPanelComponent
 			clientId={clientId}
-			profileId={data?.id ?? ""}
+			profileId={user?.id ?? ""}
 			trackOutgoingLinks
 			trackHashChanges
 			trackScreenViews

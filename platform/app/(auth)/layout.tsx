@@ -1,6 +1,6 @@
 "use client";
 
-import AuthCheckpoint from "@/utils/auth/AuthCheckpoint";
+import AuthCheckpoint from "@/utils/auth/checkpoint";
 
 export default function AuthLayout({
 	children,

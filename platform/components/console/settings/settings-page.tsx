@@ -15,7 +15,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { createClient } from "@repo/db/client";
 import { Input } from "@repo/ui/input";
-import { useAuth } from "@/utils/auth/AuthProvider";
+import { useAuth } from "@/utils/auth/provider";
 import { useRouter } from "next/navigation";
 
 export function SettingsPage() {

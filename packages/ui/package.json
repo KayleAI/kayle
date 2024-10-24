@@ -3,14 +3,12 @@
 	"version": "0.0.0",
 	"private": true,
 	"devDependencies": {
-		"@repo/eslint-config": "workspace:*",
-		"@repo/typescript-config": "workspace:*",
 		"@tailwindcss/typography": "^0.5.12",
 		"@types/node": "^20.10.6",
 		"@types/react": "^18.2.46",
 		"autoprefixer": "^10.4.17",
 		"postcss": "^8.4.33",
-		"tailwindcss": "^3.4.1",
+		"tailwindcss": "v4.0.0-alpha.29",
 		"typescript": "^5.3.3"
 	},
 	"dependencies": {
@@ -18,15 +16,12 @@
 		"@headlessui/tailwindcss": "^0.2.0",
 		"clsx": "^2.1.1",
 		"framer-motion": "^11.2.6",
-		"next": "^15.0.0-rc.1",
+		"next": "latest",
 		"react": "19.0.0-rc-f994737d14-20240522",
 		"tailwind-merge": "^2.3.0"
 	},
 	"exports": {
-		"./globals.css": "./globals.css",
 		"./styles/*.css": "./styles/*.css",
-		"./postcss.config": "./postcss.config.js",
-		"./tailwind.config": "./tailwind.config.ts",
 		"./lib/*": "./lib/*.ts",
 		"./*": "./src/*.tsx"
 	}

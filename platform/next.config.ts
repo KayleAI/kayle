@@ -1,10 +1,15 @@
+// Sentry
 import { withSentryConfig } from "@sentry/nextjs";
-import nextMDX from "@next/mdx";
 
+// MDX
+import nextMDX from "@next/mdx";
 import { recmaPlugins } from "./mdx/recma.mjs";
 import { rehypePlugins } from "./mdx/rehype.mjs";
 import { remarkPlugins } from "./mdx/remark.mjs";
 import withSearch from "./mdx/search.mjs";
+
+// Types
+import type { NextConfig } from "next";
 
 const withMDX = nextMDX({
 	extension: /\.mdx?$/,
@@ -15,8 +20,7 @@ const withMDX = nextMDX({
 	},
 });
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+const nextConfig: NextConfig = {
 	pageExtensions: ["js", "jsx", "ts", "tsx", "mdx"],
 	transpilePackages: [
 		"@repo/icons",
@@ -26,7 +30,7 @@ const nextConfig = {
 		"@repo/config",
 		"@repo/auth",
 	],
-	webpack(config) {
+	webpack(config: any) {
 		config.module.rules.push({
 			test: /\.svg$/i,
 			use: ["@svgr/webpack"],
@@ -34,18 +38,8 @@ const nextConfig = {
 
 		return config;
 	},
-	experimental: {
-		turbo: {
-			rules: {
-				"*.svg": {
-					loaders: ["@svgr/webpack"],
-					as: "*.js",
-				},
-			},
-		},
-		outputFileTracingIncludes: {
-			"/**/*": ["./app/(docs)/docs/**/*.mdx", "./app/(blog)/blog/**/*.mdx"],
-		},
+	outputFileTracingIncludes: {
+		"/**/*": ["./app/(docs)/docs/**/*.mdx", "./app/(blog)/blog/**/*.mdx"],
 	},
 };
 

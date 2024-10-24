@@ -12,7 +12,7 @@ import {
 } from "@/components/docs/MobileNavigation";
 import { MobileSearch, Search } from "@/components/docs/Search";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { useAuth } from "@/utils/auth/AuthProvider";
+import { useAuth } from "@/utils/auth/provider";
 
 function TopLevelNavItem({
 	href,

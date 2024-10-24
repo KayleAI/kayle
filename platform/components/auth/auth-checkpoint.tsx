@@ -1,6 +1,9 @@
+// UI
 import { Heading } from "@repo/ui/heading";
-import { LoaderIcon } from "@repo/icons/ui/index";
 import { Text } from "@repo/ui/text";
+
+// Icons
+import { LoaderIcon } from "@repo/icons/ui/index";
 
 export function AuthCheckpointLoading() {
 	return (

@@ -24,7 +24,12 @@
 		"prepare": "husky",
 		"auth:generate": "npx @better-auth/cli generate -y --config=packages/auth/server.ts --output=packages/db/schema",
 		"auth:migrate": "npx @better-auth/cli migrate -y --config=packages/auth/server.ts",
-		"db:generate": "kysely-codegen --env-file=.env --out-file packages/db/schema.d.ts"
+		"db:introspect": "drizzle-kit introspect --config=packages/db/drizzle.config.ts && kysely-codegen --env-file=.env --out-file packages/db/schema.d.ts",
+		"db:generate": "drizzle-kit generate --config=packages/db/drizzle.config.ts",
+		"db:migrate": "drizzle-kit migrate --config=packages/db/drizzle.config.ts"
 	},
-	"workspaces": ["apps/*", "packages/*", "engine/", "platform/"]
+	"workspaces": ["apps/*", "packages/*", "engine/", "platform/"],
+	"dependencies": {
+		"next": "latest"
+	}
 }

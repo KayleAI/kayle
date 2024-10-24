@@ -26,7 +26,6 @@ import { useCallback, useEffect, useState } from "react";
 
 // Router
 import { useRouter } from "next/navigation";
-import { useOrg } from "@/utils/auth/OrgProvider";
 import { createApiKey } from "@/actions/keys/create-api-key";
 
 // Hooks

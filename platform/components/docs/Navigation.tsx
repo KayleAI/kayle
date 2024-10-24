@@ -11,7 +11,7 @@ import { useIsInsideMobileNavigation } from "@/components/docs/MobileNavigation"
 import { useSectionStore } from "@/components/docs/SectionProvider";
 import { Tag } from "@/components/docs/Tag";
 import { remToPx } from "@/utils/remToPx";
-import { useAuth } from "@/utils/auth/AuthProvider";
+import { useAuth } from "@/utils/auth/provider";
 
 interface NavGroup {
 	title: string;

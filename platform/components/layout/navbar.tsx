@@ -30,21 +30,16 @@ import {
 } from "@repo/icons/ui/index";
 
 // Auth
-import { signout } from "@/utils/auth/signout";
-import { useAuth } from "@/utils/auth/AuthProvider";
-import { useOrg } from "@/utils/auth/OrgProvider";
+import { useAuth } from "@/utils/auth/provider";
 
 // Functions
 import { useTheme } from "next-themes";
 import { toggleSearch } from "../Search";
-import { useRouter } from "next/navigation";
 import React from "react";
 
 export default function ConsoleNavbar(): JSX.Element {
 	const { setTheme, resolvedTheme } = useTheme();
-	const router = useRouter();
-	const user = useAuth();
-	const orgs = useOrg();
+	const { user, signout } = useAuth();
 
 	const toggleTheme = React.useCallback(() => {
 		if (resolvedTheme) {
@@ -54,21 +49,16 @@ export default function ConsoleNavbar(): JSX.Element {
 
 	const handleSignout = React.useCallback(async () => {
 		await signout();
+	}, [signout]);
 
-		router.push("/sign-out");
-	}, [router]);
-
-	const handleOrgSwitch = React.useCallback(
-		(orgId: string) => {
-			orgs?.switchOrg(orgId);
-		},
-		[orgs],
-	);
+	const handleOrgSwitch = React.useCallback((orgId: string) => {
+		console.log(orgId);
+	}, []);
 
 	return (
 		<Navbar>
 			<Dropdown>
-				{orgs?.activeOrg ? (
+				{user?.orgs?.activeOrg ? (
 					<DropdownButton as={NavbarItem}>
 						<Avatar
 							src={orgs?.activeOrg?.logo}

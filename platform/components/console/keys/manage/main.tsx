@@ -7,7 +7,6 @@ import { toast } from "sonner";
 
 // Auth
 import { OrgArea } from "@/components/auth/org-area";
-import { useOrg } from "@/utils/auth/OrgProvider";
 
 // Functions
 import React, { useState } from "react";
@@ -21,13 +20,13 @@ export function ManageKey({
 	keyId,
 	keyData,
 	keyUsage,
-}: {
+}: Readonly<{
 	keyId: string;
 	keyData: any;
 	keyUsage: any;
-}) {
+}>) {
 	const router = useRouter();
-	const orgs = useOrg();
+	const { user } = useAuth();
 
 	const [buttonsDisabled, setButtonsDisabled] = useState(false);
 

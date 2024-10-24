@@ -1,6 +1,9 @@
-import { SettingsPage } from "@/components/console/settings/settings-page";
+// UI
 import { Button } from "@repo/ui/button";
 import { PageHeading } from "@repo/ui/page-heading";
+
+// Components
+import { SettingsPage } from "@/components/console/settings/settings-page";
 
 export default function Settings() {
 	return (

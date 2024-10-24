@@ -20,7 +20,7 @@ export interface Author {
 export function AuthorAbout({
 	author,
 	className,
-}: { readonly author?: Author; className?: string }) {
+}: Readonly<{ author?: Author; className?: string }>) {
 	if (!author) return null;
 
 	return (

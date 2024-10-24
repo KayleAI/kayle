@@ -9,7 +9,7 @@
 	"scripts": {},
 	"dependencies": {
 		"@repo/db": "workspace:*",
-		"better-auth": "^0.5.2-beta.16",
+		"better-auth": "^0.5.3",
 		"server-only": "^0.0.1"
 	},
 	"devDependencies": {

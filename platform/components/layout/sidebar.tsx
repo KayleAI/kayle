@@ -42,7 +42,7 @@ import {
 
 // Auth
 import { signout } from "@/utils/auth/signout";
-import { useAuth } from "@/utils/auth/AuthProvider";
+import { useAuth } from "@/utils/auth/provider";
 import { useOrg } from "@/utils/auth/OrgProvider";
 
 // Functions

@@ -8,10 +8,10 @@ import { authors } from "@repo/config/authors";
 export function ArticleLayout({
 	article,
 	children,
-}: {
+}: Readonly<{
 	article: ArticleWithSlug;
 	children: React.ReactNode;
-}) {
+}>) {
 	return (
 		<main className="mx-auto w-full max-w-4xl px-4 lg:px-8 py-16 lg:py-32">
 			<article>

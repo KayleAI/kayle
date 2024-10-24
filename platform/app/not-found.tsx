@@ -1,5 +1,5 @@
-import { IconLink } from "components/changelog/IconLink";
-import { StarField } from "components/changelog/StarField";
+import { IconLink } from "@/components/changelog/IconLink";
+import { StarField } from "@/components/changelog/StarField";
 
 export default function NotFound() {
 	return (

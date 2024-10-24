@@ -1,7 +1,5 @@
-import "@repo/ui/globals.css";
-
 import type { Metadata } from "next";
-import AuthCheckpoint from "@/utils/auth/AuthCheckpoint";
+import AuthCheckpoint from "@/utils/auth/checkpoint";
 import { NavigationProvider } from "@/components/layout/navigation";
 
 export const metadata: Metadata = {
